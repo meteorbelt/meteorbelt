@@ -1,3 +1,6 @@
 [submodule "packages/belt-bootstrap/bootstrap"]
 	path = packages/belt-bootstrap/bootstrap
 	url = https://github.com/twitter/bootstrap.git
+[submodule "packages/belt-bootstrap/belt-font-awesome"]
+	path = packages/belt-bootstrap/belt-font-awesome
+	url = https://github.com/FortAwesome/Font-Awesome.git
