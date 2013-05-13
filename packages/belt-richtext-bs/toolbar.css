@@ -1,0 +1,39 @@
+/* Toolbar */
+
+#belt-richtext-toolbar {
+  margin: 0;
+  padding: 0;
+  display: block;
+}
+
+#belt-richtext-toolbar::after {
+  clear: both;
+  display: table;
+  content: "";
+}
+
+#belt-richtext-toolbar > li {
+  float: left;
+  display: list-item;
+  list-style: none;
+  margin: 0 5px 10px 0;
+}
+
+#belt-richtext-toolbar .btn {
+  background-color: #a7a9aa;
+  border-color: #a7a9aa;
+}
+
+#belt-richtext-toolbar .btn.wysihtml5-command-active, 
+#belt-richtext-toolbar .btn.wysihtml5-action-active {
+  background-image: none;
+  -webkit-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15),0 1px 2px rgba(0, 0, 0, 0.05);
+  -moz-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15),0 1px 2px rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15),0 1px 2px rgba(0, 0, 0, 0.05);
+  background-color: #8a8c8d;
+  outline: 0;
+}
+
+#wysihtml5-commands-disabled .dropdown-menu {
+  display: none !important;
+}

@@ -1,0 +1,38 @@
+<template name="beltRichtextToolbar">
+  <ul id="belt-richtext-toolbar">
+    <li class="dropdown">
+      <a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-font"></i> Headings <b class="mute caret"></b></a>
+      <ul class="dropdown-menu">
+        <li><a data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="h1" href="javascript:;" unselectable="on">Heading</a></li>
+        <li><a data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="h2" href="javascript:;" unselectable="on">Subheading</a></li>
+        <li><a data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="h3" href="javascript:;" unselectable="on">Minor Heading</a></li>
+        <li><a data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="div" href="javascript:;" unselectable="on">Normal</a></li>
+      </ul>
+    </li>
+    <li class="btn-group">
+      <button class="btn" data-wysihtml5-command="bold" id="rt-bold-button" title="Bold - Ctrl+B" unselectable="on"><i class="icon-bold"></i></button>
+      <button class="btn" data-wysihtml5-command="italic" id="rt-italic-button" title="Italic - Ctrl+I" unselectable="on"><i class="icon-italic"></i></button>
+      <button class="btn" data-wysihtml5-command="underline" title="Ctrl+U"><i class="icon-underline" unselectable="on"></i></a>
+    </li>
+    <li class="btn-group">
+      <button class="btn" id="rt-link-btn" title="Link - Ctrl+L" unselectable="on"><i class="icon-link"></i></button>
+      <button class="btn" id="rt-image-btn" title="Image - Ctrl+G" unselectable="on"><i class="icon-picture"></i></button>
+    </li>
+    <li class="btn-group">
+      <button class="btn" data-wysihtml5-command="insertOrderedList" id="rt-olist-button" title="Numbered List - Ctrl+O" unselectable="on"><i class="icon-list-ol"></i></button>
+      <button class="btn" data-wysihtml5-command="insertUnorderedList" id="rt-ulist-button" title="Bulleted List - Ctrl+U" unselectable="on"><i class="icon-list-ul"></i></button>
+      <button class="btn" data-wysihtml5-command="Indent" title="Indent"><i class="icon-indent-right" unselectable="on"></i></a>
+      <button class="btn" data-wysihtml5-command="Outdent" title="Outdent"><i class="icon-indent-left" unselectable="on"></i></a>
+    </li>
+    <li class="btn-group">
+      <button class="btn" data-wysihtml5-command="undo" id="rt-undo-button" title="Undo - Ctrl+Z" unselectable="on"><i class="icon-undo"></i></button>
+      <button class="btn" data-wysihtml5-command="redo" id="rt-redo-button" title="Redo - Ctrl+Shift+Z" unselectable="on"><i class="icon-repeat"></i></button>
+    </li>
+    <li class="btn-group">
+      <button class="btn" data-wysihtml5-action="change_view">html</button>
+    </li>
+    <li class="btn-group">
+      <button data-wysihtml5-command="insertSpeech" class="btn" title="Speech to Text" unselectable="on"><i class="icon-comment-alt"></i></button>
+    </li>
+  </ul>
+</template>

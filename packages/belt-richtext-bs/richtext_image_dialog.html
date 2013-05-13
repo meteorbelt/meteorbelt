@@ -1,0 +1,43 @@
+<template name="beltRichtextImageDialog">
+  <div id="belt-richtext-image-dialog" class="modal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form>
+          <div class="modal-header">
+            <button type="button" class="close cancel-dialog" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h3>Image Link</h3>
+          </div>
+          <div class="modal-body">
+            <label>Name</label>
+            <input type="text" name="name">
+            <label>Caption</label>
+            <textarea name="caption" rows="2"></textarea>
+            <label>URL</label>
+            <input value="http://" type="url" name="image-url">
+            <label>Width</label>
+            <div class="input-group col-span-3">
+              <input type="number" name="width" default="845" step="50">
+              <span class="input-group-addon">px</span>
+            </div>
+            <label>Height</label>
+            <div class="input-group col-span-3">
+              <input type="number" name="height" step="50">
+              <span class="input-group-addon">px</span>
+            </div>
+            <label>Position</label>
+            <br>
+            <select class="col-span-3" name="position">
+              <option value="none">none</option>
+              <option value="left">left</option>
+              <option value="right">right</option>
+            </select>
+          </div>
+          <div class="modal-footer">
+            <input type="submit" value="Cancel" class="btn cancel-dialog">
+            <input type="submit" value="Insert Image" class="btn btn-primary image-insert">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</template>
