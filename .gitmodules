@@ -1,0 +1,3 @@
+[submodule "packages/belt-bootstrap/bootstrap"]
+	path = packages/belt-bootstrap/bootstrap
+	url = https://github.com/twitter/bootstrap.git
