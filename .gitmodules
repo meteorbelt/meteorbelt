@@ -4,3 +4,6 @@
 [submodule "packages/belt-bootstrap/belt-font-awesome"]
 	path = packages/belt-bootstrap/belt-font-awesome
 	url = https://github.com/FortAwesome/Font-Awesome.git
+[submodule "packages/belt-bootstrap/belt-form2js"]
+	path = packages/belt-bootstrap/belt-form2js
+	url = https://github.com/maxatwork/form2js.git
