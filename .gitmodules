@@ -7,3 +7,21 @@
 [submodule "packages/belt-bootstrap/belt-form2js"]
 	path = packages/belt-bootstrap/belt-form2js
 	url = https://github.com/maxatwork/form2js.git
+[submodule "contrib/HTML5-History-API"]
+	path = contrib/HTML5-History-API
+	url = https://github.com/tmeasday/meteor-HTML5-History-API.git
+[submodule "contrib/marked"]
+	path = contrib/marked
+	url = https://github.com/chuangbo/meteor-marked.git
+[submodule "contrib/roles"]
+	path = contrib/roles
+	url = https://github.com/alanning/meteor-roles.git
+[submodule "contrib/moment"]
+	path = contrib/moment
+	url = https://github.com/possibilities/meteor-moment.git
+[submodule "contrib/page-js-ie-support"]
+	path = contrib/page-js-ie-support
+	url = https://github.com/tmeasday/meteor-page-js-ie-support.git
+[submodule "contrib/router"]
+	path = contrib/router
+	url = https://github.com/tmeasday/meteor-router.git
