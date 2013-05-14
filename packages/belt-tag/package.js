@@ -11,7 +11,7 @@ Package.on_use(function (api, where) {
 
   api.use('mongo-livedata', ['client', 'server']);
   api.use('underscore');
-  api.use('belt-role', ['client', 'server']);
+  api.use('roles', ['client', 'server']);
 
   api.add_files('tag_common.js', ['client', 'server']);
   api.add_files('tag_client.js', 'client');
