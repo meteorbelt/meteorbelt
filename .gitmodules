@@ -1,11 +1,11 @@
 [submodule "packages/belt-bootstrap/bootstrap"]
 	path = packages/belt-bootstrap/bootstrap
 	url = https://github.com/twitter/bootstrap.git
-[submodule "packages/belt-bootstrap/belt-font-awesome"]
-	path = packages/belt-bootstrap/belt-font-awesome
+[submodule "packages/belt-font-awesome/font-awesome"]
+	path = packages/belt-font-awesome/font-awesome
 	url = https://github.com/FortAwesome/Font-Awesome.git
-[submodule "packages/belt-bootstrap/belt-form2js"]
-	path = packages/belt-bootstrap/belt-form2js
+[submodule "packages/belt-form2js/form2js"]
+	path = packages/belt-form2js/form2js
 	url = https://github.com/maxatwork/form2js.git
 [submodule "contrib/HTML5-History-API"]
 	path = contrib/HTML5-History-API
