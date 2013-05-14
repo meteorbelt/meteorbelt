@@ -1,0 +1,24 @@
+<template name="productList">
+  <ul class="breadcrumb">
+    <li><a href="/">Home</a></li>
+    <li class="active">Products</li>
+  </ul>
+  <h2>Products</h2>
+  <div class="row">
+    {{#if allProducts.count}}
+      {{#each allProducts}}
+        <div class="col col-lg-3">
+          <a class="thumbnail" href="/products/{{slug}}">
+            <img alt="{{title}}" src="{{resize images.0.url 400}}">
+            <div class="panel">
+              <h5>{{title}}</h5>
+              <h6 class="subheader">{{formatMoney price}} / {{priceUnit}}</h6>
+            </div>
+          </a>
+        </div>
+      {{/each}}
+    {{else}}
+      <h3>No products yet</h3>
+    {{/if}}
+  </div>
+</template>

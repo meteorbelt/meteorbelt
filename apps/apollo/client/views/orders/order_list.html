@@ -1,0 +1,17 @@
+<template name="orderList">
+  <!--FIXME: using #with here because allOrders.count isn't ready-->
+  {{#with ordersAll}}
+    {{#if this.count}}
+      <table class="table">
+        <thead></thead>
+        <tbody>
+        {{#each this}}
+          {{> orderListItem}}
+        {{/each}}
+        </tbody>
+      </table>
+    {{else}}
+      <h4>No orders yet</h4>
+    {{/if}}
+  {{/with}}
+</template>

@@ -1,0 +1,27 @@
+<template name="nav">
+  <div class="navbar">
+    <div class="container">
+      <a class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
+      <a class="navbar-brand visible-phone" href="/">
+        <img width="140" height="40" id="logo" src="/img/logo/logo_white_140_40.png" alt="Apollo">
+      </a>
+      <div class="nav-collapse collapse">
+        <ul class="nav navbar-nav">
+          <li class="{{isActiveExact 'home'}}"><a href="{{homePath}}">Home</a></li>
+          <li class="{{isActive 'postList'}}"><a href="{{postListPath}}">Blog</a></li>
+          <li class="{{isActive 'productList'}}"><a href="{{productListPath}}">Products</a></li>
+          <li class="{{isActive 'pageDetail' 'about'}}"><a href="{{pageDetailPath 'about'}}">About</a></li>
+          <li class="{{isActive 'contact'}}"><a href="{{contactPath}}">Contact</a></li>
+          {{#if isInRole 'admin'}}
+            <li class="{{isActive 'adminHome'}}"><a href="{{adminHomePath}}">Admin</a></li>
+          {{/if}}
+        </ul>
+        {{> accountLoginButtons}}
+      </div>
+    </div>
+  </div>
+</template>

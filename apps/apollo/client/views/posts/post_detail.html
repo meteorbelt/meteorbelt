@@ -1,0 +1,12 @@
+<template name="postDetail">
+  <div class="row">
+    <div class="col col-lg-9">
+      <span>{{formatDate post.publishedAt format="MMMM Do, YYYY"}}</span>
+      <h2>{{post.title}}</h2>
+      {{{post.body}}}
+    </div>
+    <div class="col col-lg-3">
+      {{> postSidebar}}
+    </div>
+  </div>
+</template>

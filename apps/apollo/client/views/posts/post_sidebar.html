@@ -1,0 +1,8 @@
+<template name="postSidebar">
+  <div>
+    <h4>Tags</h4>
+    {{#each tags}}
+      <a class="btn btn-small" href="/blog/tags/{{slug}}">{{slug}}</a>
+    {{/each}}
+  </div>
+</template>

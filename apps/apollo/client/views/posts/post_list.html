@@ -1,0 +1,22 @@
+<template name="postList">
+  <div class="row">
+    <div class="col col-lg-9">
+      {{#if allPosts.count}}
+        {{#each allPosts}}
+          <span>{{formatDate publishedAt format="MMMM Do, YYYY"}}</span>
+          <div>
+            <a href="/blog/{{slug}}">
+              <h3>{{title}}</h3>
+            </a>
+            <p>{{{body}}}</p>
+          </div>
+        {{/each}}
+      {{else}}
+        <h3>No Posts yet.</h3>
+      {{/if}}
+    </div>
+    <div class="col col-lg-3">
+      {{> postSidebar}}
+    </div>
+  </div>
+</template>

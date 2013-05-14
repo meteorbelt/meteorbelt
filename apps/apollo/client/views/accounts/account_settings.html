@@ -1,0 +1,33 @@
+<template name="accountSettings">
+  <h2>Account Password Reset</h2>
+  <div class="row">
+    <div class="col col-lg-2">{{> accountNav}}</div>
+    <div class="col col-lg-6">
+      <form id="password-form" method="POST" class="form-horizontal">
+        <fieldset>
+          <div class="control-group">
+            <label for="current" class="control-label">
+              <strong>Current Password</strong>
+            </label>
+            <div class="controls">
+              <input required value="" type="password" name="current">
+            </div>
+          </div>
+          <div class="control-group">
+            <label for="new" class="control-label">
+              <strong>New Password</strong>
+            </label>
+            <div class="controls">
+              <input required value="" type="password" name="new">
+            </div>
+          </div>
+          <div class="control-group">
+            <div class="controls">
+              <input type="submit" value="Change" class="btn">
+            </div>
+          </div>
+        </fieldset>
+      </form>
+    </div>
+  </div>
+</template>

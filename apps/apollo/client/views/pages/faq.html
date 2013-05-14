@@ -1,0 +1,19 @@
+<template name="faq">
+  <div class="row">
+    <div class="col col-lg-12">
+      <h1>Frequently Asked Questions</h1>
+      <ul class="accordion">
+        {{#each faqAll}}
+          <li class="faq-item">
+            <div class="title">
+              <h5>{{question}}</h5>
+            </div>
+            <div class="content">
+              {{{answer}}}
+            </div>
+          </li>
+        {{/each}}
+      </ul>
+    </div>
+  </div>
+</template>

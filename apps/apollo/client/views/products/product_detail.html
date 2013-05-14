@@ -1,0 +1,36 @@
+<template name="productDetail">
+  {{#with product}}
+    <ul class="breadcrumb">
+      <li><a href="/">Home</a></li>
+      <li><a href="/products">Products</a></li>
+      <li class="active">{{name}}</li>
+    </ul>
+    <div class="row">
+      <div class="col col-lg-5">
+        {{#each images}}
+          <img src="{{resize url 500}}" alt="{{filename}}">
+        {{/each}}
+      </div>
+      <div class="col col-lg-7">
+        <h1>{{product.name}}</h1>
+        <h4>{{formatMoney price}} / {{priceUnit}}</h4>
+        <hr>
+        <div class="row">
+          <div class="col col-lg-3">
+            <input type="number" class="product-quantity input-large" value="1">
+          </div>
+          <div class="col col-lg-6">
+            <button type="button" class="btn btn-large btn-primary add-to-cart">
+              <i class="icon-shopping-cart icon-large"></i>&nbsp;&nbsp;Add to cart
+            </button>
+          </div>
+        </div>
+        <hr>
+        <dl>
+          <dt>Description:</dt>
+          <dd>{{description}}</dd>
+        </dl>
+      </div>
+    </div>
+  {{/with}}
+</template>
