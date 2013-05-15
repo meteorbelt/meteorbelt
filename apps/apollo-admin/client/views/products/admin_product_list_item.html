@@ -1,0 +1,7 @@
+<template name="adminProductListItem">
+  <tr>
+    <td><img src="{{resize images.0.url 40}}" alt="" />&nbsp;<a href="/admin/products/{{_id}}">{{name}}</a></td>
+    <td>{{formatMoney price}} / {{priceUnit}}</td>
+    <td><a href="#" class="delete" title="remove"><i class="icon-remove"></i></a></td>
+  </tr>
+</template>

@@ -1,0 +1,27 @@
+<template name="adminDetailNav">
+  <ul class="nav nav-pills nav-stacked">
+  </ul>
+</template>
+
+<template name="adminNav">
+  <div class="navbar">
+    <div class="container">
+      <a class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
+      <a class="navbar-brand" href="/admin">Apollo Admin</a>
+      <div class="nav-collapse collapse">
+        <ul class="nav navbar-nav">
+          <li class="{{isActiveExact 'home'}}"><a href="{{homePath}}">Home</a></li>
+          <li class="{{isActiveExact 'adminHome'}}"><a href="{{adminHome}}">Overview</a></li>
+          <li class="{{isActive 'adminUserList'}}"><a href="{{adminUserListPath}}">Users</a></li>
+          <li class="{{isActive 'adminPostList'}}"><a href="{{adminPostListPath}}">Posts</a></li>
+          <li class="{{isActive 'adminProductList'}}"><a href="{{adminProductListPath}}">Products</a></li>
+        </ul>
+        {{> accountLoginButtons}}
+      </div><!--/.nav-collapse -->
+    </div>
+  </div>
+</template>

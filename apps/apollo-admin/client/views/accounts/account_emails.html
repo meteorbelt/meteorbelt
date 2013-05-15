@@ -1,0 +1,20 @@
+<template name="accountEmails">
+  <h2 id="section-header">Account Emails</h2>
+  <div class="row">
+    <div class="col col-lg-2">{{> accountNav}}</div>
+    <div class="col col-lg-7">
+      <table class="table">
+        <tbody>{{#each allEmails}}{{> accountEmailsItem}}{{/each}}</tbody>
+      </table>
+      <form action="" method="POST">
+        <h5>Add another emails address</h5>
+        <div class="input-group col col-lg-7">
+          <input name="address" type="email" placeholder="Email Address">
+          <span class="input-group-btn">
+            <input class="btn" type="submit" value="Add">
+          </span>
+        </div>
+      </form>
+    </div>
+  </div>
+</template>

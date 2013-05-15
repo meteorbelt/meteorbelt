@@ -1,0 +1,65 @@
+@import "../packages/belt-bootstrap/bootstrap/less/mixins.less";
+@import "variables";
+
+// .btn-callout {
+//   color: #fff;
+//   .btn-pseudo-states(#fff, @red-color, @red-color);
+// }
+
+h1, h2, h3, h4, h5 {
+  /*color: @gray-dark-color;*/
+}
+
+h1, h2, h3, h4, h5 {
+  padding-bottom: 10px;
+  margin-bottom: 18px;
+  /*border-bottom: 1px dashed;*/
+  /*border-color: @tan-color !important;*/
+  /*font-variant: small-caps;*/
+}
+
+#header {
+  height: 80px;
+  /*background-color: @tan-color;*/
+  /*.box-shadow(rgba(0, 0, 0, .05) 0 -5px 15px inset);*/
+  #gradient > .vertical(#b7dddb, #dcece1);
+  .container {
+    padding-top: 20px;
+  }
+}
+
+#footer {
+  /*color: white;*/
+  /*background-color: @tan-color;*/
+  padding: 24px 0;
+  .box-shadow(rgba(0, 0, 0, .05) 0 5px 15px inset);
+}
+
+.navbar {
+  /*#gradient > .vertical(@green-bright-color, darken(@green-bright-color, 5%));*/
+  border-radius: 0px;
+}
+
+.navbar-brand {
+  /*padding-top: 30px;*/
+  /*padding-bottom: 10px;*/
+}
+
+#content {
+  padding-top: 40px;
+  padding-bottom: 70px;
+}
+
+.richtext-tall #belt-richtext-textarea {
+  width: 100%;
+  height: 600px;
+}
+
+.modal-backdrop {
+  background-color: #fff;
+  .opacity(.70);
+}
+
+.modal-content {
+  border: 1px solid #fff;
+}

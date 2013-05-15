@@ -1,0 +1,33 @@
+<template name="adminPostList">
+  <div class="row">
+    <div class="col col-lg-4">
+      <div class="menu post-menu">
+        Posts
+        <a href="/admin/posts/new" class="btn btn-primary new-post pull-right">
+          <i class="icon-pencil"></i>
+        </a>
+      </div>
+      <!--FIXME: using #with here because allPosts.count isn't ready-->
+      {{#with allPosts}}
+        {{#if this.count}}
+          {{#each this}}
+            {{> adminPostListItem}}
+          {{/each}}
+        {{else}}
+          <h4>No posts yet</h4>
+        {{/if}}
+      {{/with}}
+    </div>
+    <div class="col col-lg-8">
+      <div class="menu">
+        <a href="/admin/posts/{{post._id}}">Edit</a>
+        <a class="btn" href="/admin/posts/{{post._id}}">
+          <i class="icon-cog icon-large"></i>
+        </a>
+      </div>
+      <div class="post-preview">
+        {{{post.body}}}
+      </div>
+    </div>
+  </div>
+</template>

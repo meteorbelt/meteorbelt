@@ -1,0 +1,18 @@
+<template name="adminUserList">
+  <a href="/admin/users/new" class="btn btn-success new-post pull-right"><i class="icon-plus"></i> New User</a>
+  <table class="table">
+    <thead>
+      <tr>
+        <td colspan="2">Name</td>
+        <td>Member since</td>
+        <td>Email</td>
+        <td>Admin</td>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each allUser}}
+        {{> adminUserListItem}}
+      {{/each}}
+    </tbody>
+  </table>
+</template>

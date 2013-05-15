@@ -1,0 +1,78 @@
+<template name="adminPostDetail">
+  <div class="row">
+    <div class="col col-lg-12">
+      <input class="col col-lg-4" id="post-title" type="text" name="title" value="{{post.title}}" placeholder="Post title" required="true">
+      <button class="btn publish btn-primary">
+        {{#if post.isPublished}}
+          Update
+        {{else}}
+          Publish
+        {{/if}}
+      </button>
+      <button class="btn save{{#if isDirty}} btn-success{{/if}}">Save</button>
+      <button class="btn cancel">Close</button>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col col-lg-9 richtext-tall">{{Richtext post.body}}</div>
+    <div class="col col-lg-3">
+      <h3>Post Settings</h3>
+      <div class="accordion" id="accordion2">
+        <div class="accordion-group">
+          <div class="accordion-heading">
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+              <p><i class="icon-tag"></i>&nbsp;&nbsp;Tags</p>
+            </a>
+          </div>
+          <div id="collapseOne" class="accordion-body collapse in">
+            <div class="accordion-inner">
+              <div class="input-group">
+                <input class="small" id="post-tags" type="text" value="{{join post.tags delimiter=', '}}" placeholder="E.g. one, two, three" required="true">
+                <span class="input-group-btn">
+                  <button class="btn save{{#if isDirty}} btn-success{{/if}}" type="button">Save</button>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="accordion-group">
+          <div class="accordion-heading">
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
+              <p><i class="icon-link"></i>&nbsp;&nbsp;Permalink</p>
+            </a>
+          </div>
+          <div id="collapseTwo" class="accordion-body collapse">
+            <div class="accordion-inner">
+              <input class="small" id="post-slug" type="text" value="{{post.slug}}" placeholder="example-title" {{#if post._id}}disabled{{/if}}>
+            </div>
+          </div>
+        </div>
+        <div class="accordion-group">
+          <div class="accordion-heading">
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseFour">
+              <p><i class="icon-calendar"></i>&nbsp;&nbsp;Published Date</p>
+            </a>
+          </div>
+          <div id="collapseFour" class="accordion-body collapse">
+            <div class="accordion-inner">
+              <input class="small" id="post-published-at" type="date" value="{{formatDate post.publishedAt format='YYYY-MM-DD'}}">
+            </div>
+          </div>
+        </div>
+        <div class="accordion-group">
+          <div class="accordion-heading">
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree">
+              <p><i class="icon-cog"></i>&nbsp;&nbsp;Options</p>
+            </a>
+          </div>
+          <div id="collapseThree" class="accordion-body collapse">
+            <div class="accordion-inner">
+              ...
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

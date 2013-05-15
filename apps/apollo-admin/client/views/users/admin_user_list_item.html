@@ -1,0 +1,16 @@
+<template name="adminUserListItem">
+  <tr>
+    <td colspan="2">
+      <a href="/admin/users/{{_id}}/edit">
+        <span class="user-avatar" style="background-image: url({{avatarUrl}}); width: 30px; height: 30px; display: inline-block;"></span>&nbsp;&nbsp;{{displayName}}
+      </a>
+    </td>
+    </td>
+    <td>{{timeSince createdAt}}</td>
+    <td>{{email}}</td>
+    <td>
+      <input class="is-admin" type="checkbox"{{#if isAdmin}}checked{{/if}}
+      {{#if isSelf}}disabled{{/if}}>
+    </td>
+  </tr>
+</template>

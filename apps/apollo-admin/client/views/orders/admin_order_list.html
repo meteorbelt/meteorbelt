@@ -1,0 +1,25 @@
+<template name="adminOrderList">
+  <div class="row">
+    <div class="col col-lg-2">{{> adminNav}}</div>
+    <div class="col col-lg-10">
+      <!--<a href="/admin/orders/new" class="btn btn-success new-order pull-right">-->
+        <!--<i class="icon-plus"></i>&nbsp;&nbsp;&nbsp;New Order-->
+      <!--</a>-->
+      <!--FIXME: using #with here because allOrder.count isn't ready-->
+      {{#with allOrders}}
+        {{#if this.count}}
+          <table class="table">
+            <thead></thead>
+            <tbody>
+            {{#each this}}
+              {{> adminOrderListItem}}
+            {{/each}}
+            </tbody>
+          </table>
+        {{else}}
+          <h4>No orders yet</h4>
+        {{/if}}
+      {{/with}}
+    </div>
+  </div>
+</template>

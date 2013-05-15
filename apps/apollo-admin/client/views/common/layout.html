@@ -1,0 +1,22 @@
+<template name="layout">
+  <div id="wrap">
+    <div id="header" class="hidden-phone">
+      <div class="container hidden-phone">
+        <a href="/">Apollo</a>
+      </div>
+    </div>
+    {{> nav}}
+    <div class="container" id="content">
+      <div class="row">
+        <div class="col col-lg-12">{{> beltFlashes}}</div>
+      </div>
+      {{renderPage}}
+    </div>
+    <div id='push'></div>
+  </div>
+  <div id="footer">
+    <div class="container">
+      <p>&copy; 2013 MeteorBelt.com. All rights reserved.</p>
+    </div>
+  </div>
+</template>

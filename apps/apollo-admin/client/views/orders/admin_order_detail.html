@@ -1,0 +1,54 @@
+<template name="adminOrderDetail">
+  <div class="row admin-section">
+    <div class="col col-lg-2">{{> adminNav}}</div>
+    <div class="col col-lg-10">
+      <div class="row">
+        <div class="col col-lg-8">
+          <h3>{{product.name}}</h3>
+        </div>
+        <div class="col col-lg-4">
+          <a href="/admin/products/new" class="btn btn-success new-product pull-right">
+            <i class="icon-plus"></i>&nbsp;&nbsp;&nbsp;New Product
+          </a>
+        </div>
+      </div>
+      <form id="product-form" class="form-horizontal" action="POST">
+        <div class="control-group">
+          <label class="control-label">Name</label>
+          <div class="controls">
+            <input autofocus type="text" name="name" value="{{product.name}}">
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label">Description</label>
+          <div class="controls">
+            <input type="text" name="description" value="{{product.description}}">
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label">Price</label>
+          <div class="input-group col col-lg-8">
+            <span class="input-group-addon">$</span>
+            <input type="number" step="any" min="0" name="price" value="{{product.price}}" placeholder="price">
+            <span class="input-group-addon">/</span>
+            <input type="text" name="priceUnit" value="{{product.priceUnit}}" placeholder="units">
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label">Images</label>
+          <div class="controls">
+            {{#with product.images}}
+              {{> imageList}}
+            {{/with}}
+          </div>
+        </div>
+        <div class="control-group">
+          <div class="controls">
+            <input type="submit" class="btn btn-success" value="save">
+            <input type="submit" tabindex="-1" class="btn" value="cancel">
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</template>
