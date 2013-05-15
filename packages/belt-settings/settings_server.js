@@ -5,7 +5,6 @@ var DB_KEY = 'default';
 // -------
 // a single page, identified by slug
 Meteor.publish('settings', function () {
-  console.log('publish called');
   //return Belt.Settings.find({
     //_id: DB_KEY
   //});
@@ -50,7 +49,6 @@ var _add = function (settings) {
 // If Meteor.settings add them to the db
 if (Meteor.settings) {
   var a = _add(Meteor.settings);
-  console.log('a is', a);
 }
 
 Belt.settings = _get();
