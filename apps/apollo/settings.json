@@ -1,0 +1,28 @@
+{
+  "public": {
+    "site": {
+      "name": "Apollo Site",
+      "description": "Web simple",
+      "email": "John Doe <john@example.com>"
+    },
+    "analytics.google": {
+      "code": "UA-XXXXXXX-X"
+    },
+    "contact": {
+      "showAddress": true,
+      "address": {
+        "address1": "1234 1st",
+        "address2": "",
+        "city": "New York",
+        "state": "NY",
+        "zipcode": "00001"
+      },
+      "phone": "(555) 111-1111",
+      "fax": "(555) 222-2222",
+      "person": {
+        "name": "John Doe",
+        "email": "john@example.com"
+      }
+    }
+  }
+}
