@@ -11,11 +11,11 @@
     "contact": {
       "showAddress": true,
       "address": {
-        "address1": "1234 1st",
+        "address1": "1600 Pennsylvania Ave NW",
         "address2": "",
-        "city": "New York",
-        "state": "NY",
-        "zipcode": "00001"
+        "city": "Washington",
+        "state": "DC",
+        "zipcode": "20500"
       },
       "phone": "(555) 111-1111",
       "fax": "(555) 222-2222",

@@ -1,17 +1,26 @@
 // TODO move this to a package
 this.contactGoogleMapCallback = function () {
-  var latLng = new google.maps.LatLng(37.738955, -96.9316489);
+  // TODO Geocoding should be cached; possible in the datastore
   var mapOptions = {
     zoom: 10,
-    center: latLng,
     mapTypeId: google.maps.MapTypeId.ROADMAP
   };
   var map = new google.maps.Map(document.getElementById("contact-map"), mapOptions);
-  var marker = new google.maps.Marker({
-    map: map,
-    draggable: false,
-    animation: google.maps.Animation.DROP,
-    position: latLng
+  var geocoder = new google.maps.Geocoder();
+  var a = Meteor.settings.public.contact.address;
+  var addr = a.address1 + ' ' + a.address2 + ' ' + a.city + ', ' + a.state + ' ' + a.zip;
+  geocoder.geocode({ 'address': addr}, function (results, status) {
+    if (status === google.maps.GeocoderStatus.OK) {
+      map.setCenter(results[0].geometry.location);
+      var marker = new google.maps.Marker({
+        map: map,
+        draggable: false,
+        animation: google.maps.Animation.DROP,
+        position: results[0].geometry.location
+      });
+    } else {
+      alert('Geocode was not successful for the following reason: ' + status);
+    }
   });
 };
 
@@ -23,14 +32,18 @@ var contactLoadMap = function () {
 };
 
 Template.contact.created = function () {
-  //if (typeof (google) === 'undefined') {
-    contactLoadMap();
-  //}
+  // TODO: we should only load the map if it hasn't been load.
+  // The problem is that the callback
+  contactLoadMap();
 };
 
 Template.contact.preserve(["#contact-map"]);
 
-Template.contact.helpers({});
+Template.contact.helpers({
+  contact: function () {
+    return Meteor.settings.public.contact;
+  }
+});
 
 Template.contact.events({
   'click input[type="submit"]': function (e, tmpl) {

@@ -5,7 +5,7 @@
       <div class="row">
         <div class="col col-lg-7">
           <h2>Get In Touch</h2>
-          <p>{{Site.contactText}}</p>
+          <!--<p>{{Settings.contact.contactText}}</p>-->
           <form id="contact-form" class="form-horizontal">
             <div class="control-group">
               <label class="control-label">Name<sup>*</sup></label>
@@ -38,38 +38,38 @@
             </div>
           </form>
         </div>
-        {{#if Site.showAddress}}
+        {{#if contact.showAddress}}
           <div class="col col-lg-5">
             <h2>Find us</h2>
             <!-- GOOGLE MAP-->
             <div id="contact-map" style="height:450px;width:100%;"></div>
             <div itemscope="itemscope" itemtype="http://schema.org/Restaurant">
-              <strong itemprop="name">{{Site.title}}</strong>
+              <strong itemprop="name">{{Settings.site.title}}</strong>
               <br>
               <address itemprop="address" itemscope="itemscope" itemtype="http://schema.org/PostalAddress">
-                <span itemprop="streetaddress">{{Site.address.address2}} {{Site.address.address1}}</span>
+                <span itemprop="streetaddress">{{contact.address.address1}}</span>
                 <br>
-                {{#if Site.address.address2}}
-                  <span itemprop="streetaddress">{{Site.address.address2}}</span>
+                {{#if contact.address.address2}}
+                  <span itemprop="streetaddress">{{contact.address.address2}}</span>
                   <br>
                 {{/if}}
-                <span itemprop="addressLocality">{{Site.address.city}},</span>
-                <span itemprop="addressRegion">{{Site.address.state}}</span>
-                <span itemprop="postalCode">{{Site.address.zipcode}}</span>
+                <span itemprop="addressLocality">{{contact.address.city}},</span>
+                <span itemprop="addressRegion">{{contact.address.state}}</span>
+                <span itemprop="postalCode">{{contact.address.zipcode}}</span>
                 <br>
                 <abbr title="Phone">P:</abbr>
-                <span itemprop="telephone">{{Site.phone}}</span>
+                <span itemprop="telephone">{{contact.phone}}</span>
                 <br>
-                {{#if Site.fax}}
+                {{#if contact.fax}}
                   <abbr title="Fax">F:</abbr>
-                  <span itemprop="fax">{{Site.fax}}</span>
+                  <span itemprop="fax">{{contact.fax}}</span>
                 {{/if}}
               </address>
               <div></div>
               <address>
-                <strong>{{Site.contactName}}</strong>
+                <strong>{{contact.person.name}}</strong>
                 <br>
-                <a href="{{Site.contactEmail}}">{{Site.contactEmail}}</a>
+                <a href="{{contact.contact.email}}">{{contact.person.email}}</a>
               </address>
             </div>
           </div>

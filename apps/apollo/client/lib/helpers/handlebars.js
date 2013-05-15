@@ -1,8 +1,8 @@
 //
 // Handlebars helpers
 //
-Handlebars.registerHelper('Site', function () {
-  return Meteor.settings.public.site;
+Handlebars.registerHelper('Settings', function () {
+  return Meteor.settings.public;
 });
 
 Handlebars.registerHelper('resize', function (url, width, height) {
