@@ -1,0 +1,43 @@
+@import "/packages/belt-bootstrap/bootstrap/less/mixins.less";
+@import "/styles/variables";
+@import "/styles/admin/variables";
+
+.admin-section {
+
+  background-color: @background-bg;
+
+  .form-horizontal .control-group > .control-label {
+    text-align: left;
+  }
+
+  .menu {
+    display: block;
+    padding: 5px 10px;
+    .clearfix();
+    border-bottom: 1px solid @gray-lighter;
+    a {
+      text-decoration: none;
+    }
+  }
+  .post-menu {
+  }
+
+  .post-list-item {
+    padding: 5px 10px;
+    border-bottom: 1px solid #dedede;
+    cursor: pointer;
+
+    &.active {
+      color: #fff;
+      background-color: @blue-bright-color;
+    }
+  }
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  .box-sizing(border-box);
+}
