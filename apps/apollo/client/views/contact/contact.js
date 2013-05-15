@@ -1,4 +1,5 @@
 // TODO move this to a package
+// TODO: make reactive
 this.contactGoogleMapCallback = function () {
   // TODO Geocoding should be cached; possible in the datastore
   var mapOptions = {
@@ -7,7 +8,7 @@ this.contactGoogleMapCallback = function () {
   };
   var map = new google.maps.Map(document.getElementById("contact-map"), mapOptions);
   var geocoder = new google.maps.Geocoder();
-  var a = Meteor.settings.public.contact.address;
+  var a = Belt.settings.public.contact.address;
   var addr = a.address1 + ' ' + a.address2 + ' ' + a.city + ', ' + a.state + ' ' + a.zip;
   geocoder.geocode({ 'address': addr}, function (results, status) {
     if (status === google.maps.GeocoderStatus.OK) {
@@ -41,7 +42,10 @@ Template.contact.preserve(["#contact-map"]);
 
 Template.contact.helpers({
   contact: function () {
-    return Meteor.settings.public.contact;
+    if (Belt.Settings) {
+      return Belt.settings && Belt.settings.public && Belt.settings.public.contact || {};
+    }
+    return {};
   }
 });
 

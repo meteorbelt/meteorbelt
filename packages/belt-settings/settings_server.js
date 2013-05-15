@@ -1,9 +1,20 @@
 // XXX It would be useful to store individual settings under their own key
-var DATASTORE_KEY = 'default';
+var DB_KEY = 'default';
+
+// Publish
+// -------
+// a single page, identified by slug
+Meteor.publish('settings', function () {
+  console.log('publish called');
+  //return Belt.Settings.find({
+    //_id: DB_KEY
+  //});
+  return Belt.Settings.find();
+});
 
 var _get = function () {
   var s = Belt.Settings.findOne({
-    _id: DATASTORE_KEY
+    _id: DB_KEY
   });
   if (s && s.data) {
     return s.data;
@@ -17,7 +28,7 @@ var _add = function (settings) {
   var s;
   try {
     s = {
-      _id: DATASTORE_KEY,
+      _id: DB_KEY,
       data: settings
     };
     // TODO: should this be async?
@@ -29,25 +40,20 @@ var _add = function (settings) {
       data: settings
     };
     return Belt.Settings.update({
-      _id: DATASTORE_KEY
+      _id: DB_KEY
     }, {
       $set: s
     });
   }
 };
 
-
 // If Meteor.settings add them to the db
 if (Meteor.settings) {
-  _add(Meteor.settings);
+  var a = _add(Meteor.settings);
+  console.log('a is', a);
 }
 
 Belt.settings = _get();
-
-// Push a subset of settings to the client.
-if (Belt.settings && Belt.settings.public) {
-  __meteor_runtime_config__.BELT_PUBLIC_SETTINGS = Belt.settings.public;
-}
 
 // Exports
 // -------

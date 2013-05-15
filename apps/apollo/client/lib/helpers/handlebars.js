@@ -2,7 +2,7 @@
 // Handlebars helpers
 //
 Handlebars.registerHelper('Settings', function () {
-  return Meteor.settings.public;
+  return Belt.settings && Belt.settings.public || {};
 });
 
 Handlebars.registerHelper('resize', function (url, width, height) {

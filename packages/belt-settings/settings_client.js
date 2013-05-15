@@ -1,5 +1,12 @@
-if (typeof __meteor_runtime_config__ !== 'undefined' &&
-    __meteor_runtime_config__ &&
-    __meteor_runtime_config__.BELT_PUBLIC_SETTINGS) {
-  Belt.settings = { public: __meteor_runtime_config__.BELT_PUBLIC_SETTINGS };
-}
+// Subscribe
+// ---------
+Meteor.subscribe('settings');
+
+Deps.autorun(function () {
+  var s = Belt.Settings.findOne();
+  if (s) {
+    Belt.settings = s.data;
+  } else {
+    Belt.settings = undefined;
+  }
+});
