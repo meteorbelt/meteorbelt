@@ -5,7 +5,7 @@
       "description": "Web simple",
       "email": "John Doe <john@example.com>"
     },
-    "analytics.google": {
+    "googleAnalytics": {
       "code": "UA-XXXXXXX-X"
     },
     "contact": {
