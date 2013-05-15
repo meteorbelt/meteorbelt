@@ -1,6 +1,36 @@
 <template name="home">
   <div id="featured">
-    <!--<img src="/img/pages/corn.jpg" alt="">-->
+    <div id="carousel-example-generic" class="carousel slide">
+
+      <!-- Indicators -->
+      <ol class="carousel-indicators">
+        <li data-target="#carousel-example-generic" data-slide-to="0" class=""></li>
+        <li data-target="#carousel-example-generic" data-slide-to="1" class="active"></li>
+        <li data-target="#carousel-example-generic" data-slide-to="2" class=""></li>
+      </ol>
+
+      <!-- Wrapper for slides -->
+      <div class="carousel-inner">
+        <div class="item">
+          <img alt="First slide" src="http://placehold.it/1170x500">
+        </div>
+        <div class="item active">
+          <img alt="Second slide" src="http://placehold.it/1170x500">
+        </div>
+        <div class="item">
+          <img alt="Third slide" src="http://placehold.it/1170x500">
+        </div>
+      </div>
+
+      <!-- Controls -->
+      <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+        <i class="glyphicon icon-chevron-left"></i>
+      </a>
+      <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+        <i class="glyphicon icon-chevron-right"></i>
+      </a>
+
+    </div>
   </div>
 
   <div class="row">
@@ -16,8 +46,7 @@
     <div class="col col-lg-4">
       <h3>Our Plans, Projects &amp; Products</h3>
       <p>
-        Where you can find plans and projects, many that we have built and are using here on the farm, such as building your own High Tunnel for increasing your growing season. Building a Chicken Plucker to help in the processing
-of your fresh chickens, or a Rotating Com-Poster for creating that organic matter to put back into the soil we’ll share what we have experienced and look forward to hearing about your experiences as well.
+
       </p>
       <a class="btn btn-callout" href="/products">Read More</a>
     </div>
@@ -25,7 +54,6 @@ of your fresh chickens, or a Rotating Com-Poster for creating that organic matte
     <div class="col col-lg-4">
       <h3>Latest News</h3>
       <p>
-        Where we share the latest news and activities of the farm, anything from a step by step recipe on how to make chicken pot pie, to setting up drip irrigation for the garden, or just the joy of a beautiful sunset and taking pleasure in the life around us.
       </p>
       <a class="btn btn-callout" href="/blog">Read More</a>
     </div>
