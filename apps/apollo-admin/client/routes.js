@@ -1,8 +1,3 @@
-// $(document).on('click', 'a', function (e) {
-//   _gaq.push(['_trackPageview', e.target.href]);
-// });
-
-
 function postCreate() {
   // Set the query to all
   Session.set('postQuery', {});
@@ -31,16 +26,38 @@ function setProductQuery() {
   var slug = self.params.slug;
   var _id = self.params._id;
   var tag = self.params.tag;
+  var sessionKey = 'productQuery';
+
   Session.set('productOpts', {sort: [['publishedAt', 'desc']]});
 
   if (_id) {
-    return Session.set('productQuery', {_id: _id});
+    return Session.set(sessionKey, {_id: _id});
   }
   if (slug) {
-    return Session.set('productQuery', {slug: slug});
+    return Session.set(sessionKey, {slug: slug});
   }
   if (tag) {
-    return Session.set('productQuery', {tags: tag});
+    return Session.set(sessionKey, {tags: tag});
+  }
+}
+
+function setSettingQuery() {
+  var self = this;
+  var slug = self.params.slug;
+  var _id = self.params._id;
+  var tag = self.params.tag;
+  var sessionKey = 'settingsQuery';
+
+  Session.set('settingOpts', {sort: [['publishedAt', 'desc']]});
+
+  if (_id) {
+    return Session.set(sessionKey, {_id: _id});
+  }
+  if (slug) {
+    return Session.set(sessionKey, {slug: slug});
+  }
+  if (tag) {
+    return Session.set(sessionKey, {tags: tag});
   }
 }
 
@@ -63,36 +80,15 @@ Meteor.Router.beforeRouting = function () {
   Belt.Flash.clear();
 };
 
+// Admin
 Meteor.Router.add({
   // Static
-  '/':         'home',
-  '/faq':      'faq',
-  '/contact':  'contact',
-
-  // Accounts
-  '/account/signup':                   'accountSignup',
-  '/account/login':                    'accountLogin',
-  '/account/profile':                  'accountProfile',
-  '/account/settings':                 'accountSettings',
-  '/account/emails':                   'accountEmails',
-  //'/account/connected':                'accountConnected',
-  '/account/reset-password':           'accountResetPassword',
-  '/account/reset-password/complete':  'accountResetPasswordComplete',
-  '/verify-email/:token':              verifyEmailToken,
-
-  // Blog
-  '/blog':           { to: 'postList',   and: setPostQuery },
-  '/blog/:slug':     { to: 'postDetail', and: setPostQuery },
-  '/blog/tags/:tag': { to: 'postTag',    and: setPostQuery },
-
-  // Products
-  '/products':           { to: 'productList',   and: setProductQuery },
-  '/products/:slug':     { to: 'productDetail', and: setProductQuery },
-  '/products/tags/:tag': { to: 'productList',   and: setProductQuery },
-
-  // Admin
   '/admin':       'adminHome',
   '/admin/users': 'adminUserList',
+
+  '/admin/settings':      { to: 'adminSettingList',   and: setSettingQuery },
+  '/admin/settings/new':  { to: 'adminSettingCreate', and: setSettingQuery },
+  '/admin/settings/:_id': { to: 'adminSettingDetail', and: setSettingQuery },
 
   '/admin/posts':           { to: 'adminPostList',   and: setPostQuery },
   '/admin/posts/new':       { to: 'adminPostCreate', and: setPostQuery },
@@ -103,9 +99,6 @@ Meteor.Router.add({
   '/admin/products/new':       { to: 'adminProductCreate', and: setProductQuery },
   '/admin/products/:_id':      { to: 'adminProductDetail', and: setProductQuery },
   '/admin/products/tags/:tag': { to: 'adminProductList',   and: setProductQuery },
-
-  // Page
-  '/pages/:page': { to: 'pageDetail', and: pageDetail },
 
   '*': 'notFound'
 });
