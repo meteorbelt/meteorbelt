@@ -83,22 +83,22 @@ Meteor.Router.beforeRouting = function () {
 // Admin
 Meteor.Router.add({
   // Static
-  '/admin':       'adminHome',
-  '/admin/users': 'adminUserList',
+  '/':       'adminHome',
+  '/users': 'adminUserList',
 
-  '/admin/settings':      { to: 'adminSettingList',   and: setSettingQuery },
-  '/admin/settings/new':  { to: 'adminSettingCreate', and: setSettingQuery },
-  '/admin/settings/:_id': { to: 'adminSettingDetail', and: setSettingQuery },
+  '/settings':      { to: 'adminSettingList',   and: setSettingQuery },
+  '/settings/new':  { to: 'adminSettingCreate', and: setSettingQuery },
+  '/settings/:_id': { to: 'adminSettingDetail', and: setSettingQuery },
 
-  '/admin/posts':           { to: 'adminPostList',   and: setPostQuery },
-  '/admin/posts/new':       { to: 'adminPostCreate', and: setPostQuery },
-  '/admin/posts/:_id':      { to: 'adminPostDetail', and: setPostQuery },
-  '/admin/posts/tags/:tag': { to: 'adminPostList',   and: setPostQuery },
+  '/posts':           { to: 'adminPostList',   and: setPostQuery },
+  '/posts/new':       { to: 'adminPostCreate', and: setPostQuery },
+  '/posts/:_id':      { to: 'adminPostDetail', and: setPostQuery },
+  '/posts/tags/:tag': { to: 'adminPostList',   and: setPostQuery },
 
-  '/admin/products':           { to: 'adminProductList',   and: setProductQuery },
-  '/admin/products/new':       { to: 'adminProductCreate', and: setProductQuery },
-  '/admin/products/:_id':      { to: 'adminProductDetail', and: setProductQuery },
-  '/admin/products/tags/:tag': { to: 'adminProductList',   and: setProductQuery },
+  '/products':           { to: 'adminProductList',   and: setProductQuery },
+  '/products/new':       { to: 'adminProductCreate', and: setProductQuery },
+  '/products/:_id':      { to: 'adminProductDetail', and: setProductQuery },
+  '/products/tags/:tag': { to: 'adminProductList',   and: setProductQuery },
 
   '*': 'notFound'
 });
