@@ -1,27 +1,29 @@
 {
-  "public": {
-    "site": {
-      "name": "Apollo Site",
-      "description": "Web simple",
-      "email": "John Doe <john@example.com>"
-    },
-    "googleAnalytics": {
-      "code": "UA-XXXXXXX-X"
-    },
-    "contact": {
-      "showAddress": true,
-      "address": {
-        "address1": "1600 Pennsylvania Ave NW",
-        "address2": "",
-        "city": "Washington",
-        "state": "DC",
-        "zipcode": "20500"
+  "belt": {
+    "public": {
+      "site": {
+        "name": "Apollo Site",
+        "description": "Web simple",
+        "email": "John Doe <john@example.com>"
       },
-      "phone": "(555) 111-1111",
-      "fax": "(555) 222-2222",
-      "person": {
-        "name": "John Doe",
-        "email": "john@example.com"
+      "googleAnalytics": {
+        "code": "UA-XXXXXXX-X"
+      },
+      "contact": {
+        "showAddress": true,
+        "address": {
+          "address1": "1600 Pennsylvania Ave NW",
+          "address2": "",
+          "city": "Washington",
+          "state": "DC",
+          "zipcode": "20500"
+        },
+        "phone": "(555) 111-1111",
+        "fax": "(555) 222-2222",
+        "person": {
+          "name": "John Doe",
+          "email": "john@example.com"
+        }
       }
     }
   }

@@ -1,8 +1,8 @@
 //
 // Handlebars helpers
 //
-Handlebars.registerHelper('Settings', function () {
-  return Belt.settings && Belt.settings.public || {};
+Handlebars.registerHelper('Site', function () {
+  return Belt.Settings.findOne('site');
 });
 
 Handlebars.registerHelper('resize', function (url, width, height) {

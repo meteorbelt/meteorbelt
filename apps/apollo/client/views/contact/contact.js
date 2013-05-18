@@ -42,10 +42,7 @@ Template.contact.preserve(["#contact-map"]);
 
 Template.contact.helpers({
   contact: function () {
-    if (Belt.Settings) {
-      return Belt.settings && Belt.settings.public && Belt.settings.public.contact || {};
-    }
-    return {};
+    return Belt.Settings.findOne('contact');
   }
 });
 
