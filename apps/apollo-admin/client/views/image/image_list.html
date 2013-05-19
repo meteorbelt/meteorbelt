@@ -1,0 +1,10 @@
+<template name="imageList">
+  <button class="btn new-product-image" type="button">
+    <i class="icon-plus"></i>&nbsp;&nbsp;&nbsp;Add Image</button>
+  <br>
+  <br>
+  <table class="table table-striped">
+    <thead></thead>
+    <tbody>{{#each this}}{{> imageListItem}}{{/each}}</tbody>
+  </table>
+</template>
