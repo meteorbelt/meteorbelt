@@ -46,7 +46,7 @@ function setSettingQuery() {
   var slug = self.params.slug;
   var _id = self.params._id;
   var tag = self.params.tag;
-  var sessionKey = 'settingsQuery';
+  var sessionKey = 'settingQuery';
 
   Session.set('settingOpts', {sort: [['publishedAt', 'desc']]});
 
@@ -88,7 +88,7 @@ Meteor.Router.add({
 
   '/settings':      { to: 'adminSettingList',   and: setSettingQuery },
   '/settings/new':  { to: 'adminSettingCreate', and: setSettingQuery },
-  '/settings/:_id': { to: 'adminSettingDetail', and: setSettingQuery },
+  '/settings/:_id': { to: 'adminSettingList',   and: setSettingQuery, as: 'adminSettingDetail' },
 
   '/posts':           { to: 'adminPostList',   and: setPostQuery },
   '/posts/new':       { to: 'adminPostCreate', and: setPostQuery },

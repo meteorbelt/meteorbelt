@@ -1,0 +1,26 @@
+<template name="adminSettingList">
+  <div class="row">
+  <a href="/admin/products/new" class="btn btn-success new-product pull-right">
+    <i class="icon-plus"></i>&nbsp;&nbsp;&nbsp;New Setting
+  </a>
+  <div class="row">
+    <div class="col-lg-2 col">
+      <h1>Nav</h1>
+      {{#with allSettings}}
+        {{#if this.count}}
+          <ul class="nav nav-pills nav-stacked">
+            {{#each this}}
+              {{> adminSettingListItem}}
+            {{/each}}
+          </ul>
+        {{else}}
+          <h4>No settings yet</h4>
+        {{/if}}
+      {{/with}}
+    </div>
+    <div class="col-lg-10 col">
+      {{> adminSettingDetail }}
+    </div>
+  </div>
+  </div>
+</template>
