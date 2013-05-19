@@ -20,7 +20,7 @@ Handlebars.registerHelper('timeSince', function (date) {
   return date;
 });
 
-Handlebars.registerHelper('isActive', function (a, b) {
+Handlebars.registerHelper('isSelected', function (a, b) {
   return (a === b) ? ' active' : '';
 });
 
