@@ -14,16 +14,17 @@ Package.on_use(function (api, where) {
     // 'bootstrap/fonts/glyphiconshalflings-regular.ttf',
     // 'bootstrap/fonts/glyphiconshalflings-regular.woff',
 
-    'bootstrap/js/bootstrap-transition.js',
-    'bootstrap/js/bootstrap-alert.js',
-    'bootstrap/js/bootstrap-modal.js',
-    'bootstrap/js/bootstrap-dropdown.js',
-    'bootstrap/js/bootstrap-scrollspy.js',
-    'bootstrap/js/bootstrap-tab.js',
-    'bootstrap/js/bootstrap-tooltip.js',
-    'bootstrap/js/bootstrap-popover.js',
-    'bootstrap/js/bootstrap-button.js',
-    'bootstrap/js/bootstrap-collapse.js',
-    'bootstrap/js/bootstrap-carousel.js',
-    'bootstrap/js/bootstrap-affix.js'], 'client');
+    'bootstrap/js/affix.js',
+    'bootstrap/js/alert.js',
+    'bootstrap/js/button.js',
+    'bootstrap/js/carousel.js',
+    'bootstrap/js/collapse.js',
+    'bootstrap/js/dropdown.js',
+    'bootstrap/js/modal.js',
+    'bootstrap/js/popover.js',
+    'bootstrap/js/scrollspy.js',
+    'bootstrap/js/tab.js',
+    'bootstrap/js/tooltip.js',
+    'bootstrap/js/transition.js'
+  ], 'client');
 });
