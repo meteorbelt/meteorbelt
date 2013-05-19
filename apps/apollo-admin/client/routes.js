@@ -1,34 +1,10 @@
-function postCreate() {
-  // Set the query to all
-  Session.set('postQuery', {});
-  Session.set('postOptions', {sort: [['publishedAt', 'desc']]});
-}
+function setSession(cntx, key) {
+  var slug = cntx.params.slug;
+  var _id = cntx.params._id;
+  var tag = cntx.params.tag;
+  var sessionKey = key + 'Query';
 
-function setPostQuery() {
-  var self = this;
-  var slug = self.params.slug;
-  var _id = self.params._id;
-  var tag = self.params.tag;
-  Session.set('postOpts', {sort: [['publishedAt', 'desc']]});
-  if (_id) {
-    return Session.set('postQuery', {_id: _id});
-  }
-  if (slug) {
-    return Session.set('postQuery', {slug: slug});
-  }
-  if (tag) {
-    return Session.set('postQuery', {tags: tag});
-  }
-}
-
-function setProductQuery() {
-  var self = this;
-  var slug = self.params.slug;
-  var _id = self.params._id;
-  var tag = self.params.tag;
-  var sessionKey = 'productQuery';
-
-  Session.set('productOpts', {sort: [['publishedAt', 'desc']]});
+  Session.set(key + 'Opts', {sort: [['publishedAt', 'desc']]});
 
   if (_id) {
     return Session.set(sessionKey, {_id: _id});
@@ -42,23 +18,25 @@ function setProductQuery() {
 }
 
 function setSettingQuery() {
-  var self = this;
-  var slug = self.params.slug;
-  var _id = self.params._id;
-  var tag = self.params.tag;
-  var sessionKey = 'settingQuery';
+  setSession(this, 'setting');
+}
 
-  Session.set('settingOpts', {sort: [['publishedAt', 'desc']]});
+function setProductQuery() {
+  setSession(this, 'product');
+}
 
-  if (_id) {
-    return Session.set(sessionKey, {_id: _id});
-  }
-  if (slug) {
-    return Session.set(sessionKey, {slug: slug});
-  }
-  if (tag) {
-    return Session.set(sessionKey, {tags: tag});
-  }
+function setPostQuery() {
+  setSession(this, 'post');
+}
+
+function setUserQuery() {
+  setSession(this, 'user');
+}
+
+function postCreate() {
+  // Set the query to all
+  Session.set('postQuery', {});
+  Session.set('postOptions', {sort: [['publishedAt', 'desc']]});
 }
 
 function verifyEmailToken(token) {
@@ -85,6 +63,7 @@ Meteor.Router.add({
   // Static
   '/':       'adminHome',
   '/users': 'adminUserList',
+  '/users/:_id': { to: 'adminUserDetail',   and: setUserQuery },
 
   '/settings':      { to: 'adminSettingList',   and: setSettingQuery },
   '/settings/new':  { to: 'adminSettingCreate', and: setSettingQuery },
