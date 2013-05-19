@@ -20,6 +20,10 @@ Handlebars.registerHelper('timeSince', function (date) {
   return date;
 });
 
+Handlebars.registerHelper('isActive', function (a, b) {
+  return (a === b) ? ' active' : '';
+});
+
 Handlebars.registerHelper('formatDate', function (date, block) {
   if (window.moment) {
     var f = block.hash.format || "MMM Do, YYYY";
