@@ -15,6 +15,7 @@ function setSession(cntx, key) {
   if (tag) {
     return Session.set(sessionKey, {tags: tag});
   }
+  return Session.set(sessionKey, {});
 }
 
 function setSettingQuery() {
@@ -70,7 +71,7 @@ Meteor.Router.add({
   '/settings/:_id': { to: 'adminSettingList',   and: setSettingQuery, as: 'adminSettingDetail' },
 
   '/posts':           { to: 'adminPostList',   and: setPostQuery },
-  '/posts/new':       { to: 'adminPostCreate', and: setPostQuery },
+  '/posts/new':       { to: 'adminPostDetail', and: setPostQuery, as: 'adminPostNew' },
   '/posts/:_id':      { to: 'adminPostDetail', and: setPostQuery },
   '/posts/tags/:tag': { to: 'adminPostList',   and: setPostQuery },
 

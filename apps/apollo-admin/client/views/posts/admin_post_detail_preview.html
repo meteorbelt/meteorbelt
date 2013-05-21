@@ -1,0 +1,13 @@
+<template name="adminPostDetailPreview">
+  <div class="col col-lg-8">
+    <div class="menu">
+      <a href="{{adminPostDetail post._id}}">Edit</a>
+      <a class="btn" href="/admin/posts/{{post._id}}">
+        <i class="icon-cog icon-large"></i>
+      </a>
+    </div>
+    <div class="post-preview">
+      {{{post.body}}}
+    </div>
+  </div>
+</template>

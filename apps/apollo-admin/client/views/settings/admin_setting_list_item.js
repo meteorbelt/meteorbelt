@@ -1,4 +1,10 @@
-Template.adminSettingListItem.helpers({});
+Template.adminSettingListItem.helpers({
+  isSelected: function () {
+    var q = Session.get('settingQuery');
+    var match = q && q._id === this._id;
+    return match ? 'active' : '';
+  }
+});
 
 Template.adminSettingListItem.events({
   'click .delete': function (e, tmpl) {

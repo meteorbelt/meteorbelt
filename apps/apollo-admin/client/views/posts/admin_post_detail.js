@@ -18,9 +18,7 @@ Template.adminPostDetail.rendered = function () {
 Template.adminPostDetail.helpers({
   // post returns the current post
   post: function () {
-    return Posts.findOne({
-      _id: Session.get('postId')
-    });
+    return Posts.findOne(Session.get('postQuery'));
   },
   isDirty: function () {
     return Session.get('postIsDirty');

@@ -1,7 +1,7 @@
 <template name="adminUserListItem">
   <tr>
     <td colspan="2">
-      <a href="/admin/users/{{_id}}/edit">
+      <a href="{{adminUserDetailPath _id}}">
         <span class="user-avatar" style="background-image: url({{avatarUrl}}); width: 30px; height: 30px; display: inline-block;"></span>&nbsp;&nbsp;{{displayName}}
       </a>
     </td>
