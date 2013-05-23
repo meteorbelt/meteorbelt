@@ -25,3 +25,6 @@
 [submodule "contrib/router"]
 	path = contrib/router
 	url = https://github.com/tmeasday/meteor-router.git
+[submodule "contrib/scss"]
+	path = contrib/scss
+	url = https://github.com/fourseven/meteor-scss.git
