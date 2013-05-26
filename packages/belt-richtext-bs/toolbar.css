@@ -22,11 +22,13 @@
 #belt-richtext-toolbar .btn {
   background-color: transparent;
   border-color: none;
+  background-color: #f9f9f9;
   color: #666;
 }
 
 #belt-richtext-toolbar .btn:hover {
   background-color: transparent;
+  background-color: #f9f9f9;
   border-color: none;
   color: black;
 }
@@ -36,6 +38,7 @@
   -moz-box-shadow: none;
   box-shadow: none;
   background-color: transparent;
+  background-color: #f9f9f9;
   border-color: none;
   color: red;
 }
