@@ -1,13 +1,10 @@
 <template name="beltRichtextToolbar">
   <ul id="belt-richtext-toolbar">
-    <li class="dropdown">
-      <a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-font"></i> Headings <b class="mute caret"></b></a>
-      <ul class="dropdown-menu">
-        <li><a data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="h1" href="javascript:;" unselectable="on">Heading</a></li>
-        <li><a data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="h2" href="javascript:;" unselectable="on">Subheading</a></li>
-        <li><a data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="h3" href="javascript:;" unselectable="on">Minor Heading</a></li>
-        <li><a data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="div" href="javascript:;" unselectable="on">Normal</a></li>
-      </ul>
+    <li class="btn-group">
+      <button class="btn" data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="h1" href="javascript:;" unselectable="on">H1</button>
+      <button class="btn" data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="h2" href="javascript:;" unselectable="on">H2</button>
+      <button class="btn" data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="h3" href="javascript:;" unselectable="on">H3</button>
+      <button class="btn" data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="div" href="javascript:;" unselectable="on">DIV</button>
     </li>
     <li class="btn-group">
       <button class="btn" data-wysihtml5-command="bold" id="rt-bold-button" title="Bold - Ctrl+B" unselectable="on"><i class="icon-bold"></i></button>
@@ -32,7 +29,7 @@
       <button class="btn" data-wysihtml5-action="change_view">html</button>
     </li>
     <li class="btn-group">
-      <button data-wysihtml5-command="insertSpeech" class="btn" title="Speech to Text" unselectable="on"><i class="icon-comment-alt"></i></button>
+      <button data-wysihtml5-command="insertSpeech" class="btn" title="Speech to Text" unselectable="on"><i class="icon-microphone"></i></button>
     </li>
   </ul>
 </template>
