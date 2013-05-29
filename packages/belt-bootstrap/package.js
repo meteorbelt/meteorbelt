@@ -21,10 +21,10 @@ Package.on_use(function (api, where) {
     'bootstrap/js/collapse.js',
     'bootstrap/js/dropdown.js',
     'bootstrap/js/modal.js',
-    'bootstrap/js/popover.js',
     'bootstrap/js/scrollspy.js',
     'bootstrap/js/tab.js',
     'bootstrap/js/tooltip.js',
+    'bootstrap/js/popover.js',
     'bootstrap/js/transition.js'
   ], 'client');
 });
