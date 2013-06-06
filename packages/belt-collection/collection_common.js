@@ -72,10 +72,10 @@ _.extend(Collection.prototype, {
   //     update: function (userId, doc) {},
   //     delete: function (userId, doc) {},
   //   }
-  pre: function (obj) {
+  before: function (obj) {
 
   },
-  post: function (obj) {
+  after: function (obj) {
 
   }
 });

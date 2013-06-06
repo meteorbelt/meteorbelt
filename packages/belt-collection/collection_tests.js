@@ -35,7 +35,7 @@ X.methods({
   }
 });
 
-X.pre({
+X.before({
   insert: function (userId, docs) {
     return docs;
   }
