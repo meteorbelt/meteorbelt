@@ -7,8 +7,6 @@ _.extend(Belt.Model.prototype, {
   save: function (callback) {
     var self = this;
     var err = self.validate();
-    console.log('save self: ', self);
-    console.log('save err: ', err);
     if (err) {
       // send a validation error to the callback
       //throw new Meteor.error(401, err);
@@ -19,8 +17,6 @@ _.extend(Belt.Model.prototype, {
       callback(e, null);
       return null;
     }
-    console.log('save object: ', self.toObject());
-    console.log('self._Collection: ', self._Collection);
     if (self._id) {
       var o = self.toObject();
       return self._Collection.update({_id: o._id}, {$set: o}, callback);
