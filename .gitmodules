@@ -25,3 +25,6 @@
 [submodule "contrib/router"]
 	path = contrib/router
 	url = https://github.com/tmeasday/meteor-router.git
+[submodule "packages/belt-ie8/respond"]
+	path = packages/belt-ie8/respond
+	url = https://github.com/scottjehl/Respond.git
