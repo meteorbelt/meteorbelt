@@ -1,6 +1,6 @@
 // Indexes
 // -------
-Tags._ensureIndex({
+Tags._Collection._ensureIndex({
   'slug': 1
 }, {
   unique: true

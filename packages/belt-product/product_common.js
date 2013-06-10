@@ -5,7 +5,7 @@
 // ----------
 
 // A Product class that takes a document in its constructor
-var Product = Belt.Model.extend({
+Products = Belt.Model.extend('product', {
   // validate: function () {
   //   var err = new MultiError('ValidationError');
   //   if (!this.name) {
@@ -43,9 +43,9 @@ var Product = Belt.Model.extend({
 });
 
 // Define a Collection that uses Product as its document
-this.Products = new Meteor.Collection('products', {
-  transform: function (doc) {
-    return new Product(doc);
-  }
-});
+// this.Products = new Meteor.Collection('products', {
+//   transform: function (doc) {
+//     return new Product(doc);
+//   }
+// });
 

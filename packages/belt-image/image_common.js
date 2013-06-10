@@ -16,7 +16,7 @@
 // Use Belt.Validation
 _.extend(Belt.Model.prototype, Belt.Validation.mixin);
 
-Image = Belt.Model.extend({
+Images = Belt.Model.extend('image', {
   validation: {
     name: {
       required: true
@@ -38,8 +38,8 @@ Image = Belt.Model.extend({
 });
 
 // Define a Collection that uses Post as its document
-Images = new Meteor.Collection('image', {
-  transform: function (doc) {
-    return new Image(doc);
-  }
-});
+// Images = new Meteor.Collection('image', {
+//   transform: function (doc) {
+//     return new Image(doc);
+//   }
+// });

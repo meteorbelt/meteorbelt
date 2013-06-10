@@ -1,15 +1,15 @@
 // Indexes
 // -------
-Posts._ensureIndex({
-  'slug': 1
-}, {
-  unique: true
-});
-
-Posts._ensureIndex({
-  'owner': 1
-});
-
+// Posts._Collection._ensureIndex({
+//   'slug': 1
+// }, {
+//   unique: true
+// });
+//
+// Posts._Collection._ensureIndex({
+//   'owner': 1
+// });
+//
 // Publish
 // -------
 // a single post, identified by slug
@@ -29,14 +29,15 @@ Meteor.publish('posts', function (query, options) {
 
 // Rules
 // -----
-Posts.allow({
-  insert: function (userId, posts) {
-    return Roles.userIsInRole(userId, 'admin');
-  },
-  update: function (userId, posts, fields, modifier) {
-    return Roles.userIsInRole(userId, 'admin');
-  },
-  remove: function (userId, posts) {
-    return Roles.userIsInRole(userId, 'admin');
-  }
-});
+// Posts.allow({
+//   insert: function (userId, posts) {
+//     return true;
+//     //return Roles.userIsInRole(userId, 'admin');
+//   },
+//   update: function (userId, posts, fields, modifier) {
+//     return Roles.userIsInRole(userId, 'admin');
+//   },
+//   remove: function (userId, posts) {
+//     return Roles.userIsInRole(userId, 'admin');
+//   }
+// });

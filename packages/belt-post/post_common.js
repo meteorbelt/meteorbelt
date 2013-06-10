@@ -18,33 +18,27 @@
 // Use Belt.Validation
 _.extend(Belt.Model.prototype, Belt.Validation.mixin);
 
-var Post = Belt.Model.extend({
+var tagFunc = function (value, attr, computedState) {
+  if (!_.isArray(value)) {
+    return 'Tags must be an Array';
+  }
+};
+
+var Posts = Belt.Model.extend('posts', {
   validation: {
-    owner: {
-      required: true
-    },
-    tags: {
-      fn: function (value, attr, computedState) {
-        if (!_.isArray(value)) {
-          return 'Tags must be an Array';
-        }
-      }
-    },
-    title: {
-      required: true
-    },
-    body: {
-      required: true
-    }
+    owner:  { required:  true },
+    tags:   { fn:        tagFunc },
+    title:  { required:  true },
+    body:   { required:  true }
   }
 });
 
 // Define a Collection that uses Post as its document
-var Posts = new Meteor.Collection('posts', {
-  transform: function (doc) {
-    return new Post(doc);
-  }
-});
+// var Posts = new Meteor.Collection('posts', {
+//   transform: function (doc) {
+//     return new Post(doc);
+//   }
+// });
 
 // Posts Methods Overrides
 // -----------------------
@@ -184,5 +178,5 @@ Meteor.methods({
 
 // Exports
 // -------
-this.Post = Post;
+//this.Post = Post;
 this.Posts = Posts;

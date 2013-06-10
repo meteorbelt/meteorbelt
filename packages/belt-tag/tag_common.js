@@ -13,7 +13,7 @@
 // Use Belt.Validation
 _.extend(Belt.Model.prototype, Belt.Validation.mixin);
 
-var Tag = Belt.Model.extend({
+var Tags = Belt.Model.extend('tag', {
   validation: {
     slug: {
       required: true
@@ -22,11 +22,11 @@ var Tag = Belt.Model.extend({
 });
 
 // Define a Collection that uses Tag as its document
-var Tags = new Meteor.Collection('tags', {
-  transform: function (doc) {
-    return new Tag(doc);
-  }
-});
+// var Tags = new Meteor.Collection('tags', {
+//   transform: function (doc) {
+//     return new Tag(doc);
+//   }
+// });
 
 // Posts Methods Overrides
 // -----------------------
@@ -88,5 +88,5 @@ Meteor.methods({
 
 // Exports
 // -------
-this.Tag = Tag;
+//this.Tag = Tag;
 this.Tags = Tags;
