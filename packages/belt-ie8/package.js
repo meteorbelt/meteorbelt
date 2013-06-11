@@ -3,5 +3,8 @@ Package.describe({
 });
 
 Package.on_use(function (api, where) {
-  api.add_files('respond/respond.src.js', 'client', {raw: true});
+  api.add_files([
+    'respond/respond.src.js',
+    'console-polyfill/index.js'
+  ], 'client', {raw: true});
 });

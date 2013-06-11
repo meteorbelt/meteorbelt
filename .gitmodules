@@ -28,3 +28,6 @@
 [submodule "packages/belt-ie8/respond"]
 	path = packages/belt-ie8/respond
 	url = https://github.com/scottjehl/Respond.git
+[submodule "packages/belt-ie8/console-polyfill"]
+	path = packages/belt-ie8/console-polyfill
+	url = https://github.com/paulmillr/console-polyfill.git
