@@ -167,6 +167,23 @@ slug.unique = function (text, collection, errorIfInUse) {
   return s;
 };
 
+
+// Plugin
+// ------
+slug.slugPlugin = function (collection, options) {
+  collection.after({
+    insert: function(doc, user) {
+      // if slug is present return an error if it is in use
+      if (collection.slug) {
+        collection.slug = Belt.Slug.unique(self.slug, posts, true);
+      } else {
+        // use the title, don't care if the slug is an exact match
+        collection.slug = Belt.Slug.unique(opts.title, posts);
+      }
+    }
+  });
+};
+
 // Exports
 // -------
 Belt.Slug = slug;
