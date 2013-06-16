@@ -14,5 +14,5 @@ Package.on_test(function (api) {
   api.use('belt-collection');
   api.use('tinytest');
 
-  api.add_files('collection_tests.js', ['client', 'server']);
+  api.add_files('collection_tests.js', ['client']);
 });
