@@ -1,9 +1,14 @@
 // Collection
 // ----------
-// Set validation on the model
-_.extend(Belt.Model.prototype, Belt.Validation.mixin);
+var Model = function (doc) {
+  // this._Collection = collection;
+  _.extend(this, doc);
+};
 
-_.extend(Belt.Model.prototype, {
+// Set validation on the model
+// _.extend(Belt.Model.prototype, Belt.Validation.mixin);
+
+_.extend(Model.prototype, {
   save: function (callback) {
     var self = this;
     var err = self.validate();
@@ -25,73 +30,92 @@ _.extend(Belt.Model.prototype, {
   }
 });
 
-var Collection = Meteor.Collection;
-
-Collection._methods = {};
-Collection._statics = {};
-Collection.schema = {};
-
-// Methods
-// -------
-Collection.extend = Belt.Helpers.extend;
-
-// Prototype
-// ---------
-_.extend(Collection.prototype, {
-  model: Belt.Model,
-  // create a new model
-  create: function (doc) {
-    var self = this;
-    var m = new self.model(doc);
-    m._Collection = self;
-    m.validation = self.schema;
-    _.extend(m, self._methods);
-    return m;
-  },
-  // model methods
-  methods: function (methodMap) {
-    var self = this;
-    var methods = (self._methods = (self._methods || {}));
-    for (var h in methodMap) {
-      methods[h] = methodMap[h];
-    }
-  },
-  // collection methods
-  statics: function (obj) {
-    _.extend(this._statics, obj);
-  },
-
-  // pre defines functions that should be run prior to operational calls
-  // obj:
-  //   {
-  //     insert: function (userId, doc) {},
-  //     update: function (userId, doc) {},
-  //     delete: function (userId, doc) {},
-  //   }
-  before: function (obj) {
-
-  },
-  after: function (obj) {
-
-  }
-});
-
 // Exports
 // -------
-Belt.Collection = Collection
-// XXX Janky we probably shouldn't be overriding in this manner
-// Belt.Collection = (function () {
-//   var original_a = Meteor.Collection;
-//
-//   if (condition) {
-//     return function () {
-//       new_code();
-//       original_a();
-//     }
-//   } else {
-//     return function () {
-//       original_a();
-//       other_new_code();
-//     }
-//   }
-// })();
+Belt.Collection = (function () {
+
+  // var _Collection = null;
+
+  // This function will ultimately be the "constructor" for your object
+  function Collection(/** arguments **/) {
+
+    var collection = new Meteor.Collection(arguments);
+    // Statics
+    // -------
+    collection._methods = {};
+    collection._statics = {};
+    collection._schema = {};
+    this._Collection = collection;
+  }
+
+  // Methods
+  // -------
+  _.extend(Collection.prototype, {
+
+    // Model: Model,
+
+    extend: function (doc) {
+      return Object.create(this);
+    },
+
+    create: function (doc) {
+      var m = Object.create(doc);
+      _.extend(m, this._methods);
+      m._Collection = this;
+      return m;
+    },
+
+    pluggin: function (fn, opts) {
+      return fn(this, opts);
+    },
+
+    // collection methods
+    statics: function (obj) {
+      // _.extend(this._statics, obj);
+    },
+
+    schema: function (obj) {
+      // _.extend(this._schema, obj);
+    },
+
+    // model methods
+    methods: function (methodMap) {
+      var methods = (this._methods = (this._methods || {}));
+      for (var h in methodMap) {
+        methods[h] = methodMap[h];
+      }
+      this._methods = methods;
+      console.log("this._methods: ", this._methods);
+    },
+
+    allow: function (doc) {
+    },
+
+    deny: function (doc) {
+    },
+
+    validate: function (path, fn, errorMsg) {
+      if (fn(this[path])) {
+        return;
+      }
+      return errorMsg;
+    },
+
+    // pre defines functions that should be run prior to operational calls
+    // obj:
+    //   {
+    //     insert: function (userId, doc) {},
+    //     update: function (userId, doc) {},
+    //     delete: function (userId, doc) {},
+    //   }
+    before: function (obj) {
+      return obj;
+    },
+
+    after: function (obj) {
+      return obj;
+    }
+  });
+
+  return Collection;
+})();
