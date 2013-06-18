@@ -1,114 +1,142 @@
+var PRINT_LOGS = true;
+// var PRINT_LOGS = false;
+
+var cl = function (msg) {
+  if (PRINT_LOGS) {
+    console.log(msg);
+  }
+};
+
+// Instantiate
+// -----------
+// var Posts = this.Posts = Belt.Model.extend("posts");
+
+
+var Posts = this.Posts = Belt.Model.extend("posts", {
+
+  schema: {
+    title:       { type: String, required: true },
+    body:        { type: String, required: true },
+    publishedAt: { type: Date, required: true },
+    isPublished: { type: Date, required: true, "default": false }
+  },
+
+  methods: {
+    uppercaseTitle: function () {
+      return this.title.toUpperCase();
+    }
+  },
+
+  statics: {
+    findByTitle: function (cls, title) {
+      return this.find({title: title});
+    }
+  },
+
+  before: {
+    insert: function (doc) {
+      doc.publishedAt = doc.publishedAt ? new Date(doc.publishedAt) : null;
+    }
+  },
+
+  after: {
+    insert: function () {
+    }
+  }
+});
+
+var startsWithHowTo = function (value, attr, computedState) {
+  return (/How\ to/i.test(value));
+};
+
+// Add late validation
+Posts.validate('title', startsWithHowTo, "The title must start with 'How to'");
+
+// Plugins
+// -------
+// Posts.plugin(Belt.Plugins.createdAt);
+// Posts.plugin(Belt.Plugins.updatedAt);
+// Posts.plugin(Belt.Plugins.slug, { required: true, attr: "title" });
+// Posts.plugin(Belt.Plugins.owner, { required: true });
+// Posts.plugin(Belt.Plugins.tags);
+
+// Schema
+// ------
+/**
+
+Posts.schema({
+  title:       { type: String, required: true },
+  body:        { type: String, required: true },
+  publishedAt: { type: Date, required: true },
+  isPublished: { type: Date, required: true, "default": false }
+});
+
+
+if (Meteor.isServer) {
+  // Allow all 
+  Posts.allow({
+    insert: function (userId, docs) {
+      return true;
+    },
+    update: function (userId, docs, fields, modifier) {
+      return true;
+    },
+    remove: function (userId, docs) {
+      return true;
+    }
+  });
+}
+
+*/
+
+var Comments = this.Comments = Belt.Model.extend("comments");
+
+// Tests
+
+// Docs
+
+var p1 = this.p1 = {
+  title: "Hello World",
+  body: "Post Body"
+};
+
+var c1 = this.c1 = {
+  title: "Original?",
+  body: "Comment Body"
+};
+
 Tinytest.add('belt - model - Belt.Model is Global', function (test) {
   test.isTrue(typeof Belt.Model !== 'undefined');
 });
 
-this.GA = null;
-Tinytest.add('belt - model - extend', function (test) {
-  var doc = {
-    price: 5
-  };
-  var A = GA = Belt.Model.extend('a', {
-    multiplier: 2,
-    markup: function () {
-      return this.price * this.multiplier;
-    },
-    rich: function () {
-      return false;
-    }
-  });
-  var B = A.extend('b', {
-    // will be overridden by doc
-    price: 1,
-    // override parent attribute
-    multiplier: 3,
-    // override parent method
-    rich: function () {
-      return true;
-    }
-  });
-  // Model A `markup` should add 5 to `price`
-  var a = A.create(doc);
-  test.equal(a.multiplier, 2);
-  test.equal(a.price, 5);
-  test.equal(a.markup(), 10);
-  test.isFalse(a.rich());
-  // Model B should extend A but override attributes and methods
-  var b = B.create(doc);
-  test.equal(b.multiplier, 3);
-  test.equal(b.price, 5);
-  test.equal(b.markup(), 15);
-  test.isTrue(b.rich());
+Tinytest.add('belt - model - model created', function (t) {
+
+  var p = Posts.create(p1);
+  var c = Comments.create(c1);
+
+  t.equal(p.title, p1.title);
+  t.equal(p.body, p1.body);
+
+  t.equal(c.title, c1.title);
+  t.equal(c.body, c1.body);
 });
 
-// Tinytest.add('belt - model - validate', function (test) {
-//   var doc, a;
-//   var A = Belt.Model.extend('a', {
-//     validate: function () {
-//       var err = {};
-//       if (!_.isString(this.str)) {
-//         err.str = 'Str must be a String';
-//       }
-//       if (!_.isNumber(this.num)) {
-//         err.num = 'Num must be a Number';
-//       }
-//       console.log('err', err);
-//       return _.isEmpty(err) ? '' : err;
-//     }
-//   });
-//   // Valid
-//   doc = {
-//     str: 'string',
-//     num: 5,
-//     arr: [1, 2, 3],
-//     obj: {
-//       one: 1,
-//       two: 2
-//     }
-//   };
-//   // Model A mark should add 5
-//   a = new A(doc);
-//   test.equal(a.validate(), '');
-//   // in-Valid
-//   doc = {
-//     str: 1,
-//     num: 'string',
-//     arr: [1, 2, 3],
-//     obj: {
-//       one: 1,
-//       two: 2
-//     }
-//   };
-//   a = new A(doc);
-//   test.equal(a.validate(), {
-//     str: 'Str must be a String',
-//     num: 'Num must be a Number'
-//   });
-// });
+Tinytest.add('belt - model - model methods', function (t) {
+  var p = Posts.create(p1);
+  var c = Comments.create(c1);
 
-this.GC = null;
-Tinytest.addAsync('belt - model - insert', function (test) {
-  var C = GC = Belt.Model.extend('c', {
-    validate: function () {}
-  });
-  var c = C.create({
-    str: 'string',
-    num: 5,
-    arr: [1, 2, 3],
-    obj: {
-      one: 1,
-      two: 2
-    }
-  });
-  var r = C.insert(c, function (err, id) {
-    console.log('made it', err, id);
-    test.isFalse(err);
-    test.isTrue(id);
-    onComplete();
-  });
-  console.log('re', r);
-  // var id = a.save(function (err, id) {
-  //   test.isFalse(err);
-  //   test.isTrue(id);
-  //   onComplete();
-  // });
+  t.equal(p.uppercaseTitle(), p1.title.toUpperCase());
+  t.equal(c.uppercaseTitle(), c1.title.toUpperCase());
+});
+
+Tinytest.add('belt - model - restricted access', function (t) {
+
+});
+
+Tinytest.addAsync('belt - model - model save valid', function (t, onComplete) {
+  onComplete();
+});
+
+Tinytest.addAsync('belt - model - model save invalid', function (t, onComplete) {
+  onComplete();
 });

@@ -1,120 +1,98 @@
-// Model
-// -----
+// Collection
+// ----------
 
-var Model = Meteor.Collection;
-_collections = {};
+var Model = {
 
-var Model = function (attributes, options) {
-  var self = this;
-  _.extend(self, attributes);
-  self.initialize.apply(self, arguments);
-};
+  /**
+   * _collection is the associated `Meteor.Collection` instance
+   * @type {Meteor.Collection}
+   */
 
-// Methods
-// -------
+  _collection: null,
 
-// Static
-// ------
-_.extend(Model, {
-  create: function (doc) {
-    return new this(doc);
-  }
-});
+  _methods: {},
+  _schema: {},
 
-// Prototype
-// ---------
-_.extend(Model.prototype, {
-  // Initialize is an empty function by default. Override it with your own
-  // initialization logic.
-  initialize: function () {},
-  validate: function () {},
-  _toObject: function () {},
-  // XXX: maybe there's a better way to do this.
-  toObject: function () {
-    var o = this._toObject() || this;
-    var remove = ['validation', '_Collection', 'constructor', 'save',
-      'initialize', 'validate', '_toObject', 'toObject', 'preValidate',
-      'isValid'];
-    return _.omit(o, remove);
-  },
-  save: function () {
-    var self = this;
-    return self._Collection.insert(self.toObject());
-  }
-});
+  // Model: Model,
 
-
-// Helper function to correctly set up the prototype chain, for subclasses.
-// Similar to `goog.inherits`, but uses a hash of prototype properties and
-// class properties to be extended.
-Model.extend = function (collectionName, protoProps, staticProps) {
-  var parent = this;
-  var child;
-  // The constructor function for the new subclass is either defined by you
-  // (the "constructor" property in your `extend` definition), or defaulted
-  // by us to simply call the parent's constructor.
-  if (protoProps && _.has(protoProps, 'constructor')) {
-    child = protoProps.constructor;
-  } else {
-    child = function () {
-      return parent.apply(this, arguments);
+  extend: function (name, attrs) {
+    var obj = Object.create(this);
+    obj._collection = new Meteor.Collection(name);
+    // Add the attributes:
+    // - schema
+    // - methods
+    // - statics
+    // - before
+    // - after
+    // if presents
+    if (attrs instanceof Object) {
+      var safeMethods = ["schema", "methods", "statics", "before", "after"];
+      _.each(_.pick(attrs, safeMethods), function (val, key) {
+        obj[key](val);
+      });
     };
+    return obj;
+  },
+
+  create: function (doc) {
+    var m = Object.create(doc);
+    _.extend(m, this._methods);
+    m._collection = this;
+    return m;
+  },
+
+  pluggin: function (fn, opts) {
+    return fn(this, opts);
+  },
+
+  // collection methods
+  statics: function (obj) {
+    _.extend(this, obj);
+  },
+
+  schema: function (obj) {
+    _.extend(this._schema, obj);
+  },
+
+  // model methods
+  methods: function (methodMap) {
+    var methods = (this._methods = (this._methods || {}));
+    for (var h in methodMap) {
+      methods[h] = methodMap[h];
+    }
+    this._methods = methods;
+  },
+
+  allow: function (obj) {
+    this._collection.allow(obj);
+  },
+
+  deny: function (obj) {
+    this._collection.deny(obj);
+  },
+
+  validate: function (path, fn, errorMsg) {
+    if (fn(this[path])) {
+      return;
+    }
+    return errorMsg;
+  },
+
+  // pre defines functions that should be run prior to operational calls
+  // obj:
+  //   {
+  //     insert: function (userId, doc) {},
+  //     update: function (userId, doc) {},
+  //     delete: function (userId, doc) {},
+  //   }
+  before: function (obj) {
+    return obj;
+  },
+
+  after: function (obj) {
+    return obj;
   }
-
-  // Add static properties to the constructor function, if supplied.
-  _.extend(child, parent, staticProps);
-
-  // Set the prototype chain to inherit from `parent`, without calling
-  // `parent`'s constructor function.
-  var Surrogate = function () {
-    this.constructor = child;
-  };
-  Surrogate.prototype = parent.prototype;
-  child.prototype = new Surrogate();
-
-  // console.log('extend', collectionName, protoProps, staticProps);
-  child._Collection = _collections[collectionName] = new Meteor.Collection(collectionName);
-
-  // Add prototype properties (instance properties) to the subclass,
-  // if supplied.
-  if (protoProps) {
-    _.extend(child.prototype, protoProps);
-  }
-
-  // Set a convenience property in case the parent's prototype is needed
-  // later.
-  child.__super__ = parent.prototype;
-
-  return child;
 };
-
-var collectionMethods = ["find", "findOne", "insert", "update", "remove",
-  "allow", "deny"];
-
-_.each(collectionMethods, function (name) {
-  Model[name] = function ( /* arguments */ ) {
-    var args = arguments[0];
-    if (name === "allow" || name === "deny") {
-      args = args[0];
-    }
-    if (_.isEmpty(args)) {
-      args = {};
-    }
-    return this._Collection[name](args);
-
-    //return Meteor.call('_beltModel', this._Collection._name, name, args);
-  };
-});
-
-
-Meteor.methods({
-  '_beltModel': function (collectionName, method, args) {
-    // console.log('collectionName', collectionName);
-    // console.log('method', method);
-    // console.log('args', args);
-    return _collections[collectionName][method](args);
-  }
-});
 
 // Exports
 // -------
