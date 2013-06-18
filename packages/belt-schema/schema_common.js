@@ -220,8 +220,6 @@ Schema.Types = Types;
 Schema.populate = populate;
 Schema.validate = validate;
 
-this.Schema = Schema;
-
 // Exports
 // -------
 Belt.Schema = Schema;
