@@ -9,9 +9,48 @@ var cl = function (msg) {
 
 // Instantiate
 // -----------
-var Posts = this.Posts = new Belt.Collection("posts");
-
 // var Posts = this.Posts = Belt.Collection.extend("posts");
+
+
+var Posts = this.Posts = Belt.Collection.extend("posts", {
+
+  schema: {
+    title:       { type: String, required: true },
+    body:        { type: String, required: true },
+    publishedAt: { type: Date, required: true },
+    isPublished: { type: Date, required: true, "default": false }
+  },
+
+  methods: {
+    uppercaseTitle: function () {
+      return this.title.toUpperCase();
+    }
+  },
+
+  statics: {
+    findByTitle: function (cls, title) {
+      return this.find({title: title});
+    }
+  },
+
+  before: {
+    insert: function (doc) {
+      doc.publishedAt = doc.publishedAt ? new Date(doc.publishedAt) : null;
+    }
+  },
+
+  after: {
+    insert: function () {
+    }
+  }
+});
+
+var startsWithHowTo = function (value, attr, computedState) {
+  return (/How\ to/i.test(value));
+};
+
+// Add late validation
+Posts.validate('title', startsWithHowTo, "The title must start with 'How to'");
 
 // Plugins
 // -------
@@ -23,6 +62,8 @@ var Posts = this.Posts = new Belt.Collection("posts");
 
 // Schema
 // ------
+/**
+
 Posts.schema({
   title:       { type: String, required: true },
   body:        { type: String, required: true },
@@ -30,39 +71,6 @@ Posts.schema({
   isPublished: { type: Date, required: true, "default": false }
 });
 
-var startsWithHowTo = function (value, attr, computedState) {
-  return /How\ to/i.test(value);
-};
-
-// Add late validation
-Posts.validate('title', startsWithHowTo, "The title must start with 'How to'");
-
-// Model Methods
-Posts.methods({
-  uppercaseTitle: function () {
-    return this.title.toUpperCase();
-  }
-});
-
-// Collection Methods
-Posts.statics({
-  findByTitle: function (cls, title) {
-    return this.find({title: title});
-  }
-});
-
-// Before Crud operations on Collections
-Posts.before({
-  insert: function (doc) {
-    doc.publishedAt = doc.publishedAt ? new Date(doc.publishedAt) : null;
-  }
-});
-
-// After Crud operations on Collections
-Posts.after({
-  insert: function () {
-  }
-});
 
 if (Meteor.isServer) {
   // Allow all 
@@ -79,8 +87,9 @@ if (Meteor.isServer) {
   });
 }
 
+*/
 
-// var Comments = this.Comments = new Belt.Collection("posts");
+var Comments = this.Comments = Belt.Collection.extend("comments");
 
 // Tests
 
@@ -101,14 +110,23 @@ Tinytest.add('belt - collection - Belt.Collection is Global', function (test) {
 });
 
 Tinytest.add('belt - collection - model created', function (t) {
-  var m = Posts.create(p1);
-  t.equal(m.title, p1.title);
-  t.equal(m.description, p1.description);
+
+  var p = Posts.create(p1);
+  var c = Comments.create(c1);
+
+  t.equal(p.title, p1.title);
+  t.equal(p.body, p1.body);
+
+  t.equal(c.title, c1.title);
+  t.equal(c.body, c1.body);
 });
 
 Tinytest.add('belt - collection - model methods', function (t) {
-  var m = Posts.create(p1);
-  t.equal(m.uppercaseTitle(), p1.title.toUpperCase());
+  var p = Posts.create(p1);
+  var c = Comments.create(c1);
+
+  t.equal(p.uppercaseTitle(), p1.title.toUpperCase());
+  t.equal(c.uppercaseTitle(), c1.title.toUpperCase());
 });
 
 Tinytest.add('belt - collection - restricted access', function (t) {
@@ -116,8 +134,9 @@ Tinytest.add('belt - collection - restricted access', function (t) {
 });
 
 Tinytest.addAsync('belt - collection - model save valid', function (t, onComplete) {
-
+  onComplete();
 });
 
 Tinytest.addAsync('belt - collection - model save invalid', function (t, onComplete) {
+  onComplete();
 });
