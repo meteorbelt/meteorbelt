@@ -1,174 +1,172 @@
 'use strict';
 
-var valueOrDefault = function (value, default_) {
-  if (!value && default_) {
-    return default_;
-  }
-  return value;
-};
-
 var Types = {
   'Date': {
-    cast: function (a, default_) {
-      a = valueOrDefault(a, default_);
-      return new Date(a);
+    cast: function (v) {
+      return new Date(v);
     },
-    validate: function (a, default_) {
-      a = valueOrDefault(a, default_);
+    validate: function (v) {
       // TODO: Should this allow for strings?
       // E.g. '1/1/2001' via new Date('1/1/2001');
-      return _.isDate(a);
+      return _.isDate(v);
+    },
+    message: function (v) {
+      return v + ' must be a Date';
+    }
+  },
+  'Boolean': {
+    cast: function (v) {
+      return Boolean(v);
+    },
+    validate: function (v) {
+      return _.isBoolean(v);
+    },
+    message: function (v) {
+      return v + ' must be a Boolean';
     }
   },
   'String': {
-    cast: function (a, default_) {
-      a = valueOrDefault(a, default_);
-      return String(a);
+    cast: function (v) {
+      return String(v);
     },
-    validate: function (a) {
-      return _.isString(a);
+    validate: function (v) {
+      return _.isString(v);
+    },
+    message: function (v) {
+      return v + ' must be a String';
     }
   },
   'Number': {
-    cast: function (a, default_) {
-      a = valueOrDefault(a, default_);
-      return Number(a);
+    cast: function (v) {
+      return Number(v);
     },
-    validate: function (a) {
-      return _.isNumber(a);
-    }
-  },
-  'Mixed': {
-    cast: function (a, default_) {
-      a = valueOrDefault(a, default_);
-      return a;
+    validate: function (v) {
+      return _.isNumber(v);
     },
-    validate: function (a) {
-      return true;
+    message: function (v) {
+      return v + ' must be a Number';
     }
   },
   'Array': {
-    cast: function (a, default_) {
-      a = valueOrDefault(a, default_);
-      if (_.isArray(a)) {
-        return a;
+    cast: function (v) {
+      if (_.isArray(v)) {
+        return v;
       }
-      return [a];
+      return [v];
     },
-    validate: function (a) {
-      return _.isArray(a);
+    validate: function (v) {
+      return _.isArray(v);
+    },
+    message: function (v) {
+      return v + ' must be an Array';
     }
-  }
+  },
+  // Dangerous !!! Use with caution. Input will not be validated
+  // meaning that a malicious user could put whatever they want in this type.
+  'Object': {
+    cast: function (v) {
+      return v;
+    },
+    validate: function (v) {
+      return true;
+    }
+  },
 };
 
-var getType = function (obj) {
-  // Turn:
-  //
-  //   {
-  //     attr: String,
-  //   }
-  //
-  // into:
-  //
-  //   {
-  //     atrr: {type: String},
-  //   }
-  //
-  if (obj.constructor.name !== 'Object') {
-    obj = { type: obj };
-  }
 
-  // Get the type making sure to allow keys named "type"
-  // and default to mixed if not specified.
-  // { type: { type: String, default: 'freshcut' } }
-  var type = obj.type && !obj.type.type
-    ? obj.type
-    : {};
-
-  // Object
-  if ('Object' == type.constructor.name || 'mixed' == type) {
-    //return 'Mixed';
-    var n = {};
-    _.each(obj, function (val, key) {
-      return n[key] = getType(val);
-    });
-    return n
+/**
+ * getTypeFromKey returns the type object that implements the various functions
+ * @param  {string || function} type the key to use to find the type interface
+ * @return {Type}      the type interface
+ */
+var getTypeFromKey = function (type) {
+  // We have constructors and strings
+  if (type.name) {
+    type = type.name;
   }
+  // capitalize first letter
+  var typeKey = type.charAt(0).toUpperCase() + type.substring(1);
+  if (undefined == Types[typeKey]) {
+    throw new Error('Undefined type ' + typeKey);
+  }
+  return Types[typeKey];
+};
+
+var process = function (schema, value, fn) {
 
   // Array
-  if (_.isArray(type) || Array === type || 'array' === type) {
-    // if it was specified through { type } look for `cast`
-    var cast = (Array === type || 'array' === type)
-      ? obj.cast
-      : type[0];
-    //if (cast instanceof Schema) {
-    //  return new Types.DocumentArray(path, cast, obj);
-    //}
-    if ('string' === typeof cast) {
-      cast = Types[cast.charAt(0).toUpperCase() + cast.substring(1)];
-    } else if (cast && (!cast.type || cast.type.type)
-                    && 'Object' == cast.constructor.name
-                    && Object.keys(cast).length) {
-      return new Types.DocumentArray(path, new Schema(cast), obj);
-    }
-
-    //return new Types.Array.cast(path, cast || Types.Mixed, obj);
-    return 'Array';
+  if (_.isArray(schema) || Array === schema || 'array' === schema) {
+    _.each(value, function (val, key) {
+    console.log("value[key]: ", value[key]);
+      value[key] = process(schema[0], value[key], fn);
+    });
+    return value;
   }
 
-  var name = 'string' === typeof type
-    ? type
-    : type.name;
-
-  if (name) {
-    name = name.charAt(0).toUpperCase() + name.substring(1);
+  // turn:
+  //   String,
+  //
+  // into:
+  //   {type: String},
+  //
+  if (schema.constructor.name !== 'Object') {
+    schema = { type: schema };
   }
 
-  //if (undefined == Types[name]) {
-  //  throw new Error('Undefined type at `' + path +
-  //      '`\n  Did you try nesting Schemas? ' +
-  //      'You can only nest using refs or arrays.');
-  //}
+  // If we have an object, but that object does not have a type
+  // we need to dig deeper.
+  if (! schema.type) {
+    _.each(schema, function (schemaPart, key) {
+      if (value[key]) {
+        value[key] = process(schemaPart, value[key], fn);
+      }
+    });
+    return value;
+  }
 
-  return name;
+  // populate type with value
+  return fn(schema, getTypeFromKey(schema.type), value);
+};
+
+var cast = function (schema, type, value) {
+  // Set default value
+  if (schema.default && ! value) {
+    value = schema.default;
+  }
+  return type.cast(value);
+};
+
+var _validate = function (schema, type, value) {
+  console.log("validate schema: ", schema);
+  if (schema.required && ! value) {
+    return 'is required';
+  };
+  var valid = type.validate(value);
+  if (!valid) {
+    return type.message(value);
+  }
+  return '';
 };
 
 var populate = function (schema, doc) {
-  var obj = {};
-  _.each(schema, function (val, key) {
-    var t = val.type;
-    // add defaults if empty
-    if (!doc[key] && val.default) {
-      doc[key] = val.default;
-    }
-    // cast to the proper type
-    var typ = getType(schema[key]);
-    obj[key] = Types[typ].cast(doc[key]);
-  });
-  return obj;
+  return process(schema, doc, cast);
 };
 
 var validate = function (schema, doc) {
+  return process(schema, doc, _validate);
 };
+
 
 // Schema
 // ------
 
-var Schema = function (schema, options) {
-  this.schema = schema;
-};
-
-_.extend(Schema.prototype, {
-  populate: function (doc) {
-    return populate(this.schema, doc);
-  },
-  validate: function (doc) {
-    return validate(this.schema, doc);
-  }
-});
+var Schema = Object.create(null);
 
 Schema.Types = Types;
-Schema.getType = getType;
+Schema.populate = populate;
+Schema.validate = validate;
+
+this.Schema = Schema;
 
 // Exports
 // -------
