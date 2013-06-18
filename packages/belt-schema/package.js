@@ -14,5 +14,5 @@ Package.on_test(function (api) {
   api.use('belt-schema');
   api.use('tinytest');
 
-  api.add_files('schema_tests.js', 'client');
+  api.add_files('schema_tests.js', ['client', 'server']);
 });

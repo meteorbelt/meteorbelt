@@ -11,7 +11,7 @@ var Types = {
       return _.isDate(v);
     },
     message: function (v) {
-      return v + ' must be a Date';
+      return 'must be a Date';
     }
   },
   'Boolean': {
@@ -22,7 +22,7 @@ var Types = {
       return _.isBoolean(v);
     },
     message: function (v) {
-      return v + ' must be a Boolean';
+      return 'must be a Boolean';
     }
   },
   'String': {
@@ -33,7 +33,7 @@ var Types = {
       return _.isString(v);
     },
     message: function (v) {
-      return v + ' must be a String';
+      return 'must be a String';
     }
   },
   'Number': {
@@ -44,7 +44,7 @@ var Types = {
       return _.isNumber(v);
     },
     message: function (v) {
-      return v + ' must be a Number';
+      return 'must be a Number';
     }
   },
   'Array': {
@@ -58,7 +58,7 @@ var Types = {
       return _.isArray(v);
     },
     message: function (v) {
-      return v + ' must be an Array';
+      return 'must be an Array';
     }
   },
   // Dangerous !!! Use with caution. Input will not be validated
@@ -68,9 +68,12 @@ var Types = {
       return v;
     },
     validate: function (v) {
-      return true;
+      return _.isObject(v);
+    },
+    message: function (v) {
+      return 'must be an Object';
     }
-  },
+  }
 };
 
 
@@ -92,13 +95,12 @@ var getTypeFromKey = function (type) {
   return Types[typeKey];
 };
 
-var process = function (schema, value, fn) {
+var processPopulate = function (schema, value, fn) {
 
   // Array
   if (_.isArray(schema) || Array === schema || 'array' === schema) {
     _.each(value, function (val, key) {
-    console.log("value[key]: ", value[key]);
-      value[key] = process(schema[0], value[key], fn);
+      value[key] = processPopulate(schema[0], value[key], fn);
     });
     return value;
   }
@@ -118,13 +120,63 @@ var process = function (schema, value, fn) {
   if (! schema.type) {
     _.each(schema, function (schemaPart, key) {
       if (value[key]) {
-        value[key] = process(schemaPart, value[key], fn);
+        value[key] = processPopulate(schemaPart, value[key], fn);
       }
     });
     return value;
   }
 
   // populate type with value
+  return fn(schema, getTypeFromKey(schema.type), value);
+};
+
+/**
+ * Helper function to remove empty `Objects` and attributes
+ *  
+ * @param  {Objects} errorObject contains the current errors
+ * @param  {String} key          represent the key to check
+ * @return {null}                this function modifies the errorObject
+ *                               directly so there are side effects.
+ */ 
+var removeEmptyErrors = function (errorObject, key) {
+  var k = errorObject[key];
+  // remove null errors
+  if (k === null) {
+    delete errorObject[key];
+    return;
+  }
+  // remove empty objects
+  if (k.constructor && k.constructor.name === 'Object' && _.isEmpty(k)) {
+    delete errorObject[key];
+    return;
+  }
+};
+
+var processValidate = function (schema, value, fn) {
+
+  var errors = {};
+
+  if (_.isArray(schema) || Array === schema || 'array' === schema) {
+    _.each(value, function (val, key) {
+      errors[key] = processValidate(schema[0], value[key], fn);
+      removeEmptyErrors(errors, key);
+    });
+    return errors;
+  }
+
+  if (schema.constructor.name !== 'Object') {
+    schema = { type: schema };
+  }
+
+  if (! schema.type) {
+    _.each(schema, function (schemaPart, key) {
+      var val = value ? value[key] : null;
+      errors[key] = processValidate(schemaPart, val, fn);
+      removeEmptyErrors(errors, key);
+    });
+    return errors;
+  }
+
   return fn(schema, getTypeFromKey(schema.type), value);
 };
 
@@ -137,10 +189,12 @@ var cast = function (schema, type, value) {
 };
 
 var _validate = function (schema, type, value) {
-  console.log("validate schema: ", schema);
-  if (schema.required && ! value) {
-    return 'is required';
-  };
+  if (! value) {
+    if (schema.required) {
+      return 'required';
+    }
+    return null;
+  }
   var valid = type.validate(value);
   if (!valid) {
     return type.message(value);
@@ -149,11 +203,11 @@ var _validate = function (schema, type, value) {
 };
 
 var populate = function (schema, doc) {
-  return process(schema, doc, cast);
+  return processPopulate(schema, doc, cast);
 };
 
 var validate = function (schema, doc) {
-  return process(schema, doc, _validate);
+  return processValidate(schema, doc, _validate);
 };
 
 
