@@ -76,7 +76,6 @@ var Types = {
   }
 };
 
-
 /**
  * getTypeFromKey returns the type object that implements the various functions
  * @param  {string || function} type the key to use to find the type interface
@@ -94,6 +93,29 @@ var getTypeFromKey = function (type) {
   }
   return Types[typeKey];
 };
+
+/**
+ * Helper function to remove empty `Objects` and attributes
+ *  
+ * @param  {Objects} errorObject contains the current errors
+ * @param  {String} key          represent the key to check
+ * @return {null}                this function modifies the errorObject
+ *                               directly so there are side effects.
+ */ 
+var removeEmptyErrors = function (errorObject, key) {
+  var k = errorObject[key];
+  // remove null errors
+  if (k === null) {
+    delete errorObject[key];
+    return;
+  }
+  // remove empty objects
+  if (k.constructor && k.constructor.name === 'Object' && _.isEmpty(k)) {
+    delete errorObject[key];
+    return;
+  }
+};
+
 
 var processPopulate = function (schema, value, fn) {
 
@@ -119,7 +141,9 @@ var processPopulate = function (schema, value, fn) {
   // we need to dig deeper.
   if (! schema.type) {
     _.each(schema, function (schemaPart, key) {
-      if (value[key]) {
+      // Only populate values that actually exist (value[key])
+      // or values that have a default value (schema[key])
+      if (value[key] || schema[key].default) {
         value[key] = processPopulate(schemaPart, value[key], fn);
       }
     });
@@ -128,28 +152,6 @@ var processPopulate = function (schema, value, fn) {
 
   // populate type with value
   return fn(schema, getTypeFromKey(schema.type), value);
-};
-
-/**
- * Helper function to remove empty `Objects` and attributes
- *  
- * @param  {Objects} errorObject contains the current errors
- * @param  {String} key          represent the key to check
- * @return {null}                this function modifies the errorObject
- *                               directly so there are side effects.
- */ 
-var removeEmptyErrors = function (errorObject, key) {
-  var k = errorObject[key];
-  // remove null errors
-  if (k === null) {
-    delete errorObject[key];
-    return;
-  }
-  // remove empty objects
-  if (k.constructor && k.constructor.name === 'Object' && _.isEmpty(k)) {
-    delete errorObject[key];
-    return;
-  }
 };
 
 var processValidate = function (schema, value, fn) {
@@ -183,6 +185,8 @@ var processValidate = function (schema, value, fn) {
 var cast = function (schema, type, value) {
   // Set default value
   if (schema.default && ! value) {
+    // TODO: should there be a type test here?
+    // If some one tries to set a default that is not the proper type.
     value = schema.default;
   }
   return type.cast(value);

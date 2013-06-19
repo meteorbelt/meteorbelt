@@ -1,15 +1,10 @@
-Tinytest.add('belt - schema - Belt.Schema is Global', function (test) {
-  test.isTrue(typeof Belt.Schema !== 'undefined');
-});
-
+// helpers
+var now = (new Date());
 var mustBeThree = function (value, attr, computedState) {
   if (! value === 3) {
     return 'Value must be 3';
   }
 };
-// Schemas
-// -------
-var now = (new Date());
 
 var s1 = {
   str:      String,
@@ -46,17 +41,10 @@ var s1 = {
   o_dateDate: {type: Date, required: true},
   o_arr:      {type: Array, required: true},
   o_obj:      {type: Object, required:  true},
-  // defaults
-  d_bool: {type: Boolean, default: true},
-  d_str:  {type: String, default: 'string'},
-  d_num:  {type: Number, default: 1},
-  d_arr:  {type: Array, default: ['a', 2, 'c']},
   // functions
   onlyThree:  {type: Number, fn: mustBeThree}
 };
 
-// Docs
-// ----
 var doc1 = {
   str:       'string',
   bool:      true,
@@ -97,11 +85,6 @@ var doc1 = {
   o_dateDate: new Date('1/1/2001'),
   o_arr:      [1, '2', true, now],
   o_obj:      {one: 1, two: {a: 3}},
-  // defaults
-  // d_bool: true,
-  // d_str:  'string',
-  // d_num:  1,
-  // d_arr:  ['a', 2, 'c'],
   // functions
   onlyThree: 3
 };
@@ -146,19 +129,31 @@ var out1 = {
   o_dateDate: new Date('1/1/2001'),
   o_arr:      [1, '2', true, now],
   o_obj:      {one: 1, two: {a: 3}},
-  // defaults
-  d_bool: true,
-  d_str:  'string',
-  d_num:  1,
-  d_arr:  ['a', 2, 'c'],
   // functions
   onlyThree: 3
 };
 
-// empty doc to test requires
+var s2 = {
+  bool: {type: Boolean, default: true},
+  str:  {type: String, default: 'string'},
+  num:  {type: Number, default: 1},
+  arr:  {type: Array, default: ['a', 2, 'c']},
+};
+
+// empty doc to test defaults
 var doc2 = {};
 
 var out2 = {
+  bool: true,
+  str:  'string',
+  num:  1,
+  arr:  ['a', 2, 'c'],
+};
+
+// empty doc to test requires
+var doc3 = {};
+
+var out3 = {
   o_arr:         "required",
   o_dateDate:    "required",
   o_dateStr:     "required",
@@ -169,7 +164,7 @@ var out2 = {
 };
 
 // test invalid types
-var doc3 = {
+var doc4 = {
   str:       1,
   bool:      'true',
   num:       '1',
@@ -204,7 +199,7 @@ var doc3 = {
   o_str:         1,
 };
 
-var out3 = {
+var out4 = {
   str:       'must be a String',
   bool:      'must be a Boolean',
   num:       'must be a Number', 
@@ -229,6 +224,10 @@ var out3 = {
   o_str:         "must be a String",
 };
 
+Tinytest.add('belt - schema - Belt.Schema is Global', function (test) {
+  test.isTrue(typeof Belt.Schema !== 'undefined');
+});
+
 Tinytest.add('belt - schema - populate', function (test) {
   var t = [
     {schema: s1, doc: doc1, expect: out1}
@@ -241,10 +240,23 @@ Tinytest.add('belt - schema - populate', function (test) {
   });
 });
 
+Tinytest.add('belt - schema - populate defaults', function (test) {
+  var t = [
+    {schema: s2, doc: doc2, expect: out2}
+  ];
+  _.each(t, function (el, i, list) {
+    var actual = Belt.Schema.populate(el.schema, el.doc);
+    // reverse order of each so we don't missing attributes
+    _.each(el.expect, function (val, key) {
+      test.equal(actual[key], el.expect[key], 'doc: ' + (i + 1) + ' key: ' + key);
+    });
+  });
+});
+
 Tinytest.add('belt - schema - validate', function (test) {
   var t = [
-    {schema: s1, doc: doc2, expect: out2},
-    {schema: s1, doc: doc3, expect: out3}
+    {schema: s1, doc: doc3, expect: out3},
+    {schema: s1, doc: doc4, expect: out4}
   ];
   _.each(t, function (el, i, list) {
     var actual = Belt.Schema.validate(el.schema, el.doc);
