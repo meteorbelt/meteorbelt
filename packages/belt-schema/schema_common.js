@@ -117,12 +117,12 @@ var removeEmptyErrors = function (errorObject, key) {
 };
 
 
-var processPopulate = function (schema, value, fn) {
+var _populate = function (schema, value) {
 
   // Array
   if (_.isArray(schema) || Array === schema || 'array' === schema) {
     _.each(value, function (val, key) {
-      value[key] = processPopulate(schema[0], value[key], fn);
+      value[key] = _populate(schema[0], value[key]);
     });
     return value;
   }
@@ -145,23 +145,30 @@ var processPopulate = function (schema, value, fn) {
       // or values that have a default value (schema[key])
       var defaultIsDefined = schema[key].default !== undefined;
       if (value[key] || defaultIsDefined) {
-        value[key] = processPopulate(schemaPart, value[key], fn);
+        value[key] = _populate(schemaPart, value[key]);
       }
     });
     return value;
   }
 
+  // Set default value
+  if (schema.default && ! value) {
+    // TODO: should there be a type test here?
+    // If some one tries to set a default that is not the proper type.
+    value = schema.default;
+  }
+  var type = getTypeFromKey(schema.type);
   // populate type with value
-  return fn(schema, getTypeFromKey(schema.type), value);
+  return type.cast(value);
 };
 
-var processValidate = function (schema, value, fn) {
+var _validate = function (schema, value) {
 
   var errors = {};
 
   if (_.isArray(schema) || Array === schema || 'array' === schema) {
     _.each(value, function (val, key) {
-      errors[key] = processValidate(schema[0], value[key], fn);
+      errors[key] = _validate(schema[0], value[key]);
       removeEmptyErrors(errors, key);
     });
     return errors;
@@ -174,32 +181,19 @@ var processValidate = function (schema, value, fn) {
   if (! schema.type) {
     _.each(schema, function (schemaPart, key) {
       var val = value ? value[key] : null;
-      errors[key] = processValidate(schemaPart, val, fn);
+      errors[key] = _validate(schemaPart, val);
       removeEmptyErrors(errors, key);
     });
     return errors;
   }
 
-  return fn(schema, getTypeFromKey(schema.type), value);
-};
-
-var cast = function (schema, type, value) {
-  // Set default value
-  if (schema.default && ! value) {
-    // TODO: should there be a type test here?
-    // If some one tries to set a default that is not the proper type.
-    value = schema.default;
-  }
-  return type.cast(value);
-};
-
-var _validate = function (schema, type, value) {
   if (! value) {
     if (schema.required) {
       return 'required';
     }
     return null;
   }
+  var type = getTypeFromKey(schema.type);
   var valid = type.validate(value);
   if (!valid) {
     return type.message(value);
@@ -214,7 +208,7 @@ var populate = function (schema, doc) {
   if (doc === undefined) {
     throw new Error('You must provide a doc');
   }
-  return processPopulate(schema, doc, cast);
+  return _populate(schema, doc);
 };
 
 var validate = function (schema, doc) {
@@ -224,14 +218,14 @@ var validate = function (schema, doc) {
   if (doc === undefined) {
     throw new Error('You must provide a doc');
   }
-  return processValidate(schema, doc, _validate);
+  return _validate(schema, doc);
 };
 
 
 // Schema
 // ------
 
-var Schema = Object.create(null);
+var Schema = {};
 
 Schema.Types = Types;
 Schema.populate = populate;
