@@ -134,20 +134,22 @@ var out1 = {
 };
 
 var s2 = {
-  bool: {type: Boolean, default: true},
-  str:  {type: String, default: 'string'},
-  num:  {type: Number, default: 1},
-  arr:  {type: Array, default: ['a', 2, 'c']},
+  boolt: {type: Boolean, default: true},
+  boolf: {type: Boolean, default: false},
+  str:   {type: String, default: 'string'},
+  num:   {type: Number, default: 1},
+  arr:   {type: Array, default: ['a', 2, 'c']}
 };
 
 // empty doc to test defaults
 var doc2 = {};
 
 var out2 = {
-  bool: true,
-  str:  'string',
-  num:  1,
-  arr:  ['a', 2, 'c'],
+  boolt: true,
+  boolf: false,
+  str:   'string',
+  num:   1,
+  arr:   ['a', 2, 'c']
 };
 
 // empty doc to test requires
@@ -165,14 +167,14 @@ var out3 = {
 
 // test invalid types
 var doc4 = {
-  str:       1,
-  bool:      'true',
-  num:       '1',
-  dateDate:  '1/1/2001',
-  // arrStr:    ['1', '2', '3'],
-  // arrNum:    [1, 2, 3],
-  // arrDate:   ['string', 'string', 'string'],
-  obj:       {
+  str:        1,
+  bool:       'true',
+  num:        '1',
+  dateDate:   '1/1/2001',
+  // arrStr:  ['1', '2', '3'],
+  // arrNum:  [1, 2, 3],
+  // arrDate: ['string', 'string', 'string'],
+  obj:        {
     str:       1,
     // bool:      'true',
     num:       '1',
@@ -190,13 +192,12 @@ var doc4 = {
     //   arrDate:   ['string', 'string', 'string']
     // }
   },
-  o_arr:         "string",
-  o_dateDate:    "string",
-  o_dateStr:     1,
-  o_num:         "string",
-  o_numStr:      "string",
-  o_obj:         "string",
-  o_str:         1,
+  // Correct values this time
+  o_arr:         ["a", 'b', "c"],
+  o_dateDate:    now,
+  o_num:         1,
+  o_obj:         {},
+  o_str:         'string',
 };
 
 var out4 = {
@@ -215,13 +216,8 @@ var out4 = {
     num:       'must be a Number', 
     dateDate:  'must be a Date',
   },
-  o_arr:         "must be an Array",
-  o_dateDate:    "must be a Date",
-  o_dateStr:     "must be a Date",
-  o_num:         "must be a Number",
-  o_numStr:      "must be a Number",
-  o_obj:         "must be an Object",
-  o_str:         "must be a String",
+  o_dateStr:     "required",
+  o_numStr:      "required",
 };
 
 Tinytest.add('belt - schema - Belt.Schema is Global', function (test) {
@@ -237,6 +233,8 @@ Tinytest.add('belt - schema - populate', function (test) {
     _.each(actual, function (val, key) {
       test.equal(actual[key], el.expect[key], 'doc: ' + (i + 1) + ' key: ' + key);
     });
+    // Sanity Check -- make sure that our test isn't omitting anything
+    test.equal(actual, el.expect);
   });
 });
 
@@ -250,6 +248,8 @@ Tinytest.add('belt - schema - populate defaults', function (test) {
     _.each(el.expect, function (val, key) {
       test.equal(actual[key], el.expect[key], 'doc: ' + (i + 1) + ' key: ' + key);
     });
+    // Sanity Check -- make sure that our test isn't omitting anything
+    test.equal(actual, el.expect);
   });
 });
 
@@ -263,5 +263,7 @@ Tinytest.add('belt - schema - validate', function (test) {
     _.each(actual, function (val, key) {
       test.equal(actual[key], el.expect[key], 'doc: ' + (i + 1) + ' key: ' + key);
     });
+    // Sanity Check -- make sure that our test isn't omitting anything
+    test.equal(actual, el.expect);
   });
 });

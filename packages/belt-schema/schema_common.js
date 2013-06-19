@@ -143,7 +143,8 @@ var processPopulate = function (schema, value, fn) {
     _.each(schema, function (schemaPart, key) {
       // Only populate values that actually exist (value[key])
       // or values that have a default value (schema[key])
-      if (value[key] || schema[key].default) {
+      var defaultIsDefined = schema[key].default !== undefined;
+      if (value[key] || defaultIsDefined) {
         value[key] = processPopulate(schemaPart, value[key], fn);
       }
     });
@@ -203,14 +204,26 @@ var _validate = function (schema, type, value) {
   if (!valid) {
     return type.message(value);
   }
-  return '';
+  return null;
 };
 
 var populate = function (schema, doc) {
+  if (schema === undefined) {
+    throw new Error('You must provide a schema');
+  }
+  if (doc === undefined) {
+    throw new Error('You must provide a doc');
+  }
   return processPopulate(schema, doc, cast);
 };
 
 var validate = function (schema, doc) {
+  if (schema === undefined) {
+    throw new Error('You must provide a schema');
+  }
+  if (doc === undefined) {
+    throw new Error('You must provide a doc');
+  }
   return processValidate(schema, doc, _validate);
 };
 
