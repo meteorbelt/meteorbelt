@@ -1,16 +1,3 @@
-var PRINT_LOGS = true;
-// var PRINT_LOGS = false;
-
-var cl = function (msg) {
-  if (PRINT_LOGS) {
-    console.log(msg);
-  }
-};
-
-// Instantiate
-// -----------
-// var Posts = this.Posts = Belt.Model.extend("posts");
-
 
 var Posts = this.Posts = Belt.Model.extend("posts", {
 
@@ -63,14 +50,6 @@ var Posts = this.Posts = Belt.Model.extend("posts", {
 // Schema
 // ------
 /**
-
-Posts.schema({
-  title:       { type: String, required: true },
-  body:        { type: String, required: true },
-  publishedAt: { type: Date, required: true },
-  isPublished: { type: Date, required: true, "default": false }
-});
-
 
 if (Meteor.isServer) {
   // Allow all 
