@@ -32,25 +32,6 @@ var Posts = this.Posts = Belt.Model.extend("posts", {
   }
 });
 
-// Add late validation
-// var startsWithHowTo = function (value, attr, computedState) {
-//   return (/How\ to/i.test(value));
-// };
-
-// Posts.validate('title', startsWithHowTo, "The title must start with 'How to'");
-
-// Plugins
-// -------
-// Posts.plugin(Belt.Plugins.createdAt);
-// Posts.plugin(Belt.Plugins.updatedAt);
-// Posts.plugin(Belt.Plugins.slug, { required: true, attr: "title" });
-// Posts.plugin(Belt.Plugins.owner, { required: true });
-// Posts.plugin(Belt.Plugins.tags);
-
-// Schema
-// ------
-/**
-
 if (Meteor.isServer) {
   // Allow all 
   Posts.allow({
@@ -66,11 +47,11 @@ if (Meteor.isServer) {
   });
 }
 
-*/
-
 var Comments = this.Comments = Belt.Model.extend("comments");
 
-// Tests
+///////////
+// Tests //
+///////////
 
 // Docs
 
@@ -131,6 +112,19 @@ Tinytest.add('belt - model - model methods', function (t) {
 
   t.equal(p.uppercaseTitle(), p1.title.toUpperCase());
   t.equal(c.uppercaseTitle(), c1.title.toUpperCase());
+});
+
+Tinytest.add('belt - model - collection methods', function (t) {
+  var collMethods = [
+    "insert",
+    "update",
+    "remove",
+    "allow",
+    "deny"
+  ];
+  _.each(collMethods, function (val) {
+    t.isTrue(typeof Posts[val] === 'function'); 
+  });
 });
 
 Tinytest.add('belt - model - restricted access', function (t) {

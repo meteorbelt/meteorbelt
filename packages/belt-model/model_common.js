@@ -57,6 +57,18 @@ var Model = {
         obj[key](val);
       });
     }
+    // Collection methods
+    var collMethods = [
+      "insert",
+      "update",
+      "remove",
+      "allow",
+      "deny"
+    ];
+    _.each(collMethods, function (val) {
+      console.log("val: ", val);
+      obj[val] = obj._collection[val];
+    });
     return obj;
   },
 
@@ -90,14 +102,6 @@ var Model = {
       methods[h] = methodMap[h];
     }
     this._methods = methods;
-  },
-
-  allow: function (obj) {
-    this._collection.allow(obj);
-  },
-
-  deny: function (obj) {
-    this._collection.deny(obj);
   },
 
   validate: function (path, fn, errorMsg) {
