@@ -18,7 +18,7 @@ var Posts = this.Posts = Belt.Model.extend("posts", {
     title:       { type: String, required: true },
     body:        { type: String, required: true },
     publishedAt: { type: Date, required: true },
-    isPublished: { type: Date, required: true, "default": false }
+    isPublished: { type: Boolean, default: false }
   },
 
   methods: {
@@ -45,12 +45,12 @@ var Posts = this.Posts = Belt.Model.extend("posts", {
   }
 });
 
-var startsWithHowTo = function (value, attr, computedState) {
-  return (/How\ to/i.test(value));
-};
-
 // Add late validation
-Posts.validate('title', startsWithHowTo, "The title must start with 'How to'");
+// var startsWithHowTo = function (value, attr, computedState) {
+//   return (/How\ to/i.test(value));
+// };
+
+// Posts.validate('title', startsWithHowTo, "The title must start with 'How to'");
 
 // Plugins
 // -------
@@ -95,12 +95,12 @@ var Comments = this.Comments = Belt.Model.extend("comments");
 
 // Docs
 
-var p1 = this.p1 = {
+var p1 = {
   title: "Hello World",
-  body: "Post Body"
+  body: "Post Body",
 };
 
-var c1 = this.c1 = {
+var c1 = {
   title: "Original?",
   body: "Comment Body"
 };
@@ -119,6 +119,31 @@ Tinytest.add('belt - model - model created', function (t) {
 
   t.equal(c.title, c1.title);
   t.equal(c.body, c1.body);
+
+  // Test defaults
+  t.equal(p.isPublished, false);
+  // should be undefined
+  t.equal(p.publishedAt, undefined);
+
+});
+
+Tinytest.add('belt - model - BaseModel validate', function (t) {
+  var now = (new Date())
+  var p = Posts.create(p1);
+  // valid
+  p.publishedAt = now;
+  t.equal(p.validate(), {});
+  // invalid
+  p.title = 42;
+  p.description = now;
+  p.isPublished = 'yes please';
+  p.publishedAt = 'hello';
+  var error = {
+    title: "must be a String",
+    publishedAt: "must be a Date",
+    isPublished: "must be a Boolean"
+  };
+  t.equal(p.validate(), error);
 });
 
 Tinytest.add('belt - model - model methods', function (t) {

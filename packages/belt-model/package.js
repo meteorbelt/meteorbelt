@@ -4,7 +4,7 @@ Package.describe({
 
 Package.on_use(function (api, where) {
   api.use('belt');
-  api.use('belt-validation');
+  api.use('belt-schema');
   api.use('underscore');
   api.add_files('model_common.js', ['client', 'server']);
 });

@@ -1,6 +1,29 @@
 // Collection
 // ----------
 
+var BaseModel = {
+
+  // added by creator
+  _collection: null,
+
+  validate: function () {
+    return Belt.Schema.validate(this._collection._schema, this.toObject());
+  },
+
+  toObject: function () {
+    // remove some properties
+    var remove = ['_collection'];
+    var doc = _.omit(this, remove);
+    // remove all functions
+    _.each(doc, function (v, k) {
+      if(typeof v === 'function') {
+        delete doc[k];
+      }
+    });
+    return doc;
+  }
+};
+
 var Model = {
 
   /**
@@ -10,8 +33,11 @@ var Model = {
 
   _collection: null,
 
+  _baseModel: BaseModel,
+
   _methods: {},
   _schema: {},
+
 
   // Model: Model,
 
@@ -30,13 +56,16 @@ var Model = {
       _.each(_.pick(attrs, safeMethods), function (val, key) {
         obj[key](val);
       });
-    };
+    }
     return obj;
   },
 
   create: function (doc) {
+    // populate the doc this will fill in missing values with defaults
+    // and convert things to their proper types.
+    var doc = Belt.Schema.populate(this._schema, doc);
     var m = Object.create(doc);
-    _.extend(m, this._methods);
+    _.extend(m, this._baseModel, this._methods);
     m._collection = this;
     return m;
   },
