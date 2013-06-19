@@ -253,6 +253,17 @@ Tinytest.add('belt - schema - populate defaults', function (test) {
   });
 });
 
+Tinytest.add("belt - schema - validate no error", function (test) {
+  // no errors should return null
+  var s = {
+    str: String
+  } 
+  var d = {
+    str: 'hello'
+  }
+  test.equal(Belt.Schema.validate(s, d), null);
+});
+
 Tinytest.add('belt - schema - validate', function (test) {
   var t = [
     {schema: s1, doc: doc3, expect: out3},

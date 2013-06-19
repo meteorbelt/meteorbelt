@@ -218,7 +218,9 @@ var validate = function (schema, doc) {
   if (doc === undefined) {
     throw new Error('You must provide a doc');
   }
-  return _validate(schema, doc);
+  // return null there are no errors
+  var v = _validate(schema, doc);
+  return _.isEmpty(v) ? null : v;
 };
 
 
