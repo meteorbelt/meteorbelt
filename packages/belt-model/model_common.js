@@ -4,24 +4,71 @@
 var BaseModel = {
 
   // added by creator
+  /**
+   * a reference to the parent collection
+   * @type {Belt.Model}
+   */
   _collection: null,
 
-  validate: function () {
-    return Belt.Schema.validate(this._collection._schema, this.toObject());
-  },
-
+  /**
+   * strips unnecessary properties and methods
+   * @return {Object}
+   */
   toObject: function () {
     // remove some properties
     var remove = ['_collection'];
     var doc = _.omit(this, remove);
     // remove all functions
-    _.each(doc, function (v, k) {
-      if(typeof v === 'function') {
-        delete doc[k];
-      }
-    });
+    // _.each(doc, function (v, k) {
+    //   if(typeof v === 'function') {
+    //     delete doc[k];
+    //   }
+    // });
     return doc;
+  },
+
+  /**
+   * validate the model against the schema
+   * @return {Object} the error Object is a one to one mapping of the doc
+   *         E.g.
+   *           doc:
+   *           {
+   *             str: true, // should be of type String
+   *             num: 42    // no error
+   *           }
+   *           result:
+   *           {
+   *             str: 'should be String'
+   *           }
+   * 
+   *         num is omitted because there was no error.
+   */
+  validate: function () {
+    return Belt.Schema.validate(this._collection._schema, this.toObject());
+  },
+
+  save: function (fn) {
+    var self = this;
+    var err = self.validate();
+    if (err) {
+      // send a validation error to the callback
+      //throw new meteor.error(401, err);
+      var e = {
+        error: 401,
+        reason: "Validation Error",
+        details: err
+      };
+      fn(e, null);
+      return null;
+    }
+    var o = self.toObject();
+    // var o = self;
+    if (self._id) {
+      return self._collection.update({_id: o._id}, {$set: o}, fn);
+    }
+    return self._collection.insert(o, fn);
   }
+
 };
 
 var Model = {
@@ -31,6 +78,14 @@ var Model = {
    * @type {Meteor.Collection}
    */
 
+  _processors: {
+    find:    { before: [], after: [] },
+    findOne: { before: [], after: [] },
+    insert:  { before: [], after: [] },
+    update:  { before: [], after: [] },
+    remove:  { before: [], after: [] }
+  },
+
   _collection: null,
 
   _baseModel: BaseModel,
@@ -38,44 +93,49 @@ var Model = {
   _methods: {},
   _schema: {},
 
-
-  // Model: Model,
-
   extend: function (name, attrs) {
-    var obj = Object.create(this);
+
+    var self = this;
+    var obj = Object.create(self);
+
+    // set default values
+    obj._collection = null;
+    obj._baseModel = BaseModel;
+    obj._schema = {};
     obj._collection = new Meteor.Collection(name);
-    // Add the attributes:
-    // - schema
-    // - methods
-    // - statics
-    // - before
-    // - after
-    // if presents
+
+    // added attributes from passed in object
     if (attrs instanceof Object) {
-      var safeMethods = ["schema", "methods", "statics", "before", "after"];
+      var safeMethods = ["schema", "methods", "statics"];
       _.each(_.pick(attrs, safeMethods), function (val, key) {
         obj[key](val);
       });
     }
-    // Collection methods
-    var collMethods = [
+
+    // add Meteor.Collection methods
+    var sharedMethods = [
+      "find",
+      "findOne",
       "insert",
       "update",
       "remove",
       "allow",
-      "deny"
+      "deny",
+      "before",
+      "after"
     ];
-    _.each(collMethods, function (val) {
-      console.log("val: ", val);
-      obj[val] = obj._collection[val];
+    _.each(sharedMethods, function (method) {
+      obj[method] = function (/* arguments */) {
+        obj._collection[method].apply(obj._collection, arguments);
+      };
     });
     return obj;
   },
 
   create: function (doc) {
-    // populate the doc this will fill in missing values with defaults
+    // Populate the doc. This will fill in missing values with defaults
     // and convert things to their proper types.
-    var doc = Belt.Schema.populate(this._schema, doc);
+    doc = Belt.Schema.populate(this._schema, doc || {});
     var m = Object.create(doc);
     _.extend(m, this._baseModel, this._methods);
     m._collection = this;
@@ -96,35 +156,10 @@ var Model = {
   },
 
   // model methods
-  methods: function (methodMap) {
-    var methods = (this._methods = (this._methods || {}));
-    for (var h in methodMap) {
-      methods[h] = methodMap[h];
-    }
-    this._methods = methods;
-  },
-
-  validate: function (path, fn, errorMsg) {
-    if (fn(this[path])) {
-      return;
-    }
-    return errorMsg;
-  },
-
-  // pre defines functions that should be run prior to operational calls
-  // obj:
-  //   {
-  //     insert: function (userId, doc) {},
-  //     update: function (userId, doc) {},
-  //     delete: function (userId, doc) {},
-  //   }
-  before: function (obj) {
-    return obj;
-  },
-
-  after: function (obj) {
-    return obj;
+  methods: function (obj) {
+    _.extend(this._baseModel, obj);
   }
+
 };
 
 // Exports

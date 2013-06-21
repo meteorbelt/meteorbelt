@@ -5,7 +5,8 @@ var Posts = this.Posts = Belt.Model.extend("posts", {
     title:       { type: String, required: true },
     body:        { type: String, required: true },
     publishedAt: { type: Date, required: true },
-    isPublished: { type: Boolean, default: false }
+    isPublished: { type: Boolean, default: false },
+    loudTitle:   String
   },
 
   methods: {
@@ -15,14 +16,17 @@ var Posts = this.Posts = Belt.Model.extend("posts", {
   },
 
   statics: {
-    findByTitle: function (cls, title) {
+    findByTitle: function (title) {
       return this.find({title: title});
     }
   },
 
   before: {
-    insert: function (doc) {
-      doc.publishedAt = doc.publishedAt ? new Date(doc.publishedAt) : null;
+    insert: function (doc, user) {
+      console.log("doc: ", doc);
+      // doc.loudTitle = doc.uppercaseTitle();
+      doc.loudTitle = doc.title.toUpperCase();
+      // doc.publishedAt = doc.publishedAt ? new Date(doc.publishedAt) : null;
     }
   },
 
@@ -47,7 +51,22 @@ if (Meteor.isServer) {
   });
 }
 
+// Posts.before({
+//   insert: function (doc, user) {
+//     console.log("doc: ", doc);
+//     // doc.loudTitle = doc.uppercaseTitle();
+//     doc.loudTitle = doc.title.toUpperCase();
+//     // doc.publishedAt = doc.publishedAt ? new Date(doc.publishedAt) : null;
+//   }
+// });
+
 var Comments = this.Comments = Belt.Model.extend("comments");
+
+
+Comments.schema({
+  owner:       { type: String, required: true },
+  body:        { type: String, required: true }
+});
 
 ///////////
 // Tests //
@@ -57,7 +76,7 @@ var Comments = this.Comments = Belt.Model.extend("comments");
 
 var p1 = {
   title: "Hello World",
-  body: "Post Body",
+  body: "Post Body"
 };
 
 var c1 = {
@@ -92,7 +111,7 @@ Tinytest.add('belt - model - BaseModel validate', function (t) {
   var p = Posts.create(p1);
   // valid
   p.publishedAt = now;
-  t.equal(p.validate(), {});
+  t.equal(p.validate(), null);
   // invalid
   p.title = 42;
   p.description = now;
@@ -119,11 +138,80 @@ Tinytest.add('belt - model - collection methods', function (t) {
     "insert",
     "update",
     "remove",
-    "allow",
-    "deny"
   ];
   _.each(collMethods, function (val) {
     t.isTrue(typeof Posts[val] === 'function'); 
+  });
+  if (Meteor.isServer) {
+    t.isTrue(typeof Posts.allow === 'function'); 
+    t.isTrue(typeof Posts.deny === 'function'); 
+  }
+});
+
+Tinytest.addAsync('belt - model - save invalid', function (t, onComplete) {
+  var p = Posts.create(p1);
+  p.save(function (err, id) {
+    var errMsg = {
+      error: 401,
+      reason: 'Validation Error',
+      details: {
+        publishedAt: 'required'
+      }
+    };
+    t.equal(err, errMsg);
+    onComplete();
+  });
+});
+
+Tinytest.addAsync('belt - model - save valid', function (t, onComplete) {
+  var p = Posts.create(p1);
+  p.publishedAt = new Date();
+  p.save(function (err, id) {
+    // TODO: this return value should the same for client and server. File a bug.
+    if (Meteor.isServer) {
+      t.equal(err, null);
+    } else {
+      t.equal(err, undefined);
+    }
+    t.isTrue(id && id.length);
+    onComplete();
+  });
+});
+
+// this is outside the test to avoid "test" is already defined error
+// when the code twice (once on the server once on the client)
+var M = Belt.Model.extend("test");
+
+Tinytest.addAsync('belt - model - before after', function (t, onComplete) {
+
+  M.schema({
+    initial:      Number,
+    beforeInsert: Number,
+    afterInsert:  Number
+  });
+
+  M.before({
+    insert: function (doc) {
+      console.log("before insert called");
+      doc.beforeInsert = +(new Date());
+    }
+  });
+
+  M.after({
+    insert: function (doc) {
+      console.log("after insert called");
+      doc.afterInsert = +(new Date());
+    }
+  });
+
+  var m = M.create({initial: +(new Date())});
+
+  m.save(function (err, id) {
+    console.log("m: ", m);
+    m = M.find().fetch();
+    console.log("m: ", m);
+    t.isTrue(m.initial < m.beforeInsert < m.afterInsert);
+    onComplete();
   });
 });
 
@@ -131,10 +219,3 @@ Tinytest.add('belt - model - restricted access', function (t) {
 
 });
 
-Tinytest.addAsync('belt - model - model save valid', function (t, onComplete) {
-  onComplete();
-});
-
-Tinytest.addAsync('belt - model - model save invalid', function (t, onComplete) {
-  onComplete();
-});

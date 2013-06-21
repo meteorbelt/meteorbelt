@@ -13,5 +13,5 @@ Package.on_test(function (api) {
   api.use('belt-model');
   api.use('tinytest');
 
-  api.add_files('model_tests.js', ['client']);
+  api.add_files('model_tests.js', ['client', 'server']);
 });
