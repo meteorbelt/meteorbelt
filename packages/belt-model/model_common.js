@@ -1,7 +1,11 @@
 // Collection
 // ----------
 
-var BaseModel = {
+var BaseModel = function (doc) {
+  _.extend(this, doc);
+};
+
+_.extend(BaseModel.prototype, {
 
   // added by creator
   /**
@@ -68,15 +72,56 @@ var BaseModel = {
     }
     return self._collection.insert(o, fn);
   }
+});
 
+var Model = function (name, attrs) {
+  var self = this;
+
+  // set default values
+  self._collection = null;
+  self._baseModel = BaseModel;
+  self._schema = {};
+  console.log("name: ", name);
+  self._collection = new Meteor.Collection(name);
+
+  // added attributes from passed in object
+  if (attrs instanceof Object) {
+    var safeMethods = ["schema", "methods", "statics"];
+    _.each(_.pick(attrs, safeMethods), function (val, key) {
+      self[key](val);
+    });
+  }
+
+  // add Meteor.Collection methods
+  var sharedMethods = [
+    "find",
+    "findOne",
+    "insert",
+    "update",
+    "remove",
+    "allow",
+    "deny",
+    "before",
+    "after"
+  ];
+  _.each(sharedMethods, function (method) {
+    self[method] = function (/* arguments */) {
+      self._collection[method].apply(self._collection, arguments);
+    };
+  });
 };
 
-var Model = {
-
+_.extend(Model.prototype, {
   /**
    * _collection is the associated `Meteor.Collection` instance
    * @type {Meteor.Collection}
    */
+  _collection: null,
+
+  BaseModel: BaseModel,
+
+  _methods: {},
+  _schema: {},
 
   _processors: {
     find:    { before: [], after: [] },
@@ -86,58 +131,12 @@ var Model = {
     remove:  { before: [], after: [] }
   },
 
-  _collection: null,
-
-  _baseModel: BaseModel,
-
-  _methods: {},
-  _schema: {},
-
-  extend: function (name, attrs) {
-
-    var self = this;
-    var obj = Object.create(self);
-
-    // set default values
-    obj._collection = null;
-    obj._baseModel = BaseModel;
-    obj._schema = {};
-    obj._collection = new Meteor.Collection(name);
-
-    // added attributes from passed in object
-    if (attrs instanceof Object) {
-      var safeMethods = ["schema", "methods", "statics"];
-      _.each(_.pick(attrs, safeMethods), function (val, key) {
-        obj[key](val);
-      });
-    }
-
-    // add Meteor.Collection methods
-    var sharedMethods = [
-      "find",
-      "findOne",
-      "insert",
-      "update",
-      "remove",
-      "allow",
-      "deny",
-      "before",
-      "after"
-    ];
-    _.each(sharedMethods, function (method) {
-      obj[method] = function (/* arguments */) {
-        obj._collection[method].apply(obj._collection, arguments);
-      };
-    });
-    return obj;
-  },
-
   create: function (doc) {
     // Populate the doc. This will fill in missing values with defaults
     // and convert things to their proper types.
     doc = Belt.Schema.populate(this._schema, doc || {});
-    var m = Object.create(doc);
-    _.extend(m, this._baseModel, this._methods);
+    var m = new BaseModel(doc);
+    _.extend(m, this.BaseModel, this._methods);
     m._collection = this;
     return m;
   },
@@ -157,10 +156,10 @@ var Model = {
 
   // model methods
   methods: function (obj) {
-    _.extend(this._baseModel, obj);
+    _.extend(this.BaseModel, obj);
   }
+});
 
-};
 
 // Exports
 // -------
