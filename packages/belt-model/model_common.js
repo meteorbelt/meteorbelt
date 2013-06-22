@@ -114,68 +114,21 @@ _.extend(BaseModel.prototype, {
   }
 });
 
-var Model = function (name, attrs) {
-  var self = this;
-
-  // set default values
-  self._mc = null;
-  self._baseModel = BaseModel;
-  self._schema = {};
-  self._methods = {};
-  self._processors = {
-    find:    { before: [], after: [] },
-    findOne: { before: [], after: [] },
-    insert:  { before: [], after: [] },
-    update:  { before: [], after: [] },
-    save:    { before: [], after: [] },
-    remove:  { before: [], after: [] }
-  };
-
-  self._mc = new Meteor.Collection(name, {
-    transform: function (doc) {
-      return self.create(doc);
-    }
-  });
-
-  // added attributes from passed in object
-  if (attrs instanceof Object) {
-    var safeMethods = ["schema", "methods", "statics", "before", "after"];
-    _.each(_.pick(attrs, safeMethods), function (val, key) {
-      self[key](val);
-    });
-  }
-
-  // add Meteor.Collection methods
-  var sharedMethods = [
-    "find",
-    "findOne",
-    // "insert",
-    // "update",
-    "remove",
-    "allow",
-    "deny"
-  ];
-  _.each(sharedMethods, function (method) {
-    self[method] = function (/* arguments */) {
-      return self._mc[method].apply(self._mc, arguments);
-    };
-  });
-};
-
-_.extend(Model.prototype, {
-  // Private DONT USE these they may change without warning.
-
-  /**
-   * _collection is the associated `Meteor.Collection` instance
-   * @type {Meteor.Collection}
-   */
-  _mc: null,
+_.extend(Meteor.Collection.prototype, {
 
   BaseModel: BaseModel,
 
   _methods: {},
   _schema: {},
 
+  _processors: {
+    find:    { before: [], after: [] },
+    findOne: { before: [], after: [] },
+    insert:  { before: [], after: [] },
+    update:  { before: [], after: [] },
+    save:    { before: [], after: [] },
+    remove:  { before: [], after: [] }
+  },
 
   // Public
   // ------
@@ -192,12 +145,15 @@ _.extend(Model.prototype, {
   },
 
   create: function (doc) {
+    var self = this;
     // Populate the doc. This will fill in missing values with defaults
     // and convert things to their proper types.
     doc = Belt.Schema.populate(this._schema, doc || {});
-    var m = new BaseModel(doc);
-    _.extend(m, this.BaseModel, this._methods);
+
+    var m = new BaseModel();
     m._collection = this;
+    m.populate(doc);
+    _.extend(m, this.BaseModel, this._methods);
     return m;
   },
 
@@ -214,7 +170,7 @@ _.extend(Model.prototype, {
         cb(err, null);
         return null;
       }
-      var id = self._mc.insert.apply(self._mc, arguments);
+      var id = self.insert.apply(self, arguments);
       // process after functions
       delegate.call(self, 'after', 'insert', id && self.findOne({_id: id}) || doc, cb);
     }
@@ -300,13 +256,76 @@ _.extend(Model.prototype, {
 
   schema: function (obj) {
     _.extend(this._schema, obj);
+    console.log("schema: ", this._schema);
+    console.log("this: ", this);
   },
 
   // model methods
   methods: function (obj) {
-    _.extend(this.BaseModel, obj);
+    console.log("methods this: ", this);
+    _.extend(this._baseModel, obj);
   }
 });
+
+var Model = function (name, attrs) {
+  var self = this;
+
+  // set default values
+  self._mc = null;
+  self._baseModel = BaseModel;
+  self._schema = {};
+  self._methods = {};
+
+  self._processors = {
+    find:    { before: [], after: [] },
+    findOne: { before: [], after: [] },
+    insert:  { before: [], after: [] },
+    update:  { before: [], after: [] },
+    save:    { before: [], after: [] },
+    remove:  { before: [], after: [] }
+  };
+
+  // console.log("schema - constructor: ", self._schema);
+  self._mc = new Meteor.Collection(name, {
+    transform: function (doc) {
+      return self.create(doc);
+    }
+  });
+
+  // add Meteor.Collection methods
+  var sharedMethods = [
+    "find",
+    "findOne",
+    "insert",
+    "update",
+    "remove",
+    "before",
+    "after",
+    "schema",
+    "statics",
+    "methods",
+    "validate",
+    "create",
+    "save",
+    "allow",
+    "deny"
+  ];
+  _.each(sharedMethods, function (method) {
+    self[method] = function (/* arguments */) {
+      return self._mc[method].apply(self, arguments);
+    };
+  });
+
+  // added attributes from passed in object
+  if (attrs instanceof Object) {
+    var safeMethods = ["schema", "methods", "statics", "before", "after"];
+    _.each(_.pick(attrs, safeMethods), function (obj, method) {
+      self[method].call(self, obj);
+    });
+  }
+  // console.log("schema - constructor - buttom: ", self._schema);
+};
+
 
 if (Meteor.isServer) {
   var _validatedInsert = Meteor.Collection.prototype._validatedInsert;
@@ -368,7 +387,7 @@ if (Meteor.isServer) {
 }
 
 _.each(['before', 'after'], function (process) {
-  Model.prototype[process] = function (obj) {
+  Meteor.Collection.prototype[process] = function (obj) {
     var self = this;
     _.each(obj, function (cb, method) {
       if (typeof cb !== 'function') {
