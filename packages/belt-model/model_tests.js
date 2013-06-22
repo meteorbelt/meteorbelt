@@ -1,5 +1,5 @@
 
-var Posts = this.Posts = Belt.Model.extend("posts", {
+var Posts = this.Posts = new Belt.Model("posts", {
 
   schema: {
     title:       { type: String, required: true },
@@ -23,7 +23,6 @@ var Posts = this.Posts = Belt.Model.extend("posts", {
 
   before: {
     insert: function (doc, user) {
-      console.log("doc: ", doc);
       // doc.loudTitle = doc.uppercaseTitle();
       doc.loudTitle = doc.title.toUpperCase();
       // doc.publishedAt = doc.publishedAt ? new Date(doc.publishedAt) : null;
@@ -60,7 +59,7 @@ if (Meteor.isServer) {
 //   }
 // });
 
-var Comments = this.Comments = Belt.Model.extend("comments");
+var Comments = this.Comments = new Belt.Model("comments");
 
 
 Comments.schema({
@@ -76,7 +75,14 @@ Comments.schema({
 
 var p1 = {
   title: "Hello World",
-  body: "Post Body"
+  body: "Post Body",
+  publishedAt: '1/1/2001'
+};
+
+// incomplete
+var p2 = {
+  title: "Hello World",
+  body: "Post Body",
 };
 
 var c1 = {
@@ -95,14 +101,14 @@ Tinytest.add('belt - model - model created', function (t) {
 
   t.equal(p.title, p1.title);
   t.equal(p.body, p1.body);
+  // check conversion to type
+  t.equal(p.publishedAt, new Date('1/1/2001'));
 
   t.equal(c.title, c1.title);
   t.equal(c.body, c1.body);
 
   // Test defaults
   t.equal(p.isPublished, false);
-  // should be undefined
-  t.equal(p.publishedAt, undefined);
 
 });
 
@@ -110,19 +116,18 @@ Tinytest.add('belt - model - BaseModel validate', function (t) {
   var now = (new Date())
   var p = Posts.create(p1);
   // valid
-  p.publishedAt = now;
   t.equal(p.validate(), null);
   // invalid
   p.title = 42;
   p.description = now;
   p.isPublished = 'yes please';
   p.publishedAt = 'hello';
-  var error = {
+  var err = {
     title: "must be a String",
     publishedAt: "must be a Date",
     isPublished: "must be a Boolean"
   };
-  t.equal(p.validate(), error);
+  t.equal(p.validate(), err);
 });
 
 Tinytest.add('belt - model - model methods', function (t) {
@@ -149,7 +154,7 @@ Tinytest.add('belt - model - collection methods', function (t) {
 });
 
 Tinytest.addAsync('belt - model - save invalid', function (t, onComplete) {
-  var p = Posts.create(p1);
+  var p = Posts.create(p2);
   p.save(function (err, id) {
     var errMsg = {
       error: 401,
@@ -180,7 +185,7 @@ Tinytest.addAsync('belt - model - save valid', function (t, onComplete) {
 
 // this is outside the test to avoid "test" is already defined error
 // when the code twice (once on the server once on the client)
-var M = Belt.Model.extend("test");
+var M = new Belt.Model("test");
 
 Tinytest.addAsync('belt - model - before after', function (t, onComplete) {
 
@@ -192,27 +197,37 @@ Tinytest.addAsync('belt - model - before after', function (t, onComplete) {
 
   M.before({
     insert: function (doc) {
-      console.log("before insert called");
       doc.beforeInsert = +(new Date());
     }
   });
 
   M.after({
     insert: function (doc) {
-      console.log("after insert called");
       doc.afterInsert = +(new Date());
     }
   });
 
   var m = M.create({initial: +(new Date())});
 
-  m.save(function (err, id) {
-    console.log("m: ", m);
-    m = M.find().fetch();
-    console.log("m: ", m);
-    t.isTrue(m.initial < m.beforeInsert < m.afterInsert);
+  if (Meteor.isServer) {
+    debugger;
+    M._mc.insert(m, function (err, id) {
+      console.log("err: ", err);
+      var mm = M.find(id).fetch();
+      t.isTrue(mm.initial <= mm.beforeInsert <= mm.afterInsert);
+      onComplete();
+    });
+  } else {
     onComplete();
-  });
+  }
+
+  // m.save(function (err, id) {
+  //   console.log("m: ", m);
+  //   // m = M.find().fetch();
+  //   // console.log("m: ", m);
+  //   t.isTrue(m.initial < m.beforeInsert < m.afterInsert);
+  //   onComplete();
+  // });
 });
 
 Tinytest.add('belt - model - restricted access', function (t) {
