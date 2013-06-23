@@ -89,6 +89,7 @@
                         "Meteor",
                         "Session",
                         "Template",
+                        "Package",
                         "Tinytest",
                         "Handlebars",
                         "Belt"
