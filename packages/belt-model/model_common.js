@@ -1,6 +1,7 @@
 var Model = function (doc, schema) {
   if (schema) {
     this._schema = schema;
+    this.populate(doc);
   }
   _.extend(this, doc);
 };
