@@ -10,7 +10,6 @@ Tinytest.addAsync("belt - collection - processors - before insert", function (te
 
   test.equal(Collection.find({a: 1}).count(), 0);
 
-  console.log("Collection: ", Collection);
   Collection.before({
     insert: function (userId, doc) {
       test.equal(Collection.find({a: 1}).count(), 0);

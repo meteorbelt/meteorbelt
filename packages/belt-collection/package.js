@@ -4,6 +4,7 @@ Package.describe({
 
 Package.on_use(function (api, where) {
   api.use('belt');
+  api.use('belt-model');
   api.use('underscore');
   api.add_files('collection_common.js', ['client', 'server']);
 });
@@ -14,5 +15,5 @@ Package.on_test(function (api) {
 
   api.add_files([
     'collection_tests.js',
-    'collection_processor_tests.js'], ['client', 'server']);
+    'collection_processor_tests.js'], 'client');
 });

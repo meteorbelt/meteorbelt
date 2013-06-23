@@ -41,6 +41,10 @@ function delegate() {
   }
 }
 
+////////////////
+// Processors //
+////////////////
+
 var directInsert = Meteor.Collection.prototype.insert;
 var directUpdate = Meteor.Collection.prototype.update;
 var directRemove = Meteor.Collection.prototype.remove;
@@ -115,7 +119,6 @@ _.extend(Meteor.Collection.prototype, {
   }
 });
 
-
 if (Meteor.isServer) {
   var _validatedInsert = Meteor.Collection.prototype._validatedInsert;
   var _validatedUpdate = Meteor.Collection.prototype._validatedUpdate;
@@ -126,8 +129,8 @@ if (Meteor.isServer) {
   // _validatedInsert. Additionally, they hi-jack the collection
   // instance's _collection.insert/update/remove temporarily in order to
   // maintain validator integrity (allow/deny).
-  _.extend(Meteor.prottype, {
-    _validatedInsert = function (userId, doc) {
+  _.extend(Meteor.Collection.prototype, {
+    _validatedInsert: function (userId, doc) {
       var result, id;
       var self = this;
 
@@ -142,7 +145,7 @@ if (Meteor.isServer) {
       self._collection.insert = _insert;
     },
 
-    _validatedUpdate = function (userId, selector, mutator, options) {
+    _validatedUpdate: function (userId, selector, mutator, options) {
       var result, previous;
       var self = this;
 
@@ -158,7 +161,7 @@ if (Meteor.isServer) {
       self._collection.update = _update;
     },
 
-    _validatedRemove = function (userId, selector) {
+    _validatedRemove: function (userId, selector) {
       var result, previous;
       var self = this;
 
@@ -204,6 +207,83 @@ if (Meteor.isClient) {
     });
   };
 }
+
+///////////
+// Model //
+///////////
+
+_.extend(Meteor.Collection.prototype, {
+
+  _BaseModel: Belt.Model,
+  // _schema: {},
+  // _methods: {},
+
+  pluggin: function (fn, opts) {
+    return fn(this, opts);
+  },
+
+  // collection methods
+  statics: function (obj) {
+    _.extend(this, obj);
+  },
+
+  schema: function (obj) {
+    if (! this._schema) this._schema = {};
+    _.extend(this._schema, obj);
+  },
+
+  // model methods
+  methods: function (obj) {
+   if (! this._methods) this._methods = {};
+    _.extend(this._methods, obj);
+  },
+
+  create: function (doc) {
+    var self = this;
+    var m = new self._BaseModel(doc, self._schema);
+    m._collection = self;
+    m.save = function (doc, cb) {
+      return this._collection.insert(doc, cb);
+    };
+    _.extend(m, self._methods);
+    return m;
+  },
+
+  save: function (doc, cb) {
+    var self = this;
+    var id;
+    // process before functions
+    if (delegate.call(self, 'before', 'save', doc, cb) !== false) {
+      if (! doc._id) {
+        id = this.insert(doc, cb);
+      }
+      // Update
+      else {
+        // Mongo complains if the _id is present on the doc when using set.
+        // TODO: maybe we can be smarter about the $set. Only setting changed
+        // values
+        id = doc._id;
+        delete doc._id;
+        // Make the update callback match the insert callback, 
+        // i.e. return the id
+        //
+        //   callback(err, id)
+        //
+        // instead of
+        //
+        //   callback(err)
+        //
+        id = this.update({_id: id}, {$set: doc}, function (err) {
+          return cb(err, id);
+        });
+      }
+      // process after functions
+      delegate.call(self, 'after', 'save', id && self.findOne({_id: id}) || doc, cb);
+    }
+    return id;
+  }
+
+});
 
 // Exports
 // -------
