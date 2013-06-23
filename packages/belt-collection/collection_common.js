@@ -344,7 +344,7 @@ var Collection = function (name, options) {
   }
 
   options = options || {};
- 
+
   if (typeof options.transform === undefined) {
     options.tranform = function (doc) {
       return new self.create(doc);
@@ -354,7 +354,7 @@ var Collection = function (name, options) {
   Meteor.Collection.call(this, name, options);
 };
 
-Collection.prototype = new Meteor.Collection();
+Collection.prototype = new Meteor.Collection(null);
 
 Collection.constructor = Collection;
 
