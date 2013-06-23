@@ -25,7 +25,7 @@ function getUserId() {
 
 function delegate() {
   var i, len, c;
-  var args = Array.prototype.slice.call(arguments);
+  var args = _.toArray(arguments);
   var type = args.shift();
   var verb = args.shift();
 
@@ -39,6 +39,14 @@ function delegate() {
       }
     }
   }
+}
+
+function makeValidationError(err) {
+  return {
+    error: 401,
+    reason: "Validation Error",
+    details: err
+  };
 }
 
 ////////////////
@@ -56,57 +64,58 @@ _.extend(Meteor.Collection.prototype, {
   // function signature of the triggered version (adding userId)
 
   insert: function (doc, callback) {
-    var result, userId = getUserId.call(this);
+    var self = this;
+    var result, userId = getUserId.call(self);
 
-    if (delegate.call(this, "before", "insert", userId, doc, callback) !== false) {
-      result = directInsert.call(this, doc, callback);
-      delegate.call(this, "after", "insert", userId, result && this._collection.findOne({_id: result}) || doc, callback);
+    if (delegate.call(self, "before", "insert", userId, doc, callback) !== false) {
+      // Validate against schema
+      var err = self.validate(doc);
+      if (err) {
+        if (typeof callback === 'function') {
+          callback(makeValidationError(err), null);
+        }
+        return null;
+      }
+      result = directInsert.call(self, doc, callback);
+      delegate.call(self, "after", "insert", userId, result && self._collection.findOne({_id: result}) || doc, callback);
     }
 
     return result;
   },
 
   update: function (selector, modifier, options, callback) {
+    var self = this;
     var result, previous, i, len, stopFiltering;
-    var updateArgumentsRaw = Array.prototype.slice.call(arguments).reverse();
-    var updateArguments = [];
-    var userId = getUserId.call(this);
+    var userId = getUserId.call(self);
 
-    if (delegate.call(this, "before", "update", userId, selector, modifier, options, callback) !== false) {
-      previous = this._collection.find(selector, {reactive: false}).fetch();
-
-      // Build an array of the parameters in preparation for Function.apply.
-      // We can't use call here because of the way Meteor.Collection.update
-      // resolves if the last parameter is a callback or not. If we use call,
-      // and the caller didn't pass options, callbacks won't work. We need
-      // to trim any undefined arguments off the end of the arguments array
-      // that we pass.
-      stopFiltering = false;
-      for (i = 0, len = updateArgumentsRaw.length; i < len; i++) {
-        // Skip undefined values until we hit a non-undefined value.
-        // Then accept everything.
-        if (stopFiltering || updateArgumentsRaw[i] !== undefined) {
-          updateArguments.push(updateArgumentsRaw[i]);
-          stopFiltering = true;
+    if (delegate.call(self, "before", "update", userId, selector, modifier, options, callback) !== false) {
+      previous = self._collection.find(selector, {reactive: false}).fetch();
+      // Validate against schema
+      var err = self.validate(previous[0]);
+      if (err) {
+        // The callback is optional. Therefore, we must confirm that the last
+        // argument is indeed a function.
+        var cb = _.last(_.toArray(arguments));
+        if (typeof cb === 'function') {
+          cb(makeValidationError(err), null);
         }
+        return null;
       }
-
-      updateArguments = updateArguments.reverse();
-
-      result = directUpdate.apply(this, updateArguments);
-      delegate.call(this, "after", "update", userId, selector, modifier, options, previous, callback);
+      result = directUpdate.apply(self, arguments);
+      delegate.call(self, "after", "update", userId, selector, modifier, options, previous, callback);
     }
 
     return result;
   },
 
   remove: function (selector, callback) {
-    var result, previous, userId = getUserId.call(this);
+    var self = this;
+    var result, previous, userId = getUserId.call(self);
 
-    if (delegate.call(this, "before", "remove", userId, selector, callback) !== false) {
-      previous = this._collection.find(selector, {reactive: false}).fetch();
-      result = directRemove.call(this, selector, callback);
-      delegate.call(this, "after", "remove", userId, selector, previous, callback);
+    if (delegate.call(self, "before", "remove", userId, selector, callback) !== false) {
+      previous = self._collection.find(selector, {reactive: false}).fetch();
+      result = directRemove.call(self, selector, callback);
+      delegate.call(self, "after", "remove", userId, selector, previous, callback);
     }
 
     return result;
@@ -137,6 +146,14 @@ if (Meteor.isServer) {
       var _insert = self._collection.insert;
       self._collection.insert = function (doc) {
         if (delegate.call(self, "before", "insert", userId, doc) !== false) {
+          // Validate against schema
+          var err = self.validate(doc);
+          if (err) {
+            if (typeof callback === 'function') {
+              callback(makeValidationError(err), null);
+            }
+            return null;
+          }
           id = _insert.call(this, doc);
           delegate.call(self, "after", "insert", userId, id && this.findOne({_id: id}) || doc);
         }
@@ -153,6 +170,16 @@ if (Meteor.isServer) {
       self._collection.update = function (selector, mutator, options) {
         if (delegate.call(self, "before", "update", userId, selector, mutator, options) !== false) {
           previous = this.find(selector).fetch();
+          var err = self.validate(previous[0]);
+          if (err) {
+            // The callback is optional. Therefore, we must confirm that the last
+            // argument is indeed a function.
+            var cb = _.last(_.toArray(arguments));
+            if (typeof cb === 'function') {
+              cb(makeValidationError(err), null);
+            }
+            return null;
+          }
           _update.call(this, selector, mutator, options);
           delegate.call(self, "after", "update", userId, selector, mutator, options, previous);
         }
@@ -242,11 +269,25 @@ _.extend(Meteor.Collection.prototype, {
     var self = this;
     var m = new self._BaseModel(doc, self._schema);
     m._collection = self;
-    m.save = function (doc, cb) {
-      return this._collection.insert(doc, cb);
+    // add a save convenience method to the model
+    m.save = function (cb) {
+      return self.save(this.toObject(), cb);
     };
     _.extend(m, self._methods);
     return m;
+  },
+
+  validate: function (doc) {
+    var self = this;
+    // only run validation if a schema is present. This makes validation
+    // backwords compatitable.
+    if (! self._schema) return null;
+    var m = new self._BaseModel(doc, self._schema);
+    var err = m.validate();
+    if (err) {
+      return err;
+    }
+    return null;
   },
 
   save: function (doc, cb) {
@@ -285,6 +326,38 @@ _.extend(Meteor.Collection.prototype, {
 
 });
 
+/////////////////////////////
+// Alternative Constructor //
+/////////////////////////////
+
+var Collection = function (name, options) {
+  var self = this;
+  if (options) {
+    _.each(['schema', 'methods', 'statics', 'before', 'after'], function (method) {
+      var opts = _.pick(options, method);
+      delete options[method];
+      if (opts && opts[method]) {
+        opts = opts[method];
+        self[method](opts);
+      }
+    });
+  }
+
+  options = options || {};
+ 
+  if (typeof options.transform === undefined) {
+    options.tranform = function (doc) {
+      return new self.create(doc);
+    };
+  }
+
+  Meteor.Collection.call(this, name, options);
+};
+
+Collection.prototype = new Meteor.Collection();
+
+Collection.constructor = Collection;
+
 // Exports
 // -------
-Belt.Collection = Meteor.Collection;
+Belt.Collection = Collection;
