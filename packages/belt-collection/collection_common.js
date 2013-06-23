@@ -45,66 +45,76 @@ var directInsert = Meteor.Collection.prototype.insert;
 var directUpdate = Meteor.Collection.prototype.update;
 var directRemove = Meteor.Collection.prototype.remove;
 
-// These are invoked when the method is called directly on the collection
-// from either the server or client. These are adapted to match the
-// function signature of the triggered version (adding userId)
+_.extend(Meteor.Collection.prototype, {
 
-Meteor.Collection.prototype.insert = function (doc, callback) {
-  var result, userId = getUserId.call(this);
+  // These are invoked when the method is called directly on the collection
+  // from either the server or client. These are adapted to match the
+  // function signature of the triggered version (adding userId)
 
-  if (delegate.call(this, "before", "insert", userId, doc, callback) !== false) {
-    result = directInsert.call(this, doc, callback);
-    delegate.call(this, "after", "insert", userId, result && this._collection.findOne({_id: result}) || doc, callback);
-  }
+  insert: function (doc, callback) {
+    var result, userId = getUserId.call(this);
 
-  return result;
-};
-
-Meteor.Collection.prototype.update = function (selector, modifier, options, callback) {
-  var result, previous, i, len, stopFiltering;
-  var updateArgumentsRaw = Array.prototype.slice.call(arguments).reverse();
-  var updateArguments = [];
-  var userId = getUserId.call(this);
-
-  if (delegate.call(this, "before", "update", userId, selector, modifier, options, callback) !== false) {
-    previous = this._collection.find(selector, {reactive: false}).fetch();
-
-    // Build an array of the parameters in preparation for Function.apply.
-    // We can't use call here because of the way Meteor.Collection.update
-    // resolves if the last parameter is a callback or not. If we use call,
-    // and the caller didn't pass options, callbacks won't work. We need
-    // to trim any undefined arguments off the end of the arguments array
-    // that we pass.
-    stopFiltering = false;
-    for (i = 0, len = updateArgumentsRaw.length; i < len; i++) {
-      // Skip undefined values until we hit a non-undefined value.
-      // Then accept everything.
-      if (stopFiltering || updateArgumentsRaw[i] !== undefined) {
-        updateArguments.push(updateArgumentsRaw[i]);
-        stopFiltering = true;
-      }
+    if (delegate.call(this, "before", "insert", userId, doc, callback) !== false) {
+      result = directInsert.call(this, doc, callback);
+      delegate.call(this, "after", "insert", userId, result && this._collection.findOne({_id: result}) || doc, callback);
     }
 
-    updateArguments = updateArguments.reverse();
+    return result;
+  },
 
-    result = directUpdate.apply(this, updateArguments);
-    delegate.call(this, "after", "update", userId, selector, modifier, options, previous, callback);
+  update: function (selector, modifier, options, callback) {
+    var result, previous, i, len, stopFiltering;
+    var updateArgumentsRaw = Array.prototype.slice.call(arguments).reverse();
+    var updateArguments = [];
+    var userId = getUserId.call(this);
+
+    if (delegate.call(this, "before", "update", userId, selector, modifier, options, callback) !== false) {
+      previous = this._collection.find(selector, {reactive: false}).fetch();
+
+      // Build an array of the parameters in preparation for Function.apply.
+      // We can't use call here because of the way Meteor.Collection.update
+      // resolves if the last parameter is a callback or not. If we use call,
+      // and the caller didn't pass options, callbacks won't work. We need
+      // to trim any undefined arguments off the end of the arguments array
+      // that we pass.
+      stopFiltering = false;
+      for (i = 0, len = updateArgumentsRaw.length; i < len; i++) {
+        // Skip undefined values until we hit a non-undefined value.
+        // Then accept everything.
+        if (stopFiltering || updateArgumentsRaw[i] !== undefined) {
+          updateArguments.push(updateArgumentsRaw[i]);
+          stopFiltering = true;
+        }
+      }
+
+      updateArguments = updateArguments.reverse();
+
+      result = directUpdate.apply(this, updateArguments);
+      delegate.call(this, "after", "update", userId, selector, modifier, options, previous, callback);
+    }
+
+    return result;
+  },
+
+  remove: function (selector, callback) {
+    var result, previous, userId = getUserId.call(this);
+
+    if (delegate.call(this, "before", "remove", userId, selector, callback) !== false) {
+      previous = this._collection.find(selector, {reactive: false}).fetch();
+      result = directRemove.call(this, selector, callback);
+      delegate.call(this, "after", "remove", userId, selector, previous, callback);
+    }
+
+    return result;
+  },
+
+  clearHooks: function (verb, type) {
+    if (!this._processors) this._processors = {};
+    if (!this._processors[type]) this._processors[type] = {};
+    this._processors[type][verb] = [];
   }
+});
 
-  return result;
-};
-
-Meteor.Collection.prototype.remove = function (selector, callback) {
-  var result, previous, userId = getUserId.call(this);
-
-  if (delegate.call(this, "before", "remove", userId, selector, callback) !== false) {
-    previous = this._collection.find(selector, {reactive: false}).fetch();
-    result = directRemove.call(this, selector, callback);
-    delegate.call(this, "after", "remove", userId, selector, previous, callback);
-  }
-
-  return result;
-};
 
 if (Meteor.isServer) {
   var _validatedInsert = Meteor.Collection.prototype._validatedInsert;
@@ -116,60 +126,55 @@ if (Meteor.isServer) {
   // _validatedInsert. Additionally, they hi-jack the collection
   // instance's _collection.insert/update/remove temporarily in order to
   // maintain validator integrity (allow/deny).
+  _.extend(Meteor.prottype, {
+    _validatedInsert = function (userId, doc) {
+      var result, id;
+      var self = this;
 
-  Meteor.Collection.prototype._validatedInsert = function (userId, doc) {
-    var result, id;
-    var self = this;
+      var _insert = self._collection.insert;
+      self._collection.insert = function (doc) {
+        if (delegate.call(self, "before", "insert", userId, doc) !== false) {
+          id = _insert.call(this, doc);
+          delegate.call(self, "after", "insert", userId, id && this.findOne({_id: id}) || doc);
+        }
+      };
+      _validatedInsert.call(self, userId, doc);
+      self._collection.insert = _insert;
+    },
 
-    var _insert = self._collection.insert;
-    self._collection.insert = function (doc) {
-      if (delegate.call(self, "before", "insert", userId, doc) !== false) {
-        id = _insert.call(this, doc);
-        delegate.call(self, "after", "insert", userId, id && this.findOne({_id: id}) || doc);
-      }
-    };
-    _validatedInsert.call(self, userId, doc);
-    self._collection.insert = _insert;
-  };
+    _validatedUpdate = function (userId, selector, mutator, options) {
+      var result, previous;
+      var self = this;
 
-  Meteor.Collection.prototype._validatedUpdate = function (userId, selector, mutator, options) {
-    var result, previous;
-    var self = this;
+      var _update = self._collection.update;
+      self._collection.update = function (selector, mutator, options) {
+        if (delegate.call(self, "before", "update", userId, selector, mutator, options) !== false) {
+          previous = this.find(selector).fetch();
+          _update.call(this, selector, mutator, options);
+          delegate.call(self, "after", "update", userId, selector, mutator, options, previous);
+        }
+      };
+      _validatedUpdate.call(self, userId, selector, mutator, options);
+      self._collection.update = _update;
+    },
 
-    var _update = self._collection.update;
-    self._collection.update = function (selector, mutator, options) {
-      if (delegate.call(self, "before", "update", userId, selector, mutator, options) !== false) {
-        previous = this.find(selector).fetch();
-        _update.call(this, selector, mutator, options);
-        delegate.call(self, "after", "update", userId, selector, mutator, options, previous);
-      }
-    };
-    _validatedUpdate.call(self, userId, selector, mutator, options);
-    self._collection.update = _update;
-  };
+    _validatedRemove = function (userId, selector) {
+      var result, previous;
+      var self = this;
 
-  Meteor.Collection.prototype._validatedRemove = function (userId, selector) {
-    var result, previous;
-    var self = this;
-
-    var _remove = self._collection.remove;
-    self._collection.remove = function (selector) {
-      if (delegate.call(self, "before", "remove", userId, selector, previous) !== false) {
-        previous = this.find(selector).fetch();
-        _remove.call(this, selector);
-        delegate.call(self, "after", "remove", userId, selector, previous);
-      }
-    };
-    _validatedRemove.call(self, userId, selector);
-    self._collection.remove = _remove;
-  };
+      var _remove = self._collection.remove;
+      self._collection.remove = function (selector) {
+        if (delegate.call(self, "before", "remove", userId, selector, previous) !== false) {
+          previous = this.find(selector).fetch();
+          _remove.call(this, selector);
+          delegate.call(self, "after", "remove", userId, selector, previous);
+        }
+      };
+      _validatedRemove.call(self, userId, selector);
+      self._collection.remove = _remove;
+    }
+  });
 }
-
-Meteor.Collection.prototype.clearHooks = function (verb, type) {
-  if (!this._processors) this._processors = {};
-  if (!this._processors[type]) this._processors[type] = {};
-  this._processors[type][verb] = [];
-};
 
 _.each(["before", "after"], function (type) {
   Meteor.Collection.prototype[type] = function (obj) {
