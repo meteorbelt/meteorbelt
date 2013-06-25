@@ -5,26 +5,26 @@ Tinytest.add('belt - schema - Belt.Schema is Global', function (test) {
 
 Tinytest.add('belt - schema - populate - String', function (test) {
   var s = {
-    simple: String,
-    complex: { type: String },
+    simple:     String,
+    complex:    { type: String },
     complexStr: { type: 'string' },
-    cast: String,
+    cast:       String,
     defaultVal: { type: String, 'default': 'default' }
   };
 
   var d = {
-    simple: 'simple',
-    complex: 'complex',
+    simple:     'simple',
+    complex:    'complex',
     complexStr: 'complexStr',
-    cast: 1,
-    ignore: 'ignore'
+    cast:       1,
+    ignore:     'ignore'
   };
 
   var o = {
-    simple: 'simple',
-    complex: 'complex',
+    simple:     'simple',
+    complex:    'complex',
     complexStr: 'complexStr',
-    cast: '1',
+    cast:       '1',
     defaultVal: 'default'
   };
 
@@ -33,26 +33,26 @@ Tinytest.add('belt - schema - populate - String', function (test) {
 
 Tinytest.add('belt - schema - populate - Number', function (test) {
   var s = {
-    simple: Number,
-    complex: { type: Number },
+    simple:     Number,
+    complex:    { type: Number },
     complexStr: { type: 'number' },
-    cast: Number,
+    cast:       Number,
     defaultVal: { type: Number, 'default': 188 }
   };
 
   var d = {
-    simple: 42,
-    complex: 36,
+    simple:     42,
+    complex:    36,
     complexStr: 72,
-    cast: '144',
-    ignore: 1010
+    cast:       '144',
+    ignore:     1010
   };
 
   var o = {
-    simple: 42,
-    complex: 36,
+    simple:     42,
+    complex:    36,
     complexStr: 72,
-    cast: 144,
+    cast:       144,
     defaultVal: 188
   };
 
@@ -64,26 +64,26 @@ Tinytest.add('belt - schema - populate - Date', function (test) {
   var now = new Date();
 
   var s = {
-    simple: Date,
-    complex: { type: Date },
+    simple:     Date,
+    complex:    { type: Date },
     complexStr: { type: 'date' },
-    cast: Date,
+    cast:       Date,
     defaultVal: { type: Date, 'default': now }
   };
 
   var d = {
-    simple: new Date('1/1/2001'),
-    complex: new Date('1/2/2001'),
+    simple:     new Date('1/1/2001'),
+    complex:    new Date('1/2/2001'),
     complexStr: new Date('1/3/2001'),
-    cast: '1/4/2001',
-    ignore: new Date('1/5/2001')
+    cast:       '1/4/2001',
+    ignore:     new Date('1/5/2001')
   };
             
   var o = {
-    simple: new Date('1/1/2001'),
-    complex: new Date('1/2/2001'),
+    simple:     new Date('1/1/2001'),
+    complex:    new Date('1/2/2001'),
     complexStr: new Date('1/3/2001'),
-    cast: new Date('1/4/2001'),
+    cast:       new Date('1/4/2001'),
     defaultVal: now
   };
 
@@ -99,32 +99,32 @@ Tinytest.add('belt - schema - populate - Boolean', function (test) {
   var now = new Date();
 
   var s = {
-    simple: Boolean,
-    complex: { type: Boolean },
-    complexStr: { type: 'boolean' },
-    castT: Boolean,
-    castF: Boolean,
+    simple:      Boolean,
+    complex:     { type: Boolean },
+    complexStr:  { type: 'boolean' },
+    castT:       Boolean,
+    castF:       Boolean,
     defaultValT: { type: Boolean, 'default': true },
     defaultValF: { type: Boolean, 'default': false }
   };
 
   var d = {
-    simple: false,
-    complex: true,
+    simple:     false,
+    complex:    true,
     complexStr: false,
-    castT: 'true',
+    castT:      'true',
     // only null will cast to false
-    castF: null,
+    castF:   null,
     ignoreT: true,
     ignoreF: false
   };
 
   var o = {
-    simple: false,
-    complex: true,
-    complexStr: false,
-    castT: true,
-    castF: false,
+    simple:      false,
+    complex:     true,
+    complexStr:  false,
+    castT:       true,
+    castF:       false,
     defaultValT: true,
     defaultValF: false
   };
@@ -134,28 +134,28 @@ Tinytest.add('belt - schema - populate - Boolean', function (test) {
 
 Tinytest.add('belt - schema - populate - Array - simple', function (test) {
   var s = {
-    simple: Array,
-    complex: { type: Array },
+    simple:     Array,
+    complex:    { type: Array },
     complexStr: { type: 'array' },
-    // cast: Array,
+    // cast:    Array,
     defaultVal: { type: Array, 'default': ['a', 'b', 'c'] }
     
   };
 
   var d = {
-    simple: [10, 11, 12],
-    complex: ['one', 11, 'two'],
+    simple:     [10, 11, 12],
+    complex:    ['one', 11, 'two'],
     complexStr: [10, 11, 12],
-    ofType: [10, 11, 12],
-    // cast: '144',
-    ignore: ['z', 'x', 'y']
+    ofType:     [10, 11, 12],
+    // cast:    '144',
+    ignore:     ['z', 'x', 'y']
   };
 
   var o = {
-    simple: [10, 11, 12],
-    complex: ['one', 11, 'two'],
+    simple:     [10, 11, 12],
+    complex:    ['one', 11, 'two'],
     complexStr: [10, 11, 12],
-    // cast: 144,
+    // cast:    144,
     defaultVal: ['a', 'b', 'c']
   };
 
@@ -168,34 +168,34 @@ Tinytest.add('belt - schema - populate - Array - declarative', function (test) {
 
   // simple
   var s = {
-    any: [],
-    str: [String],
-    num: [Number],
+    any:  [],
+    str:  [String],
+    num:  [Number],
     date: [Date],
     bool: [Boolean]
   };
 
   // complex
   var s2 = {
-    any: [],
-    str: [{ type: String }],
-    num: [{ type: Number }],
+    any:  [],
+    str:  [{ type: String }],
+    num:  [{ type: Number }],
     date: [{ type: Date }],
     bool: [{ type: Boolean }]
   };
 
   var d = {
-    any: [10, '20', 30],
-    str: [10, 20, 30],
-    num: ['10', '20', '30'],
+    any:  [10, '20', 30],
+    str:  [10, 20, 30],
+    num:  ['10', '20', '30'],
     date: ['1/1/2001', '1/1/2001', '1/1/2001'],
     bool: ['yes', null, 'true']
   };
 
   var o = {
-    any: [10, '20', 30],
-    str: ['10', '20', '30'],
-    num: [10, 20, 30],
+    any:  [10, '20', 30],
+    str:  ['10', '20', '30'],
+    num:  [10, 20, 30],
     date: [date, date, date],
     bool: [true, false, true]
   };
@@ -225,22 +225,22 @@ Tinytest.add('belt - schema - populate - Array - declarative - default', functio
 
 Tinytest.add('belt - schema - populate - Object - simple', function (test) {
   var s = {
-    simple: Object,
-    complex: { type: Object },
+    simple:     Object,
+    complex:    { type: Object },
     complexStr: { type: 'object' },
     defaultVal: { type: Object, 'default': { hello: 'world' } }
   };
 
   var d = {
-    simple: { a: true, b: false, c: 'str', d: 1 },
-    complex: { a: true, b: false, c: 'str', d: 1 },
+    simple:     { a: true, b: false, c: 'str', d: 1 },
+    complex:    { a: true, b: false, c: 'str', d: 1 },
     complexStr: { a: true, b: false, c: 'str', d: 1 },
-    ignore: { peace: true }
+    ignore:     { peace: true }
   };
 
   var o = {
-    simple: { a: true, b: false, c: 'str', d: 1 },
-    complex: { a: true, b: false, c: 'str', d: 1 },
+    simple:     { a: true, b: false, c: 'str', d: 1 },
+    complex:    { a: true, b: false, c: 'str', d: 1 },
     complexStr: { a: true, b: false, c: 'str', d: 1 },
     defaultVal: { hello: 'world' }
   };
@@ -255,57 +255,57 @@ Tinytest.add('belt - schema - populate - Object - declarative', function (test) 
 
   var s = {
     obj:      {
-      str:      String,
-      bool:     Boolean,
-      num:      Number,
-      numStr:   Number,
-      arrStr:   [String],
-      arrNum:   [Number],
-      obj:      {
-        str:      String,
-        bool:     Boolean,
-        num:      Number,
-        numStr:   Number,
-        arrStr:   [String],
-        arrNum:   [Number],
+      str:    String,
+      bool:   Boolean,
+      num:    Number,
+      numStr: Number,
+      arrStr: [String],
+      arrNum: [Number],
+      obj:    {
+        str:    String,
+        bool:   Boolean,
+        num:    Number,
+        numStr: Number,
+        arrStr: [String],
+        arrNum: [Number]
       }
     }
   };
 
   var d = {
     obj:       {
-      str:      'string',
-      bool:     true,
-      num:      1,
-      numStr:   '1',
-      arrStr:   [1, 2, 3],
-      arrNum:   ['1', '2', '3'],
-      obj:      {
-        str:      'string',
-        bool:     true,
-        num:      1,
-        numStr:   '1',
-        arrStr:   [1, 2, 3],
-        arrNum:   ['1', '2', '3'],
+      str:    'string',
+      bool:   true,
+      num:    1,
+      numStr: '1',
+      arrStr: [1, 2, 3],
+      arrNum: ['1', '2', '3'],
+      obj:    {
+        str:    'string',
+        bool:   true,
+        num:    1,
+        numStr: '1',
+        arrStr: [1, 2, 3],
+        arrNum: ['1', '2', '3']
       }
     }
   };
 
   var o = {
     obj:      {
-      str:      'string',
-      bool:     true,
-      num:      1,
-      numStr:   1,
-      arrStr:   ['1', '2', '3'],
-      arrNum:   [1, 2, 3],
-      obj:      {
-        str:      'string',
-        bool:     true,
-        num:      1,
-        numStr:   1,
-        arrStr:   ['1', '2', '3'],
-        arrNum:   [1, 2, 3],
+      str:    'string',
+      bool:   true,
+      num:    1,
+      numStr: 1,
+      arrStr: ['1', '2', '3'],
+      arrNum: [1, 2, 3],
+      obj:    {
+        str:    'string',
+        bool:   true,
+        num:    1,
+        numStr: 1,
+        arrStr: ['1', '2', '3'],
+        arrNum: [1, 2, 3]
       }
     }
   };

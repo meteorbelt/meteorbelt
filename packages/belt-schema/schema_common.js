@@ -143,6 +143,7 @@ var _populate = function (schema, value) {
       // E.g. ['one', 'two', 'three']
       _.each(value, function (val) {
         // E.g. val = 'one'
+        // schema[0] == String == [String][0]
         newArr.push(_populate(schema[0], val));
       });
       return newArr;
@@ -156,7 +157,7 @@ var _populate = function (schema, value) {
   // into:
   //   {type: String},
   //
-  if (! (getType(schema) === "[object Object]")) {
+  if (getType(schema) !== "[object Object]") {
     schema = { type: schema };
   }
   // If we have an object, but that object does not have a type
@@ -165,9 +166,9 @@ var _populate = function (schema, value) {
     _.each(schema, function (schemaPart, key) {
       // Only populate values that actually exist (value[key])
       // or values that have a default value (schema[key])
-      // console.log("sc: ", schema);
-      // console.log("key: ", key);
-      // Account for Boolean `false`
+      // Account for:
+      // - Boolean `false`
+      // - Number 0
       var defaultIsDefined = (typeof schema[key]['default'] !== 'undefined');
       var valueIsDefined = (typeof value[key] !== 'undefined' || value[key] === null);
       if (valueIsDefined || defaultIsDefined) {
@@ -177,11 +178,13 @@ var _populate = function (schema, value) {
     return newValues;
   }
 
-  // Set default value
-  if (schema['default'] && ! value) {
+  // Set default value if the default value is defined and value is not
+  var d = schema['default'] 
+  if ((typeof d !== "undefined" && d !== null) &&
+     !(typeof value !== "undefined" && value !== null)) {
     // TODO: should there be a type test here?
     // If some one tries to set a default that is not the proper type.
-    value = schema['default'];
+    value = d;
   }
   var type = getTypeFromKey(schema.type);
   // populate type with value
@@ -192,39 +195,69 @@ var _validate = function (schema, value) {
 
   var errors = {};
 
-  if (_.isArray(schema) || Array === schema || 'array' === schema) {
-    _.each(value, function (val, key) {
-      errors[key] = _validate(schema[0], value[key]);
-      removeEmptyErrors(errors, key);
-    });
-    return errors;
+  // Array
+  // E.g. []
+  if (_.isArray(schema)) {
+
+    // E.g. [String]
+    if (! _.isEmpty(schema)) {
+      // if the schema is requrired but we don't have a value
+      // return 'requried' to be added to the errors
+      if (schema[0].required === true && 
+        !(typeof value !== "undefined" && value !== null)) {
+        return 'required';
+      }
+      var newArr = [];
+      // iterate throught the values of the array.
+      // E.g. ['one', 'two', 'three']
+      _.each(value, function (val) {
+        // E.g. val = 'one'
+        // schema[0] == String == [String][0]
+        newArr.push(_validate(schema[0], val));
+      });
+      // if all of the values are null
+      // E.g. [null, null, null]
+      // return null
+      if (! _.some(newArr)) {
+        return null;
+      }
+      return newArr;
+    }
+    schema = Array;
   }
 
-  if (! (getType(schema) === "[object Object]")) {
+  // if (_.isArray(schema) || Array === schema || 'array' === schema) {
+  //   _.each(value, function (val, key) {
+  //     errors[key] = _validate(schema[0], value[key]);
+  //     removeEmptyErrors(errors, key);
+  //   });
+  //   return errors;
+  // }
+  if (getType(schema) !== "[object Object]") {
     schema = { type: schema };
   }
 
   if (! schema.type) {
     _.each(schema, function (schemaPart, key) {
-      var val = value ? value[key] : null;
+      var val = null;
+      if (value !== null || value !== undefined) {
+        val = value[key];
+      }
       errors[key] = _validate(schemaPart, val);
       removeEmptyErrors(errors, key);
     });
     return errors;
   }
 
-  if (! value) {
-    // if the value is boolean `false` we want to allow it to pass
-    if (value !== false) {
-      if (schema.required) {
-        return 'required';
-      }
-      return null;
+  if (!(typeof value !== "undefined" && value !== null)) {
+  // if (value === null || value === undefined) {
+    // if the value is required return 'required'
+    // otherwise just return null to show that it was checked
+    if (schema.required) {
+      return 'required';
     }
+    return null;
   }
-  // if (!value && !schema.required) {
-  //   return null;
-  // }
   var type = getTypeFromKey(schema.type);
   var valid = type.validate(value);
   if (!valid) {
