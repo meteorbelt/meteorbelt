@@ -23,50 +23,30 @@
     - slug {Array} Optional
 */
 
-// Define a Collection that uses Post as its document
-// var Posts = new Meteor.Collection('posts', {
-//   transform: function (doc) {
-//     return new Post(doc);
-//   }
-// });
+var Posts = new Belt.Collection('posts', {
 
-var Posts = new Belt.Colletion('posts');
+  schema: {
+    title:       { type: String, required: true },
+    body:        { type: String, required: true },
+    publishedAt: { type: Date, required: true, 'default': new Date() }
+  },
 
-// Plugins
-// -------
-Posts.plugin(Belt.Plugins.createdAt);
-Posts.plugin(Belt.Plugins.updatedAt);
-Posts.plugin(Belt.Plugins.slug, { required: true, attr: "title" });
-Posts.plugin(Belt.Plugins.owner, { required: true });
-Posts.plugin(Belt.Plugins.tags);
-
-// Schema
-// ------
-Posts.schema({
-  title:       { type: String, required: true },
-  body:        { type: String, required: true },
-  publishedAt: { type: Date, required: true },
-  isPublished: { type: Date, required: true, "default": false }
-});
-
-Posts.methods.findByTitle = function(title) {
-  return title;
-};
-
-Posts.statics.findByTitle = function(title) {
-  return title;
-};
-
-Posts.before({
-  insert: function() {
-    var self = this;
-    if (self.publishedAt) {
-      self.publishedAt = new Date(self.publishedAt);
-    } else {
-      self.publishedAt = new Date();
+  statics: {
+    findByTitle: function (title, fn) {
+      return this.find({title: title}, fn);
     }
   }
 });
+
+// Plugins
+// -------
+Posts.plugin(Belt.Collection.Plugins.createdAt);
+Posts.plugin(Belt.Collection.Plugins.updatedAt);
+Posts.plugin(Belt.Collection.Plugins.tags);
+Posts.plugin(Belt.Collection.Plugins.isPublic);
+// Posts.plugin(Belt.Collection.Plugins.owner);
+
+// Posts.plugin(Belt.Collection.Plugins.slug, { required: true, attr: "title" });
 
 // Exports
 // -------

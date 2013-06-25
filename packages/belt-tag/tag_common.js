@@ -10,14 +10,10 @@
 
     var tag = Tag(doc);
 */
-// Use Belt.Validation
-_.extend(Belt.Model.prototype, Belt.Validation.mixin);
 
-var Tags = Belt.Model.extend('tag', {
-  validation: {
-    slug: {
-      required: true
-    }
+var Tags = new Belt.Collection('tag', {
+  schema: {
+    slug: { type: String, required: true }
   }
 });
 

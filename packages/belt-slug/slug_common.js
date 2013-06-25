@@ -136,7 +136,7 @@ function URLify(s, num_chars) {
   return s.substring(0, num_chars); // trim to first num_chars chars
 }
 
-slug.get = function (text, numberOfChars) {
+slug.generate = function (text, numberOfChars) {
   return URLify(text, numberOfChars);
 };
 
@@ -167,11 +167,25 @@ slug.unique = function (text, collection, errorIfInUse) {
   return s;
 };
 
+var Plugins = {};
 
 // Plugin
 // ------
-slug.slugPlugin = function (collection, options) {
-  collection.after({
+Plugins.slug = function (collection, options) {
+
+  options = options || { required: true };
+
+  if (! options.ref) {
+    throw new error('You must provide the attribute to use for the slug ' +
+      'E.g. { ref : "title" } would use the "title" property to generate ' +
+      'the slug');
+  }
+
+  collection.schema({
+    slug: { types: String, required: options.required }
+  });
+
+  collection.before({
     insert: function(doc, user) {
       // if slug is present return an error if it is in use
       if (collection.slug) {
@@ -182,8 +196,15 @@ slug.slugPlugin = function (collection, options) {
       }
     }
   });
+
+  collection.statics({
+    findOneBySlug: function (slug, fn) {
+      return this.findOne({slug: slug}, fn);
+    }
+  });
 };
 
 // Exports
 // -------
 Belt.Slug = slug;
+Belt.Slug.Plugins = Plugins;

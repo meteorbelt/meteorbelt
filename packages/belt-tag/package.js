@@ -5,7 +5,6 @@ Package.describe({
 Package.on_use(function (api, where) {
   api.use('belt');
   api.use('belt-model');
-  api.use('belt-validation');
   api.use('belt-user');
   api.use('belt-slug');
 
