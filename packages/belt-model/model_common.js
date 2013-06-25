@@ -1,14 +1,17 @@
 var Model = function (doc, schema) {
   if (schema) {
     this._schema = schema;
+    // Add the _id schema
+    this.schema({_id: { type: String }});
     this.populate(doc);
+  } else {
+    _.extend(this, doc);
   }
-  _.extend(this, doc);
 };
 
 _.extend(Model.prototype, {
 
-  _schema: null,
+  // _schema: null,
 
   /**
    * strips unnecessary properties and methods

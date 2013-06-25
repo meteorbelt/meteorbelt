@@ -7,7 +7,7 @@ var postSchema = {
   title:       { type: String, required: true },
   body:        { type: String, required: true },
   publishedAt: { type: Date, required: true },
-  isPublished: { type: Boolean, default: false },
+  isPublished: { type: Boolean, 'default': false },
 };
 
 Tinytest.add('belt - model - populate', function (t) {
@@ -62,10 +62,7 @@ Tinytest.add('belt - model - validate', function (t) {
   };
   var p2 = new Belt.Model(doc2, postSchema);
   var err = {
-    title: "must be a String",
     body: "required",
-    isPublished: "must be a Boolean",
-    publishedAt: "must be a Date"
   };
   t.equal(p2.validate(), err);
 });
@@ -76,15 +73,43 @@ Tinytest.add('belt - model - schema', function (t) {
     body: "Post Body",
     publishedAt: new Date()
   };
+
   var p = new Belt.Model(doc1, postSchema);
+
+  // mix in another schema to try and break things
+  var commentSchema = {
+    name: String
+  };
+  var com1 = {
+    name: 'George'
+  };
+
+  var c = new Belt.Model(com1, commentSchema);
+  c.schema({extra: String});
+
   p.populate({extra: 'new stuff'});
+
   // won't show up because the extra property is not present in the schema
- 
+  // XXX failing on IE8 ???? Only when the next test is present
   t.equal(p.extra, undefined);
 
+  t.equal(c.name, 'George');
+  t.equal(p.title, doc1.title);
+  t.equal(p.body, doc1.body);
+});
+
+
+Tinytest.add('belt - model - schema a', function (t) {
+  var doc1 = {
+    title: "Hello World",
+    body: "Post Body",
+    publishedAt: new Date()
+  };
+  var p2 = new Belt.Model(doc1, postSchema);
+
   // add to schema
-  p.schema({extra: String});
+  p2.schema({extra: String});
   // it will show up now because it's been added to the schema
-  p.populate({extra: 'new stuff'});
-  t.equal(p.extra, 'new stuff');
+  p2.populate({extra: 'new stuff'});
+  t.equal(p2.extra, 'new stuff');
 });
