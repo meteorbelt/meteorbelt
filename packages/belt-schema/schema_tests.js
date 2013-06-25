@@ -17,6 +17,7 @@ var s1 = {
   arrNum:   [Number],
   obj:      {
     str:      String,
+    bool:     Boolean,
     num:      Number,
     numStr:   Number,
     dateStr:  Date,
@@ -25,6 +26,7 @@ var s1 = {
     arrNum:   [Number],
     obj:      {
       str:      String,
+      bool:     Boolean,
       num:      Number,
       numStr:   Number,
       dateStr:  Date,
@@ -166,38 +168,39 @@ var out3 = {
 };
 
 // test invalid types
+// XXX Array's are not being validated
 var doc4 = {
-  str:        1,
-  bool:       'true',
-  num:        '1',
-  dateDate:   '1/1/2001',
-  // arrStr:  ['1', '2', '3'],
-  // arrNum:  [1, 2, 3],
-  // arrDate: ['string', 'string', 'string'],
-  obj:        {
-    str:       1,
-    // bool:      'true',
-    num:       '1',
-    dateDate:  '1/1/2001',
-    // arrStr:    ['1', '2', '3'],
-    // arrNum:    [1, 2, 3],
-    // arrDate:   ['string', 'string', 'string'],
-    // obj:      {
-    //   str:       1,
-    //   bool:      'true',
-    //   num:       '1',
-    //   dateDate:  '1/1/2001',
-    //   arrStr:    ['1', '2', '3'],
-    //   arrNum:    [1, 2, 3],
-    //   arrDate:   ['string', 'string', 'string']
-    // }
+  str:      1,
+  bool:     'false',
+  num:      '1',
+  dateDate: '1/1/2001',
+  arrStr:   ['1', '2', '3'],
+  arrNum:   [1, 2, 3],
+  arrDate:  ['string', 'string', 'string'],
+  obj:      {
+    str:      1,
+    bool:     'true',
+    num:      '1',
+    dateDate: '1/1/2001',
+    arrStr:   ['1', '2', '3'],
+    arrNum:   [1, 2, 3],
+    arrDate:  ['string', 'string', 'string'],
+    obj:      {
+      str:      1,
+      bool:     'true',
+      num:      '1',
+      dateDate: '1/1/2001',
+      arrStr:   ['1', '2', '3'],
+      arrNum:   [1, 2, 3],
+      arrDate:  ['string', 'string', 'string']
+    }
   },
   // Correct values this time
   o_arr:         ["a", 'b', "c"],
   o_dateDate:    now,
   o_num:         1,
   o_obj:         {},
-  o_str:         'string',
+  o_str:         'string'
 };
 
 var out4 = {
@@ -205,19 +208,23 @@ var out4 = {
   bool:      'must be a Boolean',
   num:       'must be a Number', 
   dateDate:  'must be a Date',
-  // TODO how should Array validation work?
   // arrStr:    'must be an Array',
   // arrNum:    [1, 2, 3],
   // arrDate:   ['string', 'string', 'string'],
   obj: {
     str:       'must be a String',
-    // TODO: Boolean is passing for some reason?
-    // bool:      'must be a Boolean',
+    bool:      'must be a Boolean',
     num:       'must be a Number', 
     dateDate:  'must be a Date',
+    obj: {
+      str:       'must be a String',
+      bool:      'must be a Boolean',
+      num:       'must be a Number',
+      dateDate:  'must be a Date'
+    }
   },
   o_dateStr:     "required",
-  o_numStr:      "required",
+  o_numStr:      "required"
 };
 
 Tinytest.add('belt - schema - Belt.Schema is Global', function (test) {
@@ -254,20 +261,26 @@ Tinytest.add('belt - schema - populate defaults', function (test) {
 });
 
 Tinytest.add("belt - schema - validate no error", function (test) {
-  // no errors should return null
+
   var s = {
-    str: String
-  } 
+    str:      String,
+    optional: String,
+    boolf:    { type: Boolean, required: true }
+  };
+
   var d = {
-    str: 'hello'
-  }
+    str:   'hello',
+    boolf: false
+  };
+
+  // no errors should return null
   test.equal(Belt.Schema.validate(s, d), null);
 });
 
 Tinytest.add('belt - schema - validate', function (test) {
   var t = [
     {schema: s1, doc: doc3, expect: out3},
-    {schema: s1, doc: doc4, expect: out4}
+    {schema: s1, doc: doc4, expect: out4},
   ];
   _.each(t, function (el, i, list) {
     var actual = Belt.Schema.validate(el.schema, el.doc);

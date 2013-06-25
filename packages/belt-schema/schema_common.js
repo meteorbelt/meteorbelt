@@ -188,11 +188,17 @@ var _validate = function (schema, value) {
   }
 
   if (! value) {
-    if (schema.required) {
-      return 'required';
+    // if the value is boolean `false` we want to allow it to pass
+    if (value !== false) {
+      if (schema.required) {
+        return 'required';
+      }
+      return null;
     }
-    return null;
   }
+  // if (!value && !schema.required) {
+  //   return null;
+  // }
   var type = getTypeFromKey(schema.type);
   var valid = type.validate(value);
   if (!valid) {
