@@ -12,7 +12,7 @@ Template.adminPostDetail.rendered = function () {
 Template.adminPostDetail.helpers({
   // post returns the current post
   post: function () {
-    return Posts.findOne(Session.get('postQuery'));
+    return Posts.findOne({_id: Session.get('postId')});
   },
   isDirty: function () {
     return Session.get('postIsDirty');
@@ -25,6 +25,7 @@ function parseDate(input) {
   // new date(year, month [, date [, hours[, minutes[, seconds[, ms]]]]])
   return new Date(parts[0], parts[1] - 1, parts[2]); // months are 0-based
 }
+
 function postPopulate(post, tmpl) {
 //  // if slug is present return an error if it is in use
 //  if (opts.slug) {
@@ -35,11 +36,11 @@ function postPopulate(post, tmpl) {
 //  }
   post.title = tmpl.find("#post-title").value;
   post.body = tmpl.find("#belt-richtext-textarea").value;
-  post.slug = tmpl.find("#post-slug").value;
-  post.publishedAt = parseDate(tmpl.find("#post-published-at").value);
-  post.tags = _.map(tmpl.find('#post-tags').value.split(','), function (x) {
-    return x.trim();
-  });
+  // post.slug = tmpl.find("#post-slug").value;
+  // post.publishedAt = parseDate(tmpl.find("#post-published-at").value);
+  // post.tags = _.map(tmpl.find('#post-tags').value.split(','), function (x) {
+  //   return x.trim();
+  // });
   post.owner = Meteor.userId();
   return post;
 }
@@ -55,33 +56,34 @@ Template.adminPostDetail.events({
 
   'click .publish': function (e, tmpl) {
     e.preventDefault();
-    var post = postPopulate(this.post, tmpl);
+    var post = postPopulate(tmpl.post, tmpl);
     post.isPublished = true;
     post.save(function (err, id) {
       if (err) {
-        _.each(err.reason, function (e) {
-          Belt.Flash.error(e);
+        _.each(err.details, function (v, k) {
+          Belt.Flash.error(k + " " + v);
         });
         return;
       }
       // if no error...
-      Meteor.Router.to('/admin/posts');
+      Meteor.Router.to('adminPostList');
     });
   },
 
   'click .save': function (e, tmpl) {
     e.preventDefault();
-    var post = postPopulate(this.post, tmpl);
+    var post = postPopulate(tmpl.post, tmpl);
     post.save(function (err, id) {
       if (err) {
-        _.each(err.reason, function (e) {
-          Belt.Flash.error(e);
+        Belt.Flash.clear();
+        _.each(err.details, function (v, k) {
+          Belt.Flash.error(k + " " + v);
         });
         return;
       }
       // if the post is new redirect to the correct url
       if (!post._id) {
-        Meteor.Router.to('/admin/posts/' + id);
+        Meteor.Router.to('adminPostDetail' + id);
       }
     });
   },
@@ -91,15 +93,16 @@ Template.adminPostDetail.events({
   'click .cancel': function (e) {
     e.preventDefault();
 
+    Meteor.Router.to('adminPostList');
     // If the post has been modified notify the user the their changes will
     // be lost
-    if (this.post.isDirty()) {
-      var exit = window.confirm("You have unsaved changes that will be lost");
-      if (exit === true) {
-        return Meteor.Router.to('/admin/posts');
-      }
-    } else {
-      Meteor.Router.to('/admin/posts');
-    }
+    // if (this.post.isDirty()) {
+    //   var exit = window.confirm("You have unsaved changes that will be lost");
+    //   if (exit === true) {
+    //     return Meteor.Router.to('/admin/posts');
+    //   }
+    // } else {
+    //   Meteor.Router.to('/admin/posts');
+    // }
   }
 });
