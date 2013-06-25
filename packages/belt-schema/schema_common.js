@@ -1,5 +1,13 @@
 'use strict';
 
+// XXX dirty hack to give IE8 Constructor functions a name property
+if (typeof String.name === 'undefined') String.name = "String";
+if (typeof Number.name === 'undefined') Number.name = "Number";
+if (typeof Date.name === 'undefined') Date.name = "Date";
+if (typeof Boolean.name === 'undefined') Boolean.name = "Boolean";
+if (typeof Array.name === 'undefined') Array.name = "Array";
+if (typeof Object.name === 'undefined') Object.name = "Object";
+
 var Types = {
   'Date': {
     cast: function (v) {
@@ -110,7 +118,7 @@ var removeEmptyErrors = function (errorObject, key) {
     return;
   }
   // remove empty objects
-  if (k.constructor && k.constructor.name === 'Object' && _.isEmpty(k)) {
+  if (_.isObject(k) && _.isEmpty(k)) {
     delete errorObject[key];
     return;
   }
@@ -123,12 +131,14 @@ function getType(thing) {
 
 var _populate = function (schema, value) {
 
+  var newValues = {};
+
   // Array
   if (_.isArray(schema) || Array === schema || 'array' === schema) {
     _.each(value, function (val, key) {
-      value[key] = _populate(schema[0], value[key]);
+      newValues[key] = _populate(schema[0], value[key]);
     });
-    return value;
+    return newValues;
   }
 
   // turn:
@@ -137,10 +147,9 @@ var _populate = function (schema, value) {
   // into:
   //   {type: String},
   //
-  if (! (getType(schema) == "[object Object]")) {
+  if (! (getType(schema) === "[object Object]")) {
     schema = { type: schema };
   }
-
   // If we have an object, but that object does not have a type
   // we need to dig deeper.
   if (! schema.type) {
@@ -149,10 +158,10 @@ var _populate = function (schema, value) {
       // or values that have a default value (schema[key])
       var defaultIsDefined = schema[key]['default'] !== undefined;
       if (value[key] || defaultIsDefined) {
-        value[key] = _populate(schemaPart, value[key]);
+        newValues[key] = _populate(schemaPart, value[key]);
       }
     });
-    return value;
+    return newValues;
   }
 
   // Set default value
@@ -178,7 +187,7 @@ var _validate = function (schema, value) {
     return errors;
   }
 
-  if (! (getType(schema) == "[object Object]")) {
+  if (! (getType(schema) === "[object Object]")) {
     schema = { type: schema };
   }
 
