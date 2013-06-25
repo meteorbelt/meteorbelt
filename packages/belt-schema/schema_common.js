@@ -134,11 +134,20 @@ var _populate = function (schema, value) {
   var newValues = {};
 
   // Array
-  if (_.isArray(schema) || Array === schema || 'array' === schema) {
-    _.each(value, function (val, key) {
-      newValues[key] = _populate(schema[0], value[key]);
-    });
-    return newValues;
+  // E.g. []
+  if (_.isArray(schema)) {
+    // E.g. [String]
+    if (! _.isEmpty(schema)) {
+      var newArr = [];
+      // iterate throught the values of the array.
+      // E.g. ['one', 'two', 'three']
+      _.each(value, function (val) {
+        // E.g. val = 'one'
+        newArr.push(_populate(schema[0], val));
+      });
+      return newArr;
+    }
+    schema = Array;
   }
 
   // turn:
@@ -156,8 +165,12 @@ var _populate = function (schema, value) {
     _.each(schema, function (schemaPart, key) {
       // Only populate values that actually exist (value[key])
       // or values that have a default value (schema[key])
-      var defaultIsDefined = schema[key]['default'] !== undefined;
-      if (value[key] || defaultIsDefined) {
+      // console.log("sc: ", schema);
+      // console.log("key: ", key);
+      // Account for Boolean `false`
+      var defaultIsDefined = (typeof schema[key]['default'] !== 'undefined');
+      var valueIsDefined = (typeof value[key] !== 'undefined' || value[key] === null);
+      if (valueIsDefined || defaultIsDefined) {
         newValues[key] = _populate(schemaPart, value[key]);
       }
     });
