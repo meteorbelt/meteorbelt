@@ -116,6 +116,10 @@ var removeEmptyErrors = function (errorObject, key) {
   }
 };
 
+function getType(thing) {
+  if (thing === null) return "[object Null]"; // special case
+  return Object.prototype.toString.call(thing);
+}
 
 var _populate = function (schema, value) {
 
@@ -133,7 +137,7 @@ var _populate = function (schema, value) {
   // into:
   //   {type: String},
   //
-  if (schema.constructor.name !== 'Object') {
+  if (! (getType(schema) == "[object Object]")) {
     schema = { type: schema };
   }
 
@@ -143,7 +147,7 @@ var _populate = function (schema, value) {
     _.each(schema, function (schemaPart, key) {
       // Only populate values that actually exist (value[key])
       // or values that have a default value (schema[key])
-      var defaultIsDefined = schema[key].default !== undefined;
+      var defaultIsDefined = schema[key]['default'] !== undefined;
       if (value[key] || defaultIsDefined) {
         value[key] = _populate(schemaPart, value[key]);
       }
@@ -152,10 +156,10 @@ var _populate = function (schema, value) {
   }
 
   // Set default value
-  if (schema.default && ! value) {
+  if (schema['default'] && ! value) {
     // TODO: should there be a type test here?
     // If some one tries to set a default that is not the proper type.
-    value = schema.default;
+    value = schema['default'];
   }
   var type = getTypeFromKey(schema.type);
   // populate type with value
@@ -174,7 +178,7 @@ var _validate = function (schema, value) {
     return errors;
   }
 
-  if (schema.constructor.name !== 'Object') {
+  if (! (getType(schema) == "[object Object]")) {
     schema = { type: schema };
   }
 
