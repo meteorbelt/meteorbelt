@@ -45,9 +45,9 @@ Template.beltRichtext.preserve(['.wysihtml5-sandbox']);
 Meteor.autorun(function (c) {
   if (Session.get('beltRichtextContent')) {
     if (global.beltRichtextEditorInstance) {
-      console.log('autorun', Session.get('beltRichtextContent'));
+      // console.log('autorun', Session.get('beltRichtextContent'));
       var a = global.beltRichtextEditorInstance.setValue(Session.get('beltRichtextContent'), true);
-      console.log('a', a);
+      // console.log('a', a);
     }
   }
 });
