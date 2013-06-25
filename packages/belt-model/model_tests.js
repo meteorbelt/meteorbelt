@@ -85,7 +85,6 @@ Tinytest.add('belt - model - schema', function (t) {
   };
 
   var c = new Belt.Model(com1, commentSchema);
-  c.schema({extra: String});
 
   p.populate({extra: 'new stuff'});
 
@@ -96,20 +95,4 @@ Tinytest.add('belt - model - schema', function (t) {
   t.equal(c.name, 'George');
   t.equal(p.title, doc1.title);
   t.equal(p.body, doc1.body);
-});
-
-
-Tinytest.add('belt - model - schema a', function (t) {
-  var doc1 = {
-    title: "Hello World",
-    body: "Post Body",
-    publishedAt: new Date()
-  };
-  var p2 = new Belt.Model(doc1, postSchema);
-
-  // add to schema
-  p2.schema({extra: String});
-  // it will show up now because it's been added to the schema
-  p2.populate({extra: 'new stuff'});
-  t.equal(p2.extra, 'new stuff');
 });
