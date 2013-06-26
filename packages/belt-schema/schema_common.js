@@ -96,7 +96,7 @@ var getTypeFromKey = function (type) {
   }
   // capitalize first letter
   var typeKey = type.charAt(0).toUpperCase() + type.substring(1);
-  if (undefined == Types[typeKey]) {
+  if (_.isUndefined(Types[typeKey])) {
     throw new Error('Undefined type ' + typeKey);
   }
   return Types[typeKey];
@@ -169,9 +169,15 @@ var _populate = function (schema, value) {
       // Account for:
       // - Boolean `false`
       // - Number 0
-      var defaultIsDefined = (typeof schema[key]['default'] !== 'undefined');
-      var valueIsDefined = (typeof value[key] !== 'undefined' || value[key] === null);
-      if (valueIsDefined || defaultIsDefined) {
+      var defaultPresent = (
+           ! _.isUndefined(schema[key]['default'])
+        || ! _.isNull(schema[key]['default']));
+
+      var valuePresent = (
+           ! _.isUndefined(value[key])
+        || ! _.isNull(value[key]));
+
+      if (defaultPresent || valuePresent) {
         newValues[key] = _populate(schemaPart, value[key]);
       }
     });
@@ -179,12 +185,11 @@ var _populate = function (schema, value) {
   }
 
   // Set default value if the default value is defined and value is not
-  var d = schema['default'] 
-  if ((typeof d !== "undefined" && d !== null) &&
-     !(typeof value !== "undefined" && value !== null)) {
+  if (! _.isUndefined(schema['default']) && 
+    (_.isUndefined(value) || _.isNull(value))) {
     // TODO: should there be a type test here?
     // If some one tries to set a default that is not the proper type.
-    value = d;
+    value = schema['default'];
   }
   var type = getTypeFromKey(schema.type);
   // populate type with value
@@ -226,13 +231,6 @@ var _validate = function (schema, value) {
     schema = Array;
   }
 
-  // if (_.isArray(schema) || Array === schema || 'array' === schema) {
-  //   _.each(value, function (val, key) {
-  //     errors[key] = _validate(schema[0], value[key]);
-  //     removeEmptyErrors(errors, key);
-  //   });
-  //   return errors;
-  // }
   if (getType(schema) !== "[object Object]") {
     schema = { type: schema };
   }
@@ -240,7 +238,7 @@ var _validate = function (schema, value) {
   if (! schema.type) {
     _.each(schema, function (schemaPart, key) {
       var val = null;
-      if (value !== null || value !== undefined) {
+      if (! _.isNull(value) || _.isUndefinded(value)) {
         val = value[key];
       }
       errors[key] = _validate(schemaPart, val);
@@ -249,41 +247,39 @@ var _validate = function (schema, value) {
     return errors;
   }
 
-  if (!(typeof value !== "undefined" && value !== null)) {
-  // if (value === null || value === undefined) {
+  if (_.isUndefined(value) || _.isNull(value)) {
     // if the value is required return 'required'
     // otherwise just return null to show that it was checked
-    if (schema.required) {
+    if (schema.required === true) {
       return 'required';
     }
     return null;
   }
   var type = getTypeFromKey(schema.type);
-  var valid = type.validate(value);
-  if (!valid) {
+  if (! type.validate(value)) {
     return type.message(value);
   }
   return null;
 };
 
 var populate = function (schema, doc) {
-  if (schema === undefined) {
+  if (_.isUndefined(schema)) {
     throw new Error('You must provide a schema');
   }
-  if (doc === undefined) {
+  if (_.isUndefined(doc)) {
     throw new Error('You must provide a doc');
   }
   return _populate(schema, doc);
 };
 
 var validate = function (schema, doc) {
-  if (schema === undefined) {
+  if (_.isUndefined(schema)) {
     throw new Error('You must provide a schema');
   }
-  if (doc === undefined) {
+  if (_.isUndefined(doc)) {
     throw new Error('You must provide a doc');
   }
-  // return null there are no errors
+  // return null if there are no errors
   var v = _validate(schema, doc);
   return _.isEmpty(v) ? null : v;
 };

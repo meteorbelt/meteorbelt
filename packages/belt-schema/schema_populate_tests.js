@@ -139,7 +139,7 @@ Tinytest.add('belt - schema - populate - Array - simple', function (test) {
     complexStr: { type: 'array' },
     // cast:    Array,
     defaultVal: { type: Array, 'default': ['a', 'b', 'c'] }
-    
+   
   };
 
   var d = {
