@@ -1,85 +1,98 @@
+
 Tinytest.add('belt - model - Belt.Model is Global', function (test) {
   test.isTrue(typeof Belt.Model !== 'undefined');
 });
 
-Tinytest.add('belt - model - extend', function (test) {
+var postSchema = {
+  title:       { type: String, required: true },
+  body:        { type: String, required: true },
+  publishedAt: { type: Date, required: true },
+  isPublished: { type: Boolean, 'default': false },
+};
+
+Tinytest.add('belt - model - populate', function (t) {
   var doc = {
-    price: 5
+    title: 1, // will be converted to string
+    body: "Post Body",
+    publishedAt: '7/7/7' // will be converted to Date
   };
-  var A = Belt.Model.extend({
-    multiplier: 2,
-    markup: function () {
-      return this.price * this.multiplier;
-    },
-    rich: function () {
-      return false;
-    }
-  });
-  var B = A.extend({
-    // will be overridden by doc
-    price: 1,
-    // override parent attribute
-    multiplier: 3,
-    // override parent method
-    rich: function () {
-      return true;
-    }
-  });
-  // Model A `markup` should add 5 to `price`
-  var a = new A(doc);
-  test.equal(a.multiplier, 2);
-  test.equal(a.price, 5);
-  test.equal(a.markup(), 10);
-  test.isFalse(a.rich());
-  // Model B should extend A but override attributes and methods
-  var b = new B(doc);
-  test.equal(b.multiplier, 3);
-  test.equal(b.price, 5);
-  test.equal(b.markup(), 15);
-  test.isTrue(b.rich());
+
+  var expect = {
+    title: "1", // will be converted to string
+    body: "Post Body",
+    publishedAt: new Date('7/7/7') // will be converted to Date
+  };
+
+  // start off with an empy doc
+  var p = new Belt.Model({}, postSchema);
+  p.populate(doc);
+  t.equal(p.title, expect.title);
+  t.equal(p.body, expect.body);
+  t.equal(p.publishedAt, expect.publishedAt);
+
+  // reset
+  p = {};
+
+  // populate on construction
+  // start off with an empy doc
+  p = new Belt.Model(doc, postSchema);
+  t.equal(p.title, expect.title);
+  t.equal(p.body, expect.body);
+  t.equal(p.publishedAt, expect.publishedAt);
 });
 
-Tinytest.add('belt - model - validate', function (test) {
-  var doc, a;
-  var A = Belt.Model.extend({
-    validate: function () {
-      var err = {};
-      if (!_.isString(this.str)) {
-        err.str = 'Str must be a String';
-      }
-      if (!_.isNumber(this.num)) {
-        err.num = 'Num must be a Number';
-      }
-      console.log('err', err);
-      return _.isEmpty(err) ? '' : err;
-    }
-  });
-  // Valid
-  doc = {
-    str: 'string',
-    num: 5,
-    arr: [1, 2, 3],
-    obj: {
-      one: 1,
-      two: 2
-    }
+Tinytest.add('belt - model - validate', function (t) {
+  // valid
+  // -----
+  var doc1 = {
+    title: "Hello World",
+    body: "Post Body",
+    publishedAt: new Date()
   };
-  // Model A mark should add 5
-  a = new A(doc);
-  test.equal(a.validate(), '');
-  // in-Valid
-  doc = {
-    str: 1,
-    num: 'string',
-    arr: [1, 2, 3],
-    obj: {
-      one: 1,
-      two: 2
-    }
+
+  var p1 = new Belt.Model(doc1, postSchema);
+  t.equal(p1.validate(), null);
+
+  // invalid
+  // -------
+  var doc2 = {
+    title: 42,
+    isPublished: 'yes please',
+    publishedAt: 'hello'
   };
-  a = new A(doc);
-  test.equal(a.validate(), {
-    str: 'Str must be a String',
-    num: 'Num must be a Number'
-  });
+  var p2 = new Belt.Model(doc2, postSchema);
+  var err = {
+    body: "required",
+  };
+  t.equal(p2.validate(), err);
+});
+
+Tinytest.add('belt - model - schema', function (t) {
+  var doc1 = {
+    title: "Hello World",
+    body: "Post Body",
+    publishedAt: new Date()
+  };
+
+  var p = new Belt.Model(doc1, postSchema);
+
+  // mix in another schema to try and break things
+  var commentSchema = {
+    name: String
+  };
+  var com1 = {
+    name: 'George'
+  };
+
+  var c = new Belt.Model(com1, commentSchema);
+
+  p.populate({extra: 'new stuff'});
+
+  // won't show up because the extra property is not present in the schema
+  // XXX failing on IE8 ???? Only when the next test is present
+  t.equal(p.extra, undefined);
+
+  t.equal(c.name, 'George');
+  t.equal(p.title, doc1.title);
+  t.equal(p.body, doc1.body);
 });

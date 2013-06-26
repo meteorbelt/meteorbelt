@@ -1,101 +1,296 @@
-// Collection
-// ----------
-// Set validation on the model
-_.extend(Belt.Model.prototype, Belt.Validation.mixin);
+/**
+ * This file includes code influenced by
+ * https://github.com/matb33/meteor-collection-hooks
+ *
+ * (c) 2013 Mathieu Bouchard
+ */
 
-_.extend(Belt.Model.prototype, {
-  save: function (callback) {
-    var self = this;
-    var err = self.validate();
-    console.log('save self: ', self);
-    console.log('save err: ', err);
-    if (err) {
-      // send a validation error to the callback
-      //throw new Meteor.error(401, err);
-      var e = {
-        error: 401,
-        message: err
-      };
-      callback(e, null);
-      return null;
-    }
-    console.log('save object: ', self.toObject());
-    console.log('self._Collection: ', self._Collection);
-    if (self._id) {
-      var o = self.toObject();
-      return self._Collection.update({_id: o._id}, {$set: o}, callback);
-    }
-    return self._Collection.insert(self.toObject(), callback);
+function getUserId() {
+  var ci;
+
+  try {
+    ci = Meteor._CurrentInvocation.get();
+  } catch (e) {}
+
+  if (ci) {
+    return ci.userId;
+  } else {
+    // this.userId will likely not be defined because no one usually
+    // invokes collection.insert with a `.call(this)`... But if they
+    // do, userId will be available to the end-callback.
+    return this.userId || null;
   }
-});
+}
 
-var Collection = Meteor.Collection;
+function makeValidationError(err) {
+  return {
+    error: 401,
+    reason: "Validation Error",
+    details: err
+  };
+}
 
-Collection._methods = {};
-Collection._statics = {};
-Collection.schema = {};
+// Extend Meteor.Collection
+// ------------------------
 
-// Methods
-// -------
-Collection.extend = Belt.Helpers.extend;
+_.extend(Meteor.Collection.prototype, {
 
-// Prototype
-// ---------
-_.extend(Collection.prototype, {
-  model: Belt.Model,
-  // create a new model
+  _BaseModel: Belt.Model,
+
+  _process: function (type, verb, args) {
+    var self = this;
+
+    // Only process the function if the `processors` property is present. 
+    // This allows for backwards compatibility.
+    if (self._processors && self._processors[verb] && self._processors[verb][type]) {
+      _.each(self._processors[verb][type], function (fn) {
+        // The function call in an if statement to ensure that it is processed 
+        // synchronously.
+        //
+        // XXX we're setting `this` in the fn to self, because we have to set it
+        // to something, but it should not be relayed upon. Maybe it would be 
+        // better to set `this` to the doc?
+        if (fn.apply(self, args) === false) {
+          return false;
+        }
+      });
+    }
+  },
+
+  // Override
+  _insert: Meteor.Collection.prototype.insert,
+  insert: function (doc, fn) {
+    var self = this;
+    var userId = getUserId.call(self);
+    var result;
+
+    // call before insert function
+    if (self._process("before", "insert", [userId, doc, fn]) !== false) {
+
+      // Validate against schema
+      var err = self.validate(doc);
+      if (err) {
+        if (typeof fn === 'function') {
+          fn(makeValidationError(err), null);
+        }
+        return null;
+      }
+
+      // process actual insert
+      result = self._insert(doc, fn);
+
+      // call after insert functions
+      var args = [
+        userId, result && self._collection.findOne({_id: result}) || doc, fn
+      ];
+      self._process("after", "insert", args);
+    }
+
+    return result;
+  },
+
+  // override
+  _update: Meteor.Collection.prototype.update,
+  update: function (selector, modifier, options, fn) {
+    var self = this;
+    var result;
+    var userId = getUserId.call(self);
+
+    // call before update functions
+    var args = [userId, selector, modifier, options, fn];
+    if (self._process("before", "update", args) !== false) {
+      var previous = self._collection.find(selector, { reactive: false }).fetch();
+      // var args = _.without(_.toArray(arguments), undefined);
+      result = self._update.apply(self, arguments);
+
+      // retrieve the doc for validation
+      var doc = self.findOne(selector);
+
+      // Validate against schema
+      var err = self.validate(doc);
+      var doafter = true;
+      if (err) {
+        // Set the doc back to it's previous state
+        // XXX Danger - the validation should be prior to save this dangerous.
+        _.each(previous, function (doc) {
+          var _id = doc._id;
+          delete doc._id;
+          result = self._update({ _id: _id }, { $set: doc });
+        });
+        // if the operation is roled back we should not do the after call
+        doafter = false;
+        // The callback is optional. Therefore, we must confirm that the last
+        // argument is indeed a function.
+        fn = _.last(_.toArray(arguments));
+        if (typeof fn === 'function') {
+          fn(makeValidationError(err), null);
+        }
+        return null;
+      }
+      // only call the after functions if the upate was successful
+      if (doafter) {
+        args = [userId, selector, modifier, options, previous, fn];
+        self._process("after", "update", args);
+      }
+    }
+
+    return result;
+  },
+
+  // override
+  _remove: Meteor.Collection.prototype.remove,
+  remove: function (selector, fn) {
+    var self = this;
+    var result;
+    var userId = getUserId.call(self);
+
+    if (self._process("before", "remove", [userId, selector, fn]) !== false) {
+      var previous = self._collection.find(selector, { reactive: false }).fetch();
+      result = self._remove(selector, fn);
+      var args = [userId, selector, previous, fn];
+      self._process("after", "remove", args);
+    }
+
+    return result;
+  },
+
+  save: function (doc, fn) {
+    var self = this;
+    var id;
+    var userId = getUserId.call(self);
+
+    // process before functions
+    if (self._process('before', 'save', [userId, doc, fn]) !== false) {
+      if (! doc._id) {
+        id = this.insert(doc, fn);
+      }
+      // Update
+      else {
+        // Mongo complains if the _id is present on the doc when using set.
+        // TODO: maybe we can be smarter about the $set. Only setting changed
+        // values
+        id = doc._id;
+        delete doc._id;
+        // Make the update callback match the insert callback, 
+        // i.e. return the id
+        //
+        //   callback(err, id)
+        //
+        // instead of
+        //
+        //   callback(err)
+        //
+        id = this.update({_id: id}, {$set: doc}, function (err) {
+          if (! fn) return;
+          return fn(err, id);
+        });
+      }
+      // process after functions
+      self._process('after', 'save', [id && self.findOne({_id: id}) || doc, fn]);
+    }
+    return id;
+  },
+
+  plugin: function (fn, opts) {
+    if (typeof fn !== 'function') {
+      throw new Error('plugin() requires a function with the following signature ' +
+        '`function (collection, options)` ');
+    }
+    return fn(this, opts);
+  },
+
+  // collection methods
+  statics: function (obj) {
+    _.extend(this, obj);
+  },
+
+  schema: function (obj) {
+    if (! this._schema) this._schema = {};
+    _.extend(this._schema, obj);
+  },
+
+  // model methods
+  methods: function (obj) {
+   if (! this._methods) this._methods = {};
+    _.extend(this._methods, obj);
+  },
+
   create: function (doc) {
     var self = this;
-    var m = new self.model(doc);
-    m._Collection = self;
-    m.validation = self.schema;
+    var m = new self._BaseModel(doc, self._schema);
+    m._collection = self;
+    // add a save convenience method to the model
+    m.save = function (fn) {
+      return self.save(this.toObject(), fn);
+    };
     _.extend(m, self._methods);
     return m;
   },
-  // model methods
-  methods: function (methodMap) {
+
+  validate: function (doc) {
     var self = this;
-    var methods = (self._methods = (self._methods || {}));
-    for (var h in methodMap) {
-      methods[h] = methodMap[h];
+    // only run validation if a schema is present. This makes validation
+    // backwards compatible.
+    if (! self._schema) return null;
+    var m = new self._BaseModel(doc, self._schema);
+    var err = m.validate();
+    if (err) {
+      return err;
     }
-  },
-  // collection methods
-  statics: function (obj) {
-    _.extend(this._statics, obj);
-  },
-
-  // pre defines functions that should be run prior to operational calls
-  // obj:
-  //   {
-  //     insert: function (userId, doc) {},
-  //     update: function (userId, doc) {},
-  //     delete: function (userId, doc) {},
-  //   }
-  pre: function (obj) {
-
-  },
-  post: function (obj) {
-
+    return null;
   }
 });
 
+_.each(["before", "after"], function (type) {
+  Meteor.Collection.prototype[type] = function (obj) {
+    var self = this;
+    _.each(obj, function (fn, verb) {
+      if (typeof fn !== 'function') {
+        throw new Error('Expected ' + type + ' ' + verb + 
+          ' to be of type Function; not of type ' + (typeof fn));
+      }
+      if (! self._processors) self._processors = {};
+      if (! self._processors[verb]) self._processors[verb] = {};
+      if (! self._processors[verb][type]) self._processors[verb][type] = [];
+
+      self._processors[verb][type].push(fn);
+    });
+  };
+});
+
+
+/////////////////////////////
+// Alternative Constructor //
+/////////////////////////////
+
+var Collection = function (name, options) {
+  var self = this;
+  if (options) {
+    _.each(['schema', 'methods', 'statics', 'before', 'after'], function (method) {
+      var opts = _.pick(options, method);
+      delete options[method];
+      if (opts && opts[method]) {
+        opts = opts[method];
+        self[method](opts);
+      }
+    });
+  }
+
+  options = options || {};
+
+  if (! options.transform) {
+    options.transform = function (doc) {
+      return self.create(doc);
+    };
+  }
+
+  Meteor.Collection.call(this, name, options);
+};
+
+Collection.prototype = new Meteor.Collection(null);
+
+Collection.prototype.constructor = Collection;
+
 // Exports
 // -------
-Belt.Collection = Collection
-// XXX Janky we probably shouldn't be overriding in this manner
-// Belt.Collection = (function () {
-//   var original_a = Meteor.Collection;
-//
-//   if (condition) {
-//     return function () {
-//       new_code();
-//       original_a();
-//     }
-//   } else {
-//     return function () {
-//       original_a();
-//       other_new_code();
-//     }
-//   }
-// })();
+Belt.Collection = Collection;

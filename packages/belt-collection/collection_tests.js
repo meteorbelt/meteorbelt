@@ -1,201 +1,212 @@
-var PRINT_LOGS = true;
-//var PRINT_LOGS = false;
-var debug = function (msg) {
-  if (PRINT_LOGS) {
-    console.log(msg);
-  }
-};
 
-// X
-// -
-var X = new Belt.Collection('x');
-
-X.schema = {
-  num: {
-    pattern: 'number'
-  },
-  //str: {
-  //  pattern: 'string'
-  //},
-  num2: {
-    fn: function (value, attr, computedState) {
-      if (value !== 2) {
-        return 'num2 must be 2';
-      }
-    }
-  }
-};
-
-X.methods({
-  one: function () {
-    return 'one';
-  },
-  two: function () {
-    return 'two';
-  }
-});
-
-X.pre({
-  insert: function (userId, docs) {
-    return docs;
-  }
-});
-
-if (Meteor.isServer) {
-  X.allow({
-    insert: function (userId, docs) {
-      return true;
-    },
-    update: function (userId, docs, fields, modifier) {
-      return true;
-    },
-    remove: function (userId, docs) {
-      return true;
-    }
+// Test helpers
+function resetPosts() {
+  _.each(Posts.find().fetch(), function (p) {
+    Posts.remove(p._id);
   });
 }
 
+/////////////////
+// Collections //
+/////////////////
 
-// Z
-// -
-var Z = new Belt.Collection('z');
+var Posts = this.Posts = new Belt.Collection(null);
 
-Z.schema = {
+Posts.schema({
+  title:       { type: String, required: true },
+  body:        { type: String, required: true },
+  publishedAt: { type: Date, required: true },
+  isPublished: { type: Boolean, 'default': false },
+  loudTitle:   String
+});
 
-};
-
-Z.methods({
-  one: function () {
-    return 1;
-  },
-  two: function () {
-    return 2;
+Posts.methods({
+  getTitle: function () {
+    return this.title;
   }
 });
 
-if (Meteor.isServer) {
-  Z.allow({
-    insert: function (userId, docs) {
-      return true;
-    },
-    update: function (userId, docs, fields, modifier) {
-      return true;
-    },
-    remove: function (userId, docs) {
-      return true;
-    }
-  });
-}
+Posts.statics({
+  findByTitle: function (title, args) {
+    return this.find({title: title}, args);
+  }
+});
 
-// Tests
-// -----
+// Posts.before({
+//   insert: function (user, doc) {
+//     doc.loudTitle = doc.title.toUpperCase();
+//   }
+// });
+
+var Comments = this.Comments = new Belt.Collection(null);
+
+Comments.schema({
+  title: { type: String, required: true },
+  body:  { type: String, required: true },
+  owner: { type: String, required: true }
+});
+
+Comments.methods({
+  getTitle: function () {
+    return this.title.toUpperCase();
+  }
+});
+
+///////////
+// Tests //
+///////////
+
+// Docs
+
+var p1 = this.p1 = {
+  title: "Hello World",
+  body: "Post Body",
+  publishedAt: '1/1/2001'
+};
+
+// incomplete
+var p2 = {
+  title: "Hello World",
+  body: "Post Body"
+};
+
+var c1 = {
+  title: "Original?",
+  body: "Comment Body"
+};
 
 Tinytest.add('belt - collection - Belt.Collection is Global', function (test) {
   test.isTrue(typeof Belt.Collection !== 'undefined');
 });
 
-Tinytest.add('belt - collection - model methods', function (test) {
-  // X
-  var xDoc = {
-    str: 'hello',
-    num: 1,
-    num2: 2
-  };
-  var x = X.create(xDoc);
-  // Test methods - should return strings
-  test.equal(x.one(), 'one');
-  test.equal(x.two(), 'two');
+Tinytest.add('belt - collection - model created', function (t) {
 
-  // Z
-  var zDoc = {
-    str: 'hello',
-    num: 1,
-    num2: 2
-  };
-  var z = Z.create(zDoc);
-  // Test methods - should return numbers
-  test.equal(z.one(), 1);
-  test.equal(z.two(), 2);
+  var p = Posts.create(p1);
+  var c = Comments.create(c1);
+
+  t.equal(p.title, p1.title);
+  t.equal(p.body, p1.body);
+  // check conversion to type
+  t.equal(p.publishedAt, new Date('1/1/2001'));
+
+  t.equal(c.title, c1.title);
+  t.equal(c.body, c1.body);
+
+  // Test defaults
+  t.equal(p.isPublished, false);
+
 });
 
-Tinytest.addAsync('belt - collection - model save valid', function (test, onComplete) {
-  var xDoc = {
-    str: 'hello',
-    num: 1,
-    num2: 2
-  };
-  var x = X.create(xDoc);
-  x.save(function (err, id) {
-    test.isFalse(err);
-    test.isTrue(id);
-    debug('valid -- save err: ', err);
-    debug('valid -- save id: ', id);
-    // confirm saved
-    // XXX this is only checking the client. We can't be sure that
-    // has made it to the datastore
-    // var e = X.findOne(id);
-    // test.isTrue(e);
-    onComplete();
+Tinytest.add('belt - collection - model methods', function (t) {
+  var p = Posts.create(p1);
+  var c = Comments.create(c1);
+
+  t.equal(p.getTitle(), p1.title);
+  t.equal(c.getTitle(), c1.title.toUpperCase());
+});
+
+Tinytest.add('belt - collection - collection methods (statics)', function (t) {
+  resetPosts();
+  p1.title = 'find me';
+  Posts.insert(p1);
+  var pp = Posts.findByTitle('find me').fetch();
+  t.length(pp, 1);
+});
+
+Tinytest.add("belt - collection - validate", function (t) {
+  t.equal(Posts.validate(p1), null);
+  t.equal(Posts.validate(p2), {
+    publishedAt: 'required'
   });
 });
 
-Tinytest.addAsync('belt - collection - model save invalid', function (test, onComplete) {
-  var xDoc = {
-    str: 0,
-    num: 'hello'
-  };
-  var x = X.create(xDoc);
-  // Save
-  // ----
-  x.save(function (err, id) {
-    test.isFalse(id);
-    test.equal(id, null);
-    test.isTrue(err);
-    test.equal(err.error, 401);
-    test.equal(err.message, {
-      "num": "Num must be a valid number",
-      "num2": "num2 must be 2"
+Tinytest.addAsync('belt - collection - save valid', function (t, done) {
+  resetPosts();
+  // insert
+  Posts.save(p1, function (err, id) {
+    t.equal(err, null);
+    t.isTrue(id && id.length);
+    // Check it
+    var p = Posts.findOne(id);
+    t.equal(p.title, 'Hello World');
+    // Update
+    p.title = 'Changed';
+    Posts.save(p, function (err, id2) {
+      t.equal(err, null);
+      t.isTrue(id2 && id2.length);
+      t.equal(id, id2);
+      // Check it
+      p = Posts.findOne(id2);
+      t.equal(p.title, 'Changed');
+      done();
     });
-    onComplete();
   });
 });
 
-// TODO test invalid. Setting X.allow() twice is causing problems
-// Tinytest.add('belt - collection - restricted access', function (test) {
-//   if (Meteor.isServer) {
-//     X.allow({
-//       insert: function (userId, docs) {
-//         return false;
-//       },
-//       update: function (userId, docs, fields, modifier) {
-//         return false;
-//       },
-//       remove: function (userId, docs) {
-//         return false;
-//       }
-//     });
-//   }
-//
-//   if (Meteor.isClient) {
-//     var doc = {
-//       price: 5,
-//       multiplier: 2
-//     };
-//     var x = X.create(doc);
-//     // Methods
-//     // ------
-//     test.equal(x.markup(), 10);
-//
-//     // Instance
-//     // --------
-//     // Save
-//     // ----
-//     x.save(function (err, id) {
-//       test.equal(err.error, 403);
-//       test.equal(err.message, 'Access denied');
-//       test.equal(id, null);
-//       debug('restricted -- save err: ', err);
-//       debug('restricted -- save id: ', id);
-//     });
-//   }
-// });
+Tinytest.addAsync('belt - collection - save invalid', function (t, done) {
+  resetPosts();
+  var expect = {
+    error: 401,
+    reason: 'Validation Error',
+    details: {
+      publishedAt: 'required'
+    }
+  };
+  Posts.save(p2, function (err, id) {
+    t.equal(err, expect);
+    done();
+  });
+});
+
+Tinytest.addAsync('belt - collection - model save', function (t, done) {
+  resetPosts();
+  var p = Posts.create(p1);
+  // insert
+  p.save(function (err, id) {
+    t.equal(err, null);
+    t.isTrue(id && id.length);
+    // Check it
+    p = Posts.findOne(id);
+    p = Posts.create(p);
+    t.equal(p.title, 'Hello World');
+    // Update
+    p.title = 'Changed';
+    p.save(function (err, id2) {
+      t.equal(err, null);
+      t.isTrue(id2 && id2.length);
+      t.equal(id, id2);
+      // Check it
+      p = Posts.findOne(id2);
+      t.equal(p.title, 'Changed');
+      done();
+    });
+  });
+});
+
+Tinytest.add("belt - collection - alternative constructor", function (t) {
+  var PostAlt = new Belt.Collection(null, {
+    schema: {
+      _id:         { type: String },
+      title:       { type: String, required: true },
+      body:        { type: String, required: true },
+      publishedAt: { type: Date, required: true },
+      isPublished: { type: Boolean, 'default': false },
+      loudTitle:   String
+    },
+
+    methods: {
+      getTitle: function () {
+        return this.title;
+      }
+    },
+
+    statics: {
+      findByTitle: function (title, args) {
+        return this.find({title: title}, args);
+      }
+    }
+  });
+
+  t.equal(PostAlt._schema, Posts._schema);
+  t.equal(PostAlt._processors, Posts._processors);
+});

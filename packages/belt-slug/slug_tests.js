@@ -8,7 +8,7 @@ Tinytest.add("belt - slug - get", function (test) {
   ];
   var i;
   for (i = 0; i < maps.length; i += 1) {
-    test.equal(Belt.Slug.get(maps[i].start), maps[i].end);
+    test.equal(Belt.Slug.generate(maps[i].start), maps[i].end);
   }
 });
 

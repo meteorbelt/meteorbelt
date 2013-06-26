@@ -1,3 +1,5 @@
+// Routes
+// ------
 function setSession(cntx, key) {
   var slug = cntx.params.slug;
   var _id = cntx.params._id;
@@ -106,7 +108,7 @@ Meteor.Router.filters({
           if (Meteor.loggingIn()) {
             return Meteor.setTimeout(loggingInCheck, 100);
           }
-        }
+        };
         // start it off
         loggingInCheck();
     }
@@ -145,7 +147,7 @@ Meteor.Router.filter('isLoggedIn', {
     //'adminPostList',
     //'adminPostDetail',
     //'adminUserList'
-    ]
+  ]
 });
 
 // applies to admin pages
@@ -155,5 +157,5 @@ Meteor.Router.filter('isAdmin', {
     //'adminPostList',
     //'adminPostDetail',
     //'adminUserList'
-    ]
+  ]
 });

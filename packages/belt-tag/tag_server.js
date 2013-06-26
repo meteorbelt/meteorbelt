@@ -1,11 +1,3 @@
-// Indexes
-// -------
-Tags._ensureIndex({
-  'slug': 1
-}, {
-  unique: true
-});
-
 // Publish
 // -------
 // a single tag, identified by slug
