@@ -118,4 +118,4 @@ Plugins.updatedAt = updatedAt;
 Plugins.isPublic = isPublic;
 Plugins.tags = tags;
 
-Belt.Collection.Plugins = Plugins;
+Belt.Plugins = Plugins;
