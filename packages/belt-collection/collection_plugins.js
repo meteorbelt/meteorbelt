@@ -2,8 +2,6 @@
 // Plugins
 // -------
 
-// Tag
-// ---
 var tags = function (collection, options) {
 
   options = options || { required: false };
@@ -24,10 +22,16 @@ var tags = function (collection, options) {
   });
 
   collection.statics({
-    findByTag: function (tags, callback) {
-      return this.find({tags: tags}, callback);
+    findByTag: function (tags, opts, callback) {
+      return this.find({tags: tags}, opts, callback);
     }
   });
+
+  if (Meteor.isServer) {
+    collection._ensureIndex({
+      'tags': 1
+    });
+  }
 };
 
 var owner = function (collection, options) {
@@ -48,6 +52,12 @@ var owner = function (collection, options) {
       doc.owner = userId;
     }
   });
+
+  if (Meteor.isServer) {
+    collection._ensureIndex({
+      'owner': 1
+    });
+  }
 };
 
 var createdAt = function (collection, options) {
