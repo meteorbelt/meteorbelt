@@ -1,29 +1,6 @@
 // Post
 // ----
-/**
-  Post a class that takes a document in its constructor
-
-    var doc = {
-      title: 'Hello World',
-      body: 'body text'.
-      tags: ['one', 'two', 'three'],
-      publishedAt: {Date},
-      isPublished: true,
-      owner: '123',
-      slug: 'hello-world'
-    };
-
-   opts:
-    - owner {String}
-    - title {String}
-    - body {String}
-    - tags {Array}{String}
-    - publishedAt {Date}
-    - isPublished {Boolean}
-    - slug {Array} Optional
-*/
-
-var Posts = new Belt.Collection('posts', {
+Posts = new Belt.Collection('posts', {
 
   schema: {
     title:       { type: String, required: true },
@@ -40,14 +17,14 @@ var Posts = new Belt.Collection('posts', {
 
 // Plugins
 // -------
-Posts.plugin(Belt.Collection.Plugins.createdAt);
-Posts.plugin(Belt.Collection.Plugins.updatedAt);
-Posts.plugin(Belt.Collection.Plugins.tags);
-Posts.plugin(Belt.Collection.Plugins.isPublic);
-// Posts.plugin(Belt.Collection.Plugins.owner);
 
-// Posts.plugin(Belt.Collection.Plugins.slug, { required: true, attr: "title" });
+// Properties
+Posts.plugin(Belt.Plugins.createdAt);
+Posts.plugin(Belt.Plugins.updatedAt);
+Posts.plugin(Belt.Plugins.tags);
+Posts.plugin(Belt.Plugins.isPublic);
+Posts.plugin(Belt.Plugins.owner);
+// Posts.plugin(Belt.Plugins.slug, { required: true, attr: "title" });
 
-// Exports
-// -------
-this.Posts = Posts;
+// Permissions
+Posts.plugin(Belt.Plugins.allowAdmin);

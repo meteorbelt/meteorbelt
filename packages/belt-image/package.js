@@ -4,7 +4,9 @@ Package.describe({
 
 Package.on_use(function (api, where) {
   api.use('belt');
-  api.use('belt-model');
+  api.use('belt-collection');
+  api.use('belt-plugins');
+
   api.use('mongo-livedata', ['client', 'server']);
   api.add_files('image_common.js', ['client', 'server']);
   api.add_files('image_client.js', 'client');

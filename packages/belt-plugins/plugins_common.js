@@ -33,7 +33,6 @@ var tags = function (collection, options) {
     });
   }
 };
-
 var owner = function (collection, options) {
 
   options = options || { required: true };
@@ -110,12 +109,53 @@ var isPublic = function (collection, options) {
   });
 };
 
+var allowAdmin = function (collection, options) {
+
+  options = options || {
+    insert: true,
+    update: true,
+    remove: true
+  };
+
+  if (Meteor.isServer) {
+
+    if (options.insert === true) {
+      collection.allow({
+        insert: function (userId, doc) {
+          return Roles.userIsInRole(userId, 'admin');
+        }
+      });
+    }
+
+    if (options.insert === true) {
+      collection.allow({
+        update: function (userId, docs, fields, modifier) {
+          return Roles.userIsInRole(userId, 'admin');
+        },
+      });
+    } 
+
+    if (options.insert === true) {
+      collection.allow({
+        remove: function (userId, docs) {
+          return Roles.userIsInRole(userId, 'admin');
+        }
+      });
+    }
+
+  }
+};
+
 var Plugins = {};
 
+// Properties
 Plugins.owner = owner;
 Plugins.createdAt = createdAt;
 Plugins.updatedAt = updatedAt;
 Plugins.isPublic = isPublic;
 Plugins.tags = tags;
+
+// Permissions
+Plugins.allowAdmin = allowAdmin;
 
 Belt.Plugins = Plugins;

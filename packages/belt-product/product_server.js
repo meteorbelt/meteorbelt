@@ -14,17 +14,3 @@ Meteor.publish('products', function (query, options) {
   }
   return Products.find(query, options);
 });
-
-// Rules
-// -----
-Products.allow({
-  insert: function (userId, doc) {
-    return Roles.userIsInRole(userId, 'admin');
-  },
-  update: function (userId, docs, fields, modifier) {
-    return Roles.userIsInRole(userId, 'admin');
-  },
-  remove: function (userId, docs) {
-    return Roles.userIsInRole(userId, 'admin');
-  }
-});
