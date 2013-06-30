@@ -1,9 +1,5 @@
 <template name="adminSettingList">
   <div class="row">
-  <a href="/admin/products/new" class="btn btn-success new-product pull-right">
-    <i class="icon-plus"></i>&nbsp;&nbsp;&nbsp;New Setting
-  </a>
-  <div class="row">
     <div class="col-lg-2 col">
       {{#with allSettings}}
         {{#if this.count}}
@@ -20,6 +16,5 @@
     <div class="col-lg-10 col">
       {{> adminSettingDetail }}
     </div>
-  </div>
   </div>
 </template>

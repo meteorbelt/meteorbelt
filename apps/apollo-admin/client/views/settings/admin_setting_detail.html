@@ -1,10 +1,37 @@
 <template name="adminSettingDetail">
   <div class="col col-lg-10">
     <div class="row">
-      <div class="col col-lg-8">
-        <h3>{{setting._id}}</h3>
+      <div class="col col-lg-12">
+        <h2>{{toTitle setting._id}} Settings</h2>
       </div>
+      <form class="form-horizontal" id="setting-form">
+        {{> adminSettingFormField setting.data }}
+        <div class="row">
+          <div class="col-lg-10 col-offset-2">
+            <input type="submit" class="btn btn-success" value="save">
+            <button class="btn cancel">cancel</button>
+          </div>
+        </div>
+      </form>
     </div>
   </div>
-  {{> adminSettingDetailForm}}
+</template>
+
+<template name="adminSettingFormField">
+  {{#keyValue this }}
+    {{#if modObject value key}}
+      {{> adminSettingFormField value}}
+    {{else}}
+      <div class="row">
+        <label for="{{key}}" class="col-lg-2 control-label">{{toTitle key}}</label>
+        <div class="col-lg-10">
+          {{#if isBoolean value}}
+            <input type="checkbox" name="{{parent}}{{key}}" checked="{{ value }}">
+          {{else}}
+            <input type="text" name="{{parent}}{{key}}" value="{{ value }}">
+          {{/if}}
+        </div>
+      </div>
+    {{/if}}
+  {{/keyValue}}
 </template>
