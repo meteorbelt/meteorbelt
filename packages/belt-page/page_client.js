@@ -1,5 +1,5 @@
 // Subscribe
 // ---------
-Meteor.autorun(function () {
+Deps.autorun(function () {
   Meteor.subscribe('pages', Session.get('pageQuery') || {});
 });

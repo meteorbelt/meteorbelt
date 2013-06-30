@@ -42,7 +42,7 @@ Template.beltRichtext.rendered = function () {
 
 Template.beltRichtext.preserve(['.wysihtml5-sandbox']);
 
-Meteor.autorun(function (c) {
+Deps.autorun(function (c) {
   if (Session.get('beltRichtextContent')) {
     if (global.beltRichtextEditorInstance) {
       // console.log('autorun', Session.get('beltRichtextContent'));
