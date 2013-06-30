@@ -20,6 +20,36 @@ Handlebars.registerHelper('timeSince', function (date) {
   return date;
 });
 
+Handlebars.registerHelper('toTitle', function (text) {
+
+  if (! text) return text;
+
+  var newText = "";
+  var chars = text.split("");
+
+  _.each(chars, function (val, i) {
+    if (_.isNumber(val)) {
+      return val;
+    }
+    var next = chars[i + 1];
+    var previous = chars[i + 1];
+    if (val === val.toUpperCase()
+      && i !== 0
+      && !(next === val.toUpperCase())
+      && previous !== " ") {
+
+      newText += " ";
+    }
+    newText += chars[i];
+  });
+
+  // capitalize first letter
+  if (newText) {
+    return newText.charAt(0).toUpperCase() + newText.slice(1);
+  }
+  return newText;
+});
+
 Handlebars.registerHelper('isSelected', function (a, b) {
   return (a === b) ? ' active' : '';
 });
@@ -61,6 +91,45 @@ Handlebars.registerHelper('truncate', function (str, length, omission) {
     return str.substring(0, length - omission.length) + omission;
   }
   return str;
+});
+
+Handlebars.registerHelper('modObject', function (val, key) {
+  // hack for nexted objects
+  if (_.isObject(val)) {
+    val.__parent = key;
+    return true;
+  }
+  return false;
+});
+
+Handlebars.registerHelper('isBoolean', function (val) {
+  return _.isBoolean(val);
+});
+
+// HELPER: #key_value
+//
+// Usage: {{#keyValue obj}} Key: {{key}} // Value: {{value}} {{/keyValue}}
+//
+// Iterate over an object, setting 'key' and 'value' for each property in
+// the object.
+Handlebars.registerHelper("keyValue", function (obj, fn) {
+  var buffer = "";
+  var key;
+  var parent = '';
+
+  // hack for nexted objects
+  if (obj.__parent) {
+    parent = obj.__parent + '.';
+    delete obj.__parent;
+  }
+
+  for (key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      buffer += fn({ key: key, value: obj[key], parent: parent });
+    }
+  }
+
+  return buffer;
 });
 
 // https://github.com/wycats/handlebars.js/issues/133
