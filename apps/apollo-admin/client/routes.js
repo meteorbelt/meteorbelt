@@ -59,6 +59,11 @@ function pageDetail() {
 Meteor.Router.beforeRouting = function () {
   // clears all seen flash messages.
   Belt.Flash.clear();
+  // clear PostId
+  Session.set('postId', null);
+
+  Session.set('postQuery', null);
+  Session.set('postFilter', null);
 };
 
 // Admin
