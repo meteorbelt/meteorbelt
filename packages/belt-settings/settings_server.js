@@ -15,7 +15,7 @@ function insertMissing(settingsList) {
     });
   } catch (err) {
     // TODO ignore duplicate error
-    console.log('err', err.stack);
+    // console.log('err', err.stack);
   }
 }
 

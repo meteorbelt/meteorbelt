@@ -1,6 +1,6 @@
 // Collection
 // ----------
-var Settings = new Meteor.Collection('settings');
+var Settings = new Belt.Collection('settings');
 
 // Exports
 // -------
