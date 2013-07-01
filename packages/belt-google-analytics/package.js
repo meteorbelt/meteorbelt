@@ -1,0 +1,13 @@
+Package.describe({
+  summary: "Provides Google Analytics. For use with Meteor Belt applications"
+});
+
+Package.on_use(function (api, where) {
+  api.use('belt');
+  api.use('belt-settings');
+
+  // XXX there seems to be a bug preventing this file name
+  // investigate later.
+  // api.add_files('google_analytics_client.js', 'client');
+  api.add_files('analytics_client.js', 'client');
+});

@@ -1,0 +1,2 @@
+
+Belt.Analytics = {};
