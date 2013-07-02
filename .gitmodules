@@ -34,3 +34,6 @@
 [submodule "packages/belt-ie8/es5-shim"]
 	path = packages/belt-ie8/es5-shim
 	url = https://github.com/kriskowal/es5-shim.git
+[submodule "contrib/scss"]
+	path = contrib/scss
+	url = https://github.com/fourseven/meteor-scss.git
