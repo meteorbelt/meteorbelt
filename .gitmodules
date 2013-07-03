@@ -37,3 +37,6 @@
 [submodule "contrib/scss"]
 	path = contrib/scss
 	url = https://github.com/fourseven/meteor-scss.git
+[submodule "packages/belt-foundation/foundation"]
+	path = packages/belt-foundation/foundation
+	url = https://github.com/zurb/foundation.git
