@@ -1,81 +1,131 @@
+<template name="contactVCard">
+  <!-- GOOGLE MAP-->
+  <div itemscope="itemscope" itemtype="http://schema.org/Restaurant">
+    <strong itemprop="name">{{Settings.site.title}}</strong>
+    <br>
+    <address itemprop="address" itemscope="itemscope" itemtype="http://schema.org/PostalAddress">
+      <span itemprop="streetaddress">{{address.address1}}</span>
+      <br>
+      {{#if address.address2}}
+        <span itemprop="streetaddress">{{address.address2}}</span>
+        <br>
+      {{/if}}
+      <span itemprop="addressLocality">{{address.city}},</span>
+      <span itemprop="addressRegion">{{address.state}}</span>
+      <span itemprop="postalCode">{{address.zipcode}}</span>
+      <br>
+      <abbr title="Phone">P:</abbr>
+      <span itemprop="telephone">{{phone}}</span>
+      <br>
+      {{#if fax}}
+        <abbr title="Fax">F:</abbr>
+        <span itemprop="fax">{{fax}}</span>
+      {{/if}}
+    </address>
+    <div></div>
+    <address>
+      <strong>{{person.name}}</strong>
+      <br>
+      <a href="{{contact.email}}">{{person.email}}</a>
+    </address>
+  </div>
+</template>
+
+
+<template name="contactForm">
+  <form id="contact-form" class="form-horizontal">
+    <h5>Please fill in your information</h5>
+    <div class="row">
+      <div class="small-2 columns">
+        <label class="inline right">Name<sup>*</sup></label>
+      </div>
+      <div class="small-10 columns">
+        <input autofocus type="text" name="name" placeholder="John Smith">
+      </div>
+    </div>
+    <div class="row">
+      <div class="small-2 columns">
+        <label class="inline right">Email</label>
+      </div>
+      <div class="small-10 columns">
+        <input type="text" name="email" placeholder="john@example.com">
+      </div>
+    </div>
+    <div class="row">
+      <div class="small-2 columns">
+        <label class="inline right">Phone <i>(optional)</i></label>
+      </div>
+      <div class="small-10 columns">
+        <input type="tel" name="phone" placeholder="316 555 1234">
+      </div>
+    </div>
+    <div class="row">
+      <div class="small-2 columns">
+        <label class="inline right">Message</label>
+      </div>
+      <div class="small-10 columns">
+        <textarea rows="4"></textarea>
+      </div>
+    </div>
+    <div class="row collapse">
+      <div class="small-10 small-offset-2">
+        <input class="radius button" type="submit" value="Send Message">     
+      </div>
+    </div>
+  </form>
+</template>
+
+<template name="contactPersonForm">
+  <section class="section">
+    <h5 class="title"><a href="#panel2">Specific Person</a></h5>
+    <div class="content" data-slug="panel2">
+      <ul class="large-block-grid-5">
+        <li><a href="mailto:mal@serenity.bc.reb"><img src="http://placehold.it/200x200&amp;text=[person]">Mal Reynolds</a></li>
+        <li><a href="mailto:zoe@serenity.bc.reb"><img src="http://placehold.it/200x200&amp;text=[person]">Zoe Washburne</a></li>
+        <li><a href="mailto:jayne@serenity.bc.reb"><img src="http://placehold.it/200x200&amp;text=[person]">Jayne Cobb</a></li>
+        <li><a href="mailto:doc@serenity.bc.reb"><img src="http://placehold.it/200x200&amp;text=[person]">Simon Tam</a></li>
+        <li><a href="mailto:killyouwithmymind@serenity.bc.reb"><img src="http://placehold.it/200x200&amp;text=[person]">River Tam</a></li>
+        <li><a href="mailto:leafonthewind@serenity.bc.reb"><img src="http://placehold.it/200x200&amp;text=[person]">Hoban Washburne</a></li>
+        <li><a href="mailto:book@serenity.bc.reb"><img src="http://placehold.it/200x200&amp;text=[person]">Shepherd Book</a></li>
+        <li><a href="mailto:klee@serenity.bc.reb"><img src="http://placehold.it/200x200&amp;text=[person]">Kaywinnet Lee Fry</a></li>
+        <li><a href="mailto:inara@guild.comp.all"><img src="http://placehold.it/200x200&amp;text=[person]">Inarra Serra</a></li>
+      </ul>
+    </div>
+  </section>
+</template>
 
 <template name="contact">
   <div class="row">
-    <div class="col col-lg-12">
-      <div class="row">
-        <div class="col col-lg-7">
-          <h2>Get In Touch</h2>
-          <!--<p>{{Settings.contact.contactText}}</p>-->
-          <form id="contact-form" class="form-horizontal">
-            <div class="control-group">
-              <label class="control-label">Name<sup>*</sup></label>
-              <div class="controls">
-                <input autofocus type="text" name="name">
-              </div>
-            </div>
-            <div class="control-group">
-              <label class="control-label">Email<sup>*</sup></label>
-              <div class="controls">
-                <input type="text" name="email">
-              </div>
-            </div>
-            <div class="control-group">
-              <label class="control-label">Phone (optional)</label>
-              <div class="controls">
-                <input type="tel" name="phone">
-              </div>
-            </div>
-            <div class="control-group">
-              <label class="control-label">Comment<sup>*</sup></label>
-              <div class="controls">
-                <textarea rows="4" name="comment"></textarea><span class="help-inline">Please write a comment</span>
-              </div>
-            </div>
-            <div class="control-group">
-              <div class="controls">
-                <input type="submit" value="Send Message" class="btn">
-              </div>
-            </div>
-          </form>
-        </div>
-        {{#if contact.showAddress}}
-          <div class="col col-lg-5">
-            <h2>Find us</h2>
-            <!-- GOOGLE MAP-->
-            <div id="contact-map" style="height:450px;width:100%;"></div>
-            <div itemscope="itemscope" itemtype="http://schema.org/Restaurant">
-              <strong itemprop="name">{{Settings.site.title}}</strong>
-              <br>
-              <address itemprop="address" itemscope="itemscope" itemtype="http://schema.org/PostalAddress">
-                <span itemprop="streetaddress">{{contact.address.address1}}</span>
-                <br>
-                {{#if contact.address.address2}}
-                  <span itemprop="streetaddress">{{contact.address.address2}}</span>
-                  <br>
-                {{/if}}
-                <span itemprop="addressLocality">{{contact.address.city}},</span>
-                <span itemprop="addressRegion">{{contact.address.state}}</span>
-                <span itemprop="postalCode">{{contact.address.zipcode}}</span>
-                <br>
-                <abbr title="Phone">P:</abbr>
-                <span itemprop="telephone">{{contact.phone}}</span>
-                <br>
-                {{#if contact.fax}}
-                  <abbr title="Fax">F:</abbr>
-                  <span itemprop="fax">{{contact.fax}}</span>
-                {{/if}}
-              </address>
-              <div></div>
-              <address>
-                <strong>{{contact.person.name}}</strong>
-                <br>
-                <a href="{{contact.contact.email}}">{{contact.person.email}}</a>
-              </address>
-            </div>
+    <div class="large-8 columns">
+      <h3>Get in Touch!</h3>
+       <!--<p>{{Settings.contact.contactText}}</p>-->
+      <p>We'd love to hear from you. You can either reach out to us as a whole and one of our awesome team members will get back to you, or if you have a specific question reach out to one of our staff. We love getting email all day <em>all day</em>.</p>
+    
+      <div class="section-container tabs" data-section>
+<!--         <section class="section">
+          <h5 class="title"><a href="#panel1">Contact Our Company</a></h5>
+          <div class="content" data-slug="panel1">
           </div>
-        {{/if}}
+        </section>
+ -->
+        {{> contactForm }}
       </div>
     </div>
+
+    <!-- Sidebar -->
+    {{#if contact.showAddress}}
+     <div class="large-3 columns">
+       <h5>Map</h5>
+       <!-- Clicking this placeholder fires the mapModal Reveal modal -->
+       <p>
+       <!-- <div id="contact-map" style="height:450px;width:100%;"></div> -->
+         <a href="" data-reveal-id="mapModal"><img src="http://placehold.it/400x280"></a><br />
+         <a href="" data-reveal-id="mapModal">View Map</a>
+       </p>
+      {{> contactVCard contact}}
+     </div>
+    </div>
+    {{/if}}
+     <!-- End Sidebar -->
   </div>
-  <div class="row"></div>
 </template>

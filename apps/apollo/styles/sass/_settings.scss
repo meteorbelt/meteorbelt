@@ -1,3 +1,5 @@
+@import "colors";
+
 //
 // Foundation Variables
 //
@@ -44,7 +46,6 @@ $default-float: left;
 
 // Colors
 
-$primary-color: red;
 // $primary-color: #2ba6cb;
 // $secondary-color: #e9e9e9;
 // $alert-color: #c60f13;
@@ -1206,10 +1207,12 @@ $primary-color: red;
 // Background color for the top bar
 
 // $topbar-bg: #111 !default;
+$topbar-bg: $green-bright-color;
 
 // Height and margin
 
 // $topbar-height: 45px;
+$topbar-height: 50px;
 // $topbar-margin-bottom: emCalc(30px);
 
 // Control Input height for top bar
@@ -1224,6 +1227,7 @@ $primary-color: red;
 // Style the top bar dropdown elements
 
 // $topbar-dropdown-bg: #222;
+$topbar-dropdown-bg: darken($green-bright-color, 8%);
 // $topbar-dropdown-link-color: #fff;
 // $topbar-dropdown-link-bg: lighten($topbar-bg, 5%);
 // $topbar-dropdown-toggle-size: 5px;
@@ -1254,7 +1258,9 @@ $primary-color: red;
 // $topbar-menu-link-color: #fff;
 // $topbar-menu-icon-color: #fff;
 // $topbar-menu-link-color-toggled: #888;
+$topbar-menu-link-color-toggled: lighten($green-bright-color, 30%);
 // $topbar-menu-icon-color-toggled: #888;
+$topbar-menu-icon-color-toggled: lighten($green-bright-color, 30%);
 
 // Transitions and breakpoint styles
 

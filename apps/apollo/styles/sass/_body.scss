@@ -1,4 +1,5 @@
 @import "bourbon/bourbon";
+@import "colors";
 
 .contain-to-grid .top-bar {
   margin-bottom: emCalc(30px);
@@ -7,4 +8,12 @@
 .top {
   height: emCalc(120px);
   @include linear-gradient(#b7dddb, #dcece1);
+}
+
+#footer {
+  background-color: $tan-color;
+}
+
+.footer-inner {
+  padding-top: emCalc(10px);
 }
