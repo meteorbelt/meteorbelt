@@ -40,3 +40,6 @@
 [submodule "packages/belt-foundation/foundation"]
 	path = packages/belt-foundation/foundation
 	url = https://github.com/zurb/foundation.git
+[submodule "packages/belt-bourbon/bourbon"]
+	path = packages/belt-bourbon/bourbon
+	url = https://github.com/thoughtbot/bourbon.git
