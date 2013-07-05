@@ -1,27 +1,38 @@
-<template name="adminDetailNav">
-  <ul class="nav nav-pills nav-stacked">
-  </ul>
-</template>
-
 <template name="adminNav">
-  <div class="navbar">
-    <div class="container">
-      <a class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </a>
-      <a class="navbar-brand" href="/admin">Apollo Admin</a>
-      <div class="nav-collapse collapse">
-        <ul class="nav navbar-nav">
+  <div class="navbar contain-to-grid">
+    <nav class="top-bar">
+
+      <ul class="title-area">
+        <!-- Title Area -->
+        <li class="name">
+          <h1><a href="/admin">Apollo Admin</a></h1>
+        </li>
+        <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+        <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+      </ul>
+
+      <!-- Section Links -->
+      <section class="top-bar-section">
+        <ul class="left">
+          <li class="divider"></li>
           <li class="{{isActiveExact 'adminHome'}}"><a href="{{adminHome}}">Overview</a></li>
+          <li class="divider"></li>
           <li class="{{isActive 'adminSettingList'}}"><a href="{{adminSettingListPath}}">Settings</a></li>
+          <li class="divider"></li>
           <li class="{{isActive 'adminUserList'}}"><a href="{{adminUserListPath}}">Users</a></li>
+          <li class="divider"></li>
           <li class="{{isActive 'adminPostList'}}"><a href="{{adminPostListPath}}">Posts</a></li>
+          <li class="divider"></li>
           <li class="{{isActive 'adminProductList'}}"><a href="{{adminProductListPath}}">Products</a></li>
+          <li class="divider"></li>
         </ul>
-        {{> accountLoginButtons}}
-      </div><!--/.nav-collapse -->
-    </div>
+
+        <!-- Account Links -->
+        <ul class="right">
+          {{> accountLoginButtons}}
+        </ul>
+      </section>
+
+    </nav>
   </div>
 </template>

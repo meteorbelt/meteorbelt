@@ -1,22 +1,48 @@
 <template name="layout">
-  <div id="wrap">
-    <div id="header" class="hidden-phone">
-      <div class="container hidden-phone">
-        <a href="/">Apollo</a>
-      </div>
-    </div>
-    {{> nav}}
-    <div class="container" id="content">
+
+  <!-- Wrapper -->
+  <div id="wrap" class="admin-section">
+
+    <!-- Top -->
+    <div class="top">
       <div class="row">
-        <div class="col col-lg-12">{{> beltFlashes}}</div>
+        <div class="large-12 columns">
+          <a href="/">Apollo</a>
+        </div>
       </div>
-      {{renderPage}}
     </div>
-    <div id='push'></div>
-  </div>
-  <div id="footer">
-    <div class="container">
-      <p>&copy; 2013 MeteorBelt.com. All rights reserved.</p>
+
+    {{> nav}}
+
+    <!-- Notifictaions -->
+    <div class="row">
+      <div class="large-12 columns">{{> beltFlashes}}</div>
     </div>
+
+    <!-- Page Contents -->
+    {{renderPage}}
+
   </div>
+
+  <!-- Footer -->
+  <footer id="footer">
+    <div class="row">
+      <div class="large-12 columns">
+        <div class="row footer-inner">
+          <div class="large-6 columns">
+            <p>&copy; 2013 MeteorBelt.com. All rights reserved.</p>
+          </div>
+          <div class="large-6 columns">
+            <ul class="inline-list right">
+              <li><a href="#">Link 1</a></li>
+              <li><a href="#">Link 2</a></li>
+              <li><a href="#">Link 3</a></li>
+              <li><a href="#">Link 4</a></li>
+            </ul>
+          </div>
+        </div>
+      </div> 
+    </div>
+  </footer>
+
 </template>

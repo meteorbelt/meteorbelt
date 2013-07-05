@@ -1,9 +1,9 @@
 <template name="adminSettingList">
   <div class="row">
-    <div class="col-lg-2 col">
+    <div class="large-2 columns">
       {{#with allSettings}}
         {{#if this.count}}
-          <ul class="nav nav-pills nav-stacked">
+          <ul class="side-nav">
             {{#each this}}
               {{> adminSettingListItem}}
             {{/each}}
@@ -13,8 +13,9 @@
         {{/if}}
       {{/with}}
     </div>
-    <div class="col-lg-10 col">
+    <div class="large-8 columns">
       {{> adminSettingDetail }}
     </div>
+    <div class="large-2 columns"></div>
   </div>
 </template>

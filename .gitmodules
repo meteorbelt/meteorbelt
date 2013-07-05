@@ -34,3 +34,12 @@
 [submodule "packages/belt-ie8/es5-shim"]
 	path = packages/belt-ie8/es5-shim
 	url = https://github.com/kriskowal/es5-shim.git
+[submodule "contrib/scss"]
+	path = contrib/scss
+	url = https://github.com/fourseven/meteor-scss.git
+[submodule "packages/belt-foundation/foundation"]
+	path = packages/belt-foundation/foundation
+	url = https://github.com/zurb/foundation.git
+[submodule "packages/belt-bourbon/bourbon"]
+	path = packages/belt-bourbon/bourbon
+	url = https://github.com/thoughtbot/bourbon.git

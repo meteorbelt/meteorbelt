@@ -1,62 +1,55 @@
 <template name="home">
-  <div id="featured">
-    <div id="carousel-example-generic" class="carousel slide">
-
-      <!-- Indicators -->
-      <ol class="carousel-indicators">
-        <li data-target="#carousel-example-generic" data-slide-to="0" class=""></li>
-        <li data-target="#carousel-example-generic" data-slide-to="1" class="active"></li>
-        <li data-target="#carousel-example-generic" data-slide-to="2" class=""></li>
-      </ol>
-
-      <!-- Wrapper for slides -->
-      <div class="carousel-inner">
-        <div class="item">
-          <img alt="First slide" src="http://placehold.it/1170x500">
-        </div>
-        <div class="item active">
-          <img alt="Second slide" src="http://placehold.it/1170x500">
-        </div>
-        <div class="item">
-          <img alt="Third slide" src="http://placehold.it/1170x500">
-        </div>
-      </div>
-
-      <!-- Controls -->
-      <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
-        <i class="glyphicon icon-chevron-left"></i>
-      </a>
-      <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
-        <i class="glyphicon icon-chevron-right"></i>
-      </a>
-
+  
+<!-- First Band (Slider) -->
+  <div class="row">
+    <div class="large-12 columns">
+      {{> slideshow }}
     </div>
   </div>
 
+<!-- Three-up Content Blocks -->
+
   <div class="row">
 
-    <div class="col col-lg-4">
-      <h3>Welcome</h3>
-      {{{truncate welcomeMessage.body 400 "..."}}}
-      <br>
-      <br>
-      <a class="btn btn-callout" href="/about">Read More</a>
+    <div class="large-4 columns">
+      <img src="http://placehold.it/400x300&text=[img]" />
+      <h4>This is a content section.</h4>
+      <p>Bacon ipsum dolor sit amet nulla ham qui sint exercitation eiusmod commodo, chuck duis velit. Aute in reprehenderit, dolore aliqua non est magna in labore pig pork biltong. Eiusmod swine spare ribs reprehenderit culpa. Boudin aliqua adipisicing rump corned beef.</p>
     </div>
-
-    <div class="col col-lg-4">
-      <h3>Our Plans, Projects &amp; Products</h3>
-      <p>
-
-      </p>
-      <a class="btn btn-callout" href="/products">Read More</a>
+    
+    <div class="large-4 columns">
+      <img src="http://placehold.it/400x300&text=[img]" />
+      <h4>This is a content section.</h4>
+      <p>Bacon ipsum dolor sit amet nulla ham qui sint exercitation eiusmod commodo, chuck duis velit. Aute in reprehenderit, dolore aliqua non est magna in labore pig pork biltong. Eiusmod swine spare ribs reprehenderit culpa. Boudin aliqua adipisicing rump corned beef.</p>
     </div>
-
-    <div class="col col-lg-4">
-      <h3>Latest News</h3>
-      <p>
-      </p>
-      <a class="btn btn-callout" href="/blog">Read More</a>
+    
+    <div class="large-4 columns">
+      <img src="http://placehold.it/400x300&text=[img]" />
+      <h4>This is a content section.</h4>
+      <p>Bacon ipsum dolor sit amet nulla ham qui sint exercitation eiusmod commodo, chuck duis velit. Aute in reprehenderit, dolore aliqua non est magna in labore pig pork biltong. Eiusmod swine spare ribs reprehenderit culpa. Boudin aliqua adipisicing rump corned beef.</p>
     </div>
+  
+  </div>
+    
 
+<!-- Call to Action Panel -->
+
+  <div class="row">
+    <div class="large-12 columns">
+    
+      <div class="panel">
+        <h4>Get in touch!</h4>
+            
+        <div class="row">
+          <div class="large-9 columns">
+            <p>We'd love to hear from you.</p>
+          </div>
+          <div class="large-3 columns">
+            <a href="/contact" class="radius button right">Contact Us</a>
+          </div>
+        </div>
+      </div>
+      
+    </div>
   </div>
 </template>
