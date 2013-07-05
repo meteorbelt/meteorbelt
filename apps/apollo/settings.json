@@ -10,6 +10,7 @@
         "code": "UA-XXXXXXX-X"
       },
       "contact": {
+        "text": "We'd love to hear from you. You can either reach out to us as a whole and one of our awesome team members will get back to you, or if you have a specific question reach out to one of our staff. We love getting email <em>all day</em>.",
         "showAddress": true,
         "address": {
           "address1": "1600 Pennsylvania Ave NW",
@@ -20,10 +21,12 @@
         },
         "phone": "(555) 111-1111",
         "fax": "(555) 222-2222",
-        "person": {
-          "name": "John Doe",
-          "email": "john@example.com"
-        }
+        "people": [
+          {
+            "name": "John Doe",
+            "email": "john@example.com"
+          }
+        ]
       }
     }
   }
