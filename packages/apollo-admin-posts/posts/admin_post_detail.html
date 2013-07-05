@@ -1,0 +1,22 @@
+<template name="adminPostDetail">
+  <div class="row">
+    <div class="col col-lg-8 col-offset-2">
+      <input class="col col-sm-8" id="post-title" type="text" name="title" value="{{post.title}}" placeholder="Post title" required="true">
+      <div class="col col-sm-4">
+        <button class="btn publish btn-primary">
+          {{#if post.isPublished}}
+            Update
+          {{else}}
+            Publish
+          {{/if}}
+        </button>
+        <button class="btn save{{#if isDirty}} btn-success{{/if}}">Save</button>
+        <button class="btn cancel">Close</button>
+      </div>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col col-lg-8 col-offset-2 richtext-tall">{{Richtext post.body}}</div>
+  </div>
+</template>

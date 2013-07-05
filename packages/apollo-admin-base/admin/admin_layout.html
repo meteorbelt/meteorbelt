@@ -1,0 +1,27 @@
+<template name="adminLayout">
+  
+  <!-- Wrapper -->
+  <div id="wrap" class="admin-section">
+
+    {{> adminNav}}
+
+    <!-- Notifications -->
+    <div class="row">
+      <div class="large-12 columns">{{> beltFlashes}}</div>
+    </div>
+
+    <!-- Page Content -->
+    {{renderPage}}
+    
+  </div>
+
+  <!-- Footer -->
+  <footer id="footer">
+    <div class="row footer-inner">
+      <div class="large-12 column">
+        <p>&copy; 2013 MeteorBelt.com. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+</template>

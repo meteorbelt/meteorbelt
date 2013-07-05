@@ -7,8 +7,7 @@ Package.on_use(function (api, where) {
   api.use('belt-model');
   api.use('underscore');
   api.add_files([
-    'collection_common.js',
-    'collection_plugins.js'
+    'collection_common.js'
   ], ['client', 'server']);
   api.add_files('collection_server.js', 'server');
   api.add_files('collection_client.js', 'client');

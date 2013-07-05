@@ -1,16 +1,23 @@
 <template name="nav">
-  <div class="navbar">
-    <div class="container">
-      <a class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </a>
-      <a class="navbar-brand visible-phone" href="/">
-        <!--<img width="140" height="40" id="logo" src="/img/logo/logo_white_140_40.png" alt="Apollo">-->
-      </a>
-      <div class="nav-collapse collapse">
-        <ul class="nav navbar-nav">
+  <div class="navbar contain-to-grid">
+
+    <nav class="top-bar">
+
+      <!-- Logo -->
+      <ul class="title-area">
+        <!-- Title Area -->
+        <li class="name"></li>
+        <li class="toggle-topbar menu-icon"><a href="#"><span>menu</span></a></li>
+      </ul>
+
+      <!-- Nav items -->
+      <section class="top-bar-section">
+
+        <!-- Left Nav Section -->
+        <ul class="left">
+
+          <li class="{{isActiveExact 'home'}}"><a href="/admin">Admin</a></li>
+          <li class="divider"></li>
           <li class="{{isActiveExact 'home'}}"><a href="{{homePath}}">Home</a></li>
           <li class="{{isActive 'postList'}}"><a href="{{postListPath}}">Blog</a></li>
           <li class="{{isActive 'productList'}}"><a href="{{productListPath}}">Products</a></li>
@@ -19,9 +26,18 @@
           {{#if isInRole 'admin'}}
             <li class="{{isActive 'adminHome'}}"><a href="{{adminHomePath}}">Admin</a></li>
           {{/if}}
+          <li class="divider"></li>
         </ul>
-        {{> accountLoginButtons}}
-      </div>
-    </div>
+
+        <!-- Right Nav Section -->
+        <ul class="right">
+         {{> accountLoginButtons}}
+        </ul>
+
+      </section>
+
+    </nav>
+    <!-- End Top Bar -->
+
   </div>
 </template>

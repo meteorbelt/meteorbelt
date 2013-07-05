@@ -192,9 +192,15 @@ _.extend(Meteor.Collection.prototype, {
   },
 
   plugin: function (fn, opts) {
+    var pluginErrMsg = 'Collection.plugin() takes a function with the following ' +
+                       'signature:\n  function (collection, options) {};'
+    if (_.isUndefined(fn)) {
+      throw new Error('The passed in plugin is not valid. Please check the path.\n' +
+                      pluginErrMsg);
+    }
     if (typeof fn !== 'function') {
-      throw new Error('plugin() requires a function with the following signature ' +
-        '`function (collection, options)` ');
+      var t = typeof fn;
+      throw new Error(pluginErrMsg + ' Recieved ' + t + ' instead');
     }
     return fn(this, opts);
   },

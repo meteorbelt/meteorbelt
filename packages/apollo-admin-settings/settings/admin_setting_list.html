@@ -1,0 +1,21 @@
+<template name="adminSettingList">
+  <div class="row">
+    <div class="large-2 columns">
+      {{#with allSettings}}
+        {{#if this.count}}
+          <ul class="side-nav">
+            {{#each this}}
+              {{> adminSettingListItem}}
+            {{/each}}
+          </ul>
+        {{else}}
+          <h4>No settings yet</h4>
+        {{/if}}
+      {{/with}}
+    </div>
+    <div class="large-8 columns">
+      {{> adminSettingDetail }}
+    </div>
+    <div class="large-2 columns"></div>
+  </div>
+</template>

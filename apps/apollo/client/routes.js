@@ -114,9 +114,8 @@ Meteor.Router.add({
 // -------
 Meteor.Router.filters({
   trackRoute: function (page) {
-    if (_gaq) {
-      _gaq.push(['_trackPageview', page.path]);
-    }
+    // TODO
+    // Belt.Analytics.pageViewed(page);
     return page;
   },
   // isAdmin filter check to see if the current user is an admin.
@@ -133,9 +132,9 @@ Meteor.Router.filters({
           if (Meteor.loggingIn()) {
             return Meteor.setTimeout(loggingInCheck, 100);
           }
-        }
-        // start it off
-        loggingInCheck();
+        };
+      // start it off
+      loggingInCheck();
     }
     // Now that we have a logged in user check if they are an admin
     if (Roles.userIsInRole(Meteor.userId(), 'admin')) {
@@ -172,7 +171,7 @@ Meteor.Router.filter('isLoggedIn', {
     //'adminPostList',
     //'adminPostDetail',
     //'adminUserList'
-    ]
+  ]
 });
 
 // applies to admin pages
@@ -182,5 +181,5 @@ Meteor.Router.filter('isAdmin', {
     //'adminPostList',
     //'adminPostDetail',
     //'adminUserList'
-    ]
+  ]
 });

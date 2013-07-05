@@ -1,6 +1,6 @@
 // Subscribe
 // ---------
-Meteor.autorun(function () {
+Deps.autorun(function () {
   var query = Session.get('postQuery') || {};
   var opts = Session.get('postOptions') || {};
   Meteor.subscribe('posts', query, opts);
