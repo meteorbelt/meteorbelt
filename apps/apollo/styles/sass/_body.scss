@@ -10,10 +10,20 @@
   @include linear-gradient(#b7dddb, #dcece1);
 }
 
+.logo {
+  margin-top: 25px;
+  width: 60px;
+  height: 60px;
+}
+
 #footer {
   background-color: $tan-color;
 }
 
 .footer-inner {
   padding-top: emCalc(10px);
+}
+
+.clickable {
+  cursor: pointer;
 }
