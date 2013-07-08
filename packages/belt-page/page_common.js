@@ -1,6 +1,11 @@
 // Collection
 // ----------
-var Pages = new Meteor.Collection('page');
+var Pages = new Belt.Collection('page', {
+  schema: {
+    title: String,
+    body: String
+  }
+});
 
 // Exports
 // -------

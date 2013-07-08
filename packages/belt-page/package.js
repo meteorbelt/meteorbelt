@@ -4,7 +4,7 @@ Package.describe({
 
 Package.on_use(function (api, where) {
   api.use('belt');
-  api.use('belt-error');
+  api.use('belt-collection');
   api.use('mongo-livedata', ['client', 'server']);
   api.add_files('page_common.js', ['client', 'server']);
   api.add_files('page_client.js', 'client');
