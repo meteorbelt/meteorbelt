@@ -1,13 +1,18 @@
 
+function addressToString(a) {
+  return a.address1 + ' ' + a.address2 + ' ' + a.city + ', ' + a.state + ' ' + a.zip;
+}
+
 Template.contact.created = function () {
   var contact = Belt.Settings.get('contact');
   if (contact && contact.showAddress) {
-    // contactLoadMap();
-    // Belt.Maps.load('')
-    var a = contact.address;
-    var addr = a.address1 + ' ' + a.address2 + ' ' + a.city + ', ' + a.state + ' ' + a.zip;
-    Belt.Maps.addressToMap('contact-map', addr);
+    var addr = addressToString(contact.address);
+    // Belt.Maps.addressToMap('contact-map', addr);
   }
+};
+
+Template.contact.created = function () {
+  $(document).foundation('section');
 };
 
 Template.contact.preserve(["#contact-map"]);
@@ -15,6 +20,15 @@ Template.contact.preserve(["#contact-map"]);
 Template.contact.helpers({
   contact: function () {
     return Belt.Settings.get('contact');
+  },
+  mapUrl: function () {
+    var url;
+    var c =  Belt.Settings.get('contact');
+    if (c && c.address) {
+      var addr = addressToString(c.address);
+      url = "http://maps.googleapis.com/maps/api/staticmap?center=" + addr + "&zoom=13&size=200x200&sensor=false"
+    }
+    return url;
   }
 });
 

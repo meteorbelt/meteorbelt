@@ -34,7 +34,7 @@
         <label class="inline right">Message</label>
       </div>
       <div class="small-10 columns">
-        <textarea rows="4" placeholder="I love..."></textarea>
+        <textarea rows="4" placeholder="Hello..."></textarea>
       </div>
     </div>
     <div class="row collapse">
@@ -121,13 +121,12 @@
       {{#if contact.showAddress}}
         <!-- Clicking this placeholder fires the mapModal Reveal modal -->
         <p>
-          {{#isolate}}
-          <a href="" data-reveal-id="mapModal">
-            <!-- <img src="http://maps.googleapis.com/maps/api/staticmap?center=New+York,NY&zoom=13&size=600x300&sensor=false"></a><br /> -->
+          <!-- <a href="" data-reveal-id="mapModal"> -->
+            <img src="{{mapUrl}}">
+          <!-- </a> -->
+          <br />
           <!-- <div id="contact-map" style="height:250px;width:100%;"></div> -->
-          {{/isolate}}
-          <!-- <a href="" data-reveal-id="mapModal"><img src="http://placehold.it/400x280"></a><br /> -->
-          <a href="" data-reveal-id="mapModal">View Map</a>
+          <!-- <a href="" data-reveal-id="mapModal">View Map</a> -->
         </p>
         {{> contactVCard contact}}
       {{/if}}
