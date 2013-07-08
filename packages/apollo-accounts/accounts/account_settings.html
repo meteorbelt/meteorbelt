@@ -1,33 +1,20 @@
 <template name="accountSettings">
-  <h2>Account Password Reset</h2>
   <div class="row">
-    <div class="col col-lg-2">{{> accountNav}}</div>
-    <div class="col col-lg-6">
+    <header class="small-12 columns">
+      <h2>Account Password Reset</h2>
+    </header>
+  </div>
+  <div class="row">
+    <div class="large-3 columns">{{> accountNav}}</div>
+    <div class="large-5 columns">
       <form id="password-form" method="POST" class="form-horizontal">
-        <fieldset>
-          <div class="control-group">
-            <label for="currentPassword" class="control-label">
-              <strong>Current Password</strong>
-            </label>
-            <div class="controls">
-              <input required value="" type="password" name="currentPassword">
-            </div>
-          </div>
-          <div class="control-group">
-            <label for="newPassword" class="control-label">
-              <strong>New Password</strong>
-            </label>
-            <div class="controls">
-              <input required value="" type="password" name="newPassword">
-            </div>
-          </div>
-          <div class="control-group">
-            <div class="controls">
-              <input type="submit" value="Change" class="btn">
-            </div>
-          </div>
-        </fieldset>
+        <label for="currentPassword">Current Password</label>
+        <input required value="" type="password" name="currentPassword">
+        <label for="newPassword">New Password</label>
+        <input required value="" type="password" name="newPassword">
+        <input type="submit" value="Change" class="button">
       </form>
     </div>
+    <div class="large-4 columns"></div>
   </div>
 </template>

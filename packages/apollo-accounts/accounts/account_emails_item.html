@@ -7,14 +7,14 @@
     <td>
       {{#if verified}}
         {{#if isDefault}}
-          <span class="label">Default</span>
+          <span class="success label">Default</span>
         {{else}}
-          <button class="btn btn-small make-default">Set as default</button>
+          <a href="#" class="make-default">Set as default</a>
         {{/if}}
       {{else}}
-        <button class="btn btn-small verify">Verify</button>
+      <a class="verify" href="#">Verify</a>
       {{/if}}
     </td>
-    <td><button class="btn btn-small btn-danger remove">Remove</button></td>
+    <td><a href="#" class="remove">Remove</a></td>
   </tr>
 </template>
