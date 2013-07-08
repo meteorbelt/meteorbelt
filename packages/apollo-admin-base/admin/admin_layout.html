@@ -3,7 +3,28 @@
   <!-- Wrapper -->
   <div id="wrap" class="admin-section">
 
-    {{> adminNav}}
+    <div class="navbar contain-to-grid">
+      <nav class="top-bar">
+
+        <ul class="title-area">
+          <!-- Title Area -->
+          <li class="name">
+            <h1><a href="/admin">Apollo Admin</a></h1>
+          </li>
+          <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+          <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+        </ul>
+
+        <!-- Section Links -->
+        <section class="top-bar-section">
+          <!-- Account Links -->
+          <ul class="right">
+            {{> accountLoginButtons}}
+          </ul>
+        </section>
+
+      </nav>
+    </div>
 
     <!-- Notifications -->
     <div class="row">

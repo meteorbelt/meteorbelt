@@ -1,18 +1,46 @@
 <template name="adminUserList">
-  <a href="/admin/users/new" class="btn btn-success new-post pull-right"><i class="icon-plus"></i> New User</a>
-  <table class="table">
-    <thead>
-      <tr>
-        <td colspan="2">Name</td>
-        <td>Member since</td>
-        <td>Email</td>
-        <td>Admin</td>
-      </tr>
-    </thead>
-    <tbody>
-      {{#each allUser}}
-        {{> adminUserListItem}}
-      {{/each}}
-    </tbody>
-  </table>
+  <div class="row">
+
+    <!-- Nav Column -->
+    <div class="large-3 columns">
+      {{> adminNav }}
+    </div>
+
+    <!-- Content Column -->
+    <div class="large-9 columns">
+
+      <!-- Header -->
+      <header class="row">
+        <div class="small-9 columns">
+          <h2>Users</h2>
+        </div>
+        <div class="small-3 columns vertical">
+          <a href="{{adminUserNewPath}}" class="pull-right">
+            <i class="icon-plus"></i> New User
+          </a>
+        </div>
+      </header>
+
+      <!-- Table -->
+      <div class="row">
+        <table class="small-12 columns">
+          <thead>
+            <tr>
+              <td colspan="2">Name</td>
+              <td>Member since</td>
+              <td>Email</td>
+              <td>Admin</td>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each allUser}}
+              {{> adminUserListItem}}
+            {{/each}}
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+
+  </div>
 </template>

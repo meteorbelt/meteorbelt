@@ -39,6 +39,10 @@ Template.adminUserListItem.events({
     return;
   },
 
+  'click tr': function (e, tmpl) {
+    return Meteor.Router.to(Meteor.Router.adminUserDetailPath(this._id));
+  },
+
   'click .delete': function (e, tmpl) {
     e.preventDefault();
     var remove = window.confirm("Are you sure you want to remove this post?");

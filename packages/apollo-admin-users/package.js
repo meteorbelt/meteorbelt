@@ -1,5 +1,5 @@
 Package.describe({
-  summary: "Apollo Admin Base. For use with Meteor Belt applications"
+  summary: "Apollo Admin Users. For use with Meteor Belt applications"
 });
 
 Npm.depends({ walkdir: '0.0.7' });
@@ -24,20 +24,11 @@ function addFiles(api, package, folder, extension) {
 
 Package.on_use(function (api, where) {
   api.use('belt');
-  api.use('belt-collection');
   api.use('router', 'client');
 
   api.use(['deps', 'underscore', 'templating',
            'handlebars', 'spark', 'session'], 'client');
 
-  addFiles(api, 'apollo-admin-base', 'admin');
-
-  api.add_files('admin_client.js', 'client');
-});
-
-Package.on_test(function (api) {
-  api.use('apollo-admin-base');
-  api.use('tinytest');
-
-  api.add_files('admin_tests.js', 'client');
+  addFiles(api, 'apollo-admin-users', 'users');
+  api.add_files('admin_users_client.js', 'client');
 });

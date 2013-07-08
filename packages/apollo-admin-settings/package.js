@@ -25,9 +25,14 @@ function addFiles(api, package, folder, extension) {
 Package.on_use(function (api, where) {
   api.use('belt');
   api.use('router', 'client');
+  api.use('belt-settings');
+  api.use('belt-text');
+  
+  api.use('apollo-admin-base');
 
   api.use(['deps', 'underscore', 'templating',
            'handlebars', 'spark', 'session'], 'client');
 
   addFiles(api, 'apollo-admin-settings', 'settings');
+  api.add_files('admin_settings_client.js', 'client');
 });

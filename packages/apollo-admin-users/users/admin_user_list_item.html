@@ -1,9 +1,8 @@
 <template name="adminUserListItem">
-  <tr>
+  <tr class="clickable">
     <td colspan="2">
-      <a href="{{adminUserDetailPath _id}}">
-        <span class="user-avatar" style="background-image: url({{avatarUrl}}); width: 30px; height: 30px; display: inline-block;"></span>&nbsp;&nbsp;{{displayName}}
-      </a>
+      <img class="user-avatar" src="{{avatarUrl}}" width=30 height=30 alt="{{displayName}}">
+      &nbsp;&nbsp;{{displayName}}
     </td>
     </td>
     <td>{{timeSince createdAt}}</td>

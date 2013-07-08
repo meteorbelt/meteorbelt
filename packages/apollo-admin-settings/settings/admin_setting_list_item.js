@@ -11,7 +11,7 @@ Template.adminSettingListItem.events({
     e.preventDefault();
     var remove = window.confirm("Are you sure you want to remove this post?");
     if (remove === true) {
-      Settings.remove(tmpl.data._id, function (err, post) {
+      Belt.Settings.remove(tmpl.data._id, function (err, post) {
         if (err) {
           return Belt.Flash.error(err.reason);
         }

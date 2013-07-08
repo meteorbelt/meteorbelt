@@ -1,32 +1,31 @@
 <template name="adminUserDetail">
   <div class="row">
-    <div class="col col-lg-8">
-      <h3>{{user.name}}</h3>
+
+    <!-- Nav Column -->
+    <div class="large-3 columns">
+      {{> adminNav }}
     </div>
-    <div class="col col-lg-4">
-      <a href="{{adminUserNewPath}}" class="btn btn-success new-user pull-right">
-        <i class="icon-plus"></i>&nbsp;&nbsp;&nbsp;New user
-      </a>
+
+    <!-- Content Column -->
+    <div class="large-9 columns">
+
+      <!-- Header -->
+      <header class="row">
+        <div class="small-9 columns">
+          <h2>{{user.name}}</h2>
+        </div>
+        <div class="small-3 columns vertical">
+          <a href="{{adminUserNewPath}}" class="pull-right">
+            <i class="icon-plus"></i> New User
+          </a>
+        </div>
+      </header>
+
+      <!-- Table -->
+      <div class="row">
+      </div>
+
     </div>
+
   </div>
-  <form id="user-form" class="form-horizontal" action="POST">
-    <div class="row">
-      <label class="col col-lg-2 row-label">Full Name</label>
-      <div class="col col-lg-4">
-        <input autofocus type="text" name="name" value="{{user.fullname}}">
-      </div>
-    </div>
-    <div class="row">
-      <label class="col col-lg-2 row-label">Description</label>
-      <div class="col col-lg-4">
-        <input type="text" name="description" value="{{user.description}}">
-      </div>
-    </div>
-    <div class="row">
-      <div class="col col-lg-6 col-offset-2">
-        <input type="submit" class="btn btn-success" value="save">
-        <input type="submit" class="btn" value="cancel">
-      </div>
-    </div>
-  </form>
 </template>

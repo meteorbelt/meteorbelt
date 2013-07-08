@@ -3,7 +3,7 @@
   <!-- Header -->
   <header class="row">
     <div class="small-12 columns">
-      <h2 class="text-center">{{toTitle setting._id}} Settings</h2>
+      <h2>{{camelCaseToTitle setting._id}} Settings</h2>
     </div>
   </header>
 
@@ -17,6 +17,7 @@
       </div>
     </div>
   </form>
+
 </template>
 
 <template name="adminSettingFormField">
@@ -26,7 +27,7 @@
     {{else}}
       <div class="row">
         <div class="small-3 columns">
-          <label for="{{parent}}{{key}}" class="right inline">{{toTitle key}}</label>
+          <label for="{{parent}}{{key}}" class="right inline">{{camelCaseToTitle key}}</label>
         </div>
         <div class="small-9 columns">
           {{#if isBoolean value}}
