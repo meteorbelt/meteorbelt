@@ -1,25 +1,54 @@
 <template name="adminPostList">
   <div class="row">
-    <a href="{{adminPostNewPath}}" class="btn btn-primary new-post pull-right">
-      <i class="icon-plus"></i> New Post
-    </a>
-    {{#with allPosts}}
-      {{#if this.count}}
-        <div class="col col-lg-4">
-          <div class="menu post-menu">
-            Posts
-            <a href="{{adminPostNewPath}}" class="btn btn-primary new-post pull-right">
-              <i class="icon-pencil"></i>
-            </a>
-          </div>
-          {{#each this}}
-            {{> adminPostListItem}}
-          {{/each}}
+
+    <!-- Nav Column -->
+    <div class="large-3 columns">
+      {{> adminNav }}
+    </div>
+
+    <!-- Content Column -->
+    <div class="large-9 columns">
+
+      <!-- Header -->
+      <header class="row">
+        <div class="small-9 columns">
+          <h2>Posts</h2>
         </div>
-        {{> adminPostDetailPreview}}
-      {{else}}
-        <h4>No posts yet</h4>
-      {{/if}}
-    {{/with}}
+        <div class="small-3 columns vertical">
+          <a href="{{adminPostNewPath}}" class="pull-right">
+            <i class="icon-plus"></i> New Post
+          </a>
+        </div>
+      </header>
+
+      <!-- Posts -->
+      <div class="row">
+        <div class="small-12 columns">
+          {{#with allPosts}}
+            {{#if this.count}}
+              <div class="col col-lg-4">
+                <div class="menu post-menu">
+                  Posts
+                  <a href="{{adminPostNewPath}}" class="btn btn-primary new-post pull-right">
+                    <i class="icon-pencil"></i>
+                  </a>
+                </div>
+                {{#each this}}
+                  {{> adminPostListItem}}
+                {{/each}}
+              </div>
+              {{> adminPostDetailPreview}}
+            {{else}}
+              <h4>No posts yet</h4>
+              <a href="{{adminPostNewPath}}" class="button">
+                <i class="icon-plus"></i>  New Post
+              </a>
+            {{/if}}
+          {{/with}}
+        </div>
+      </div>
+
+    </div>
+
   </div>
 </template>

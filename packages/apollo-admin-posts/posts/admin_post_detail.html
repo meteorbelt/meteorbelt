@@ -1,22 +1,38 @@
 <template name="adminPostDetail">
   <div class="row">
-    <div class="col col-lg-8 col-offset-2">
-      <input class="col col-sm-8" id="post-title" type="text" name="title" value="{{post.title}}" placeholder="Post title" required="true">
-      <div class="col col-sm-4">
-        <button class="btn publish btn-primary">
-          {{#if post.isPublished}}
-            Update
-          {{else}}
-            Publish
-          {{/if}}
-        </button>
-        <button class="btn save{{#if isDirty}} btn-success{{/if}}">Save</button>
-        <button class="btn cancel">Close</button>
-      </div>
+    <!-- Nav Column -->
+    <div class="large-3 columns">
+      {{> adminNav }}
     </div>
-  </div>
-  <br>
-  <div class="row">
-    <div class="col col-lg-8 col-offset-2 richtext-tall">{{Richtext post.body}}</div>
+
+    <!-- Content Column -->
+    <div class="large-9 columns">
+
+      <!-- Header -->
+      <header class="row">
+        <div class="small-9 columns">
+          <h3>
+            <input class="col small-9" id="post-title" type="text" name="title" value="{{post.title}}" placeholder="Post title" required="true">
+          </h3>
+        </div>
+        <div class="small-3 columns vertical">
+          <button class="button publish primary">
+            {{#if post.isPublished}}
+              Update
+            {{else}}
+              Publish
+            {{/if}}
+          </button>
+          <button class="button save{{#if isDirty}} success{{/if}}">Save</button>
+          <button class="button cancel">Close</button>
+        </div>
+      </header>
+
+      <!-- Posts -->
+      <div class="row">
+        <div class="small-12 columns richtext-tall">
+          {{Richtext post.body}}
+        </div>
+      </div>
   </div>
 </template>
