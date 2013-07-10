@@ -8,20 +8,21 @@
 // Access Control -- verify that the user is modifying their profile
 // or the modification is being made by an admin.
 var ownerOrAdmin = function (reqId, ownerId) {
-    if (!Belt.User.ownerOrAdmin(reqId, ownerId)) {
-      throw new Meteor.Error(401, 'Access Denied');
-    }
-  };
+  // Access Control -- verify that the user is modifying their profile
+  // or the modification is being made by an admin.
+  if ((ownerId === reqId) || Roles.userIsInRole(reqId, 'admin'))
+    return true;
+  throw new Meteor.Error(401, 'Access Denied');
+};
 
 // Retrieve the user using the userId, we do this instead of using
 // this.user to allow admin updates
 var getUserById = function (userId) {
-    var user = Meteor.users.findOne(userId);
-    if (!user) {
-      throw new Meteor.Error(403, 'User not found by id');
-    }
-    return user;
-  };
+  var user = Meteor.users.findOne(userId);
+  if (!user)
+    throw new Meteor.Error(403, 'User not found by id');
+  return user;
+};
 
 Meteor.methods({
   userProfileUpdate: function (userId, profile) {
