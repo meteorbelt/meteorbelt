@@ -2,7 +2,6 @@
 var AdminPages = new Belt.Collection(null, {
 
   schema: {
-    id:       { type: String, required: true },
     name:     { type: String, required: true },
     url:      { type: String, required: true },
     postion:  { type: Number, 'default': 0 },
@@ -25,6 +24,14 @@ var AdminPages = new Belt.Collection(null, {
       //   name: 'Google Analytics'.
       //   template: 'adminGoogleAnalytics'
       // }
+      // look up setting first
+      var s = this.findOne(page._id);
+      if (s) {
+        var id = page._id;
+        delete page._id;
+        this.update({ _id: id }, { $set: page });
+        return; 
+      }
       this.insert(page);
     }
   }

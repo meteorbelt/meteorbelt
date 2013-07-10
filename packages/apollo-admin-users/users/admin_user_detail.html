@@ -1,4 +1,5 @@
 <template name="adminUserDetail">
+
   <div class="row">
 
     <!-- Nav Column -->
@@ -11,19 +12,33 @@
 
       <!-- Header -->
       <header class="row">
-        <div class="small-9 columns">
-          <h2>{{user.name}}</h2>
+
+        <!-- Avatar -->
+        <div class="small-3 columns">
+          <img src="{{avatarUrl}}" alt="{{displayName}}">
         </div>
-        <div class="small-3 columns vertical">
-          <a href="{{adminUserNewPath}}" class="pull-right">
-            <i class="icon-plus"></i> New User
-          </a>
+
+        <div class="small-9 columns">
+          <div class="row">
+
+            <!-- User Details -->
+            <div class="small-9 columns">
+              <h2>{{user.displayName}}</h2>
+              <div class="small-12 columns">
+                {{timeSince user.createdAt}}
+              </div>
+            </div>
+
+            <!-- Controls -->
+            <div class="small-3 columns">
+              <a href="{{adminUserNewPath}}" class="pull-right">
+                <i class="icon-plus"></i> New User
+              </a>
+            </div>
+
+          </div>
         </div>
       </header>
-
-      <!-- Table -->
-      <div class="row">
-      </div>
 
     </div>
 

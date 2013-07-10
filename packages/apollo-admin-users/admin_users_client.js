@@ -1,8 +1,7 @@
 
 Meteor.startup(function () {
-  var users = Meteor.users.find().fetch();
   var page = {
-    id: 'users',
+    _id: 'users',
     name: 'Users',
     url: '/admin/users',
     postion: 10,

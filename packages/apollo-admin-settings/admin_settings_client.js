@@ -1,8 +1,8 @@
 
-Meteor.startup(function () {
+Deps.autorun(function () {
   var settings = Belt.Settings.find().fetch();
   var page = {
-    id: 'settings',
+    _id: 'settings',
     name: 'Settings',
     url: '/admin/settings',
     subpages: _.map(settings, function (s) {
