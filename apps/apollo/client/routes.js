@@ -1,7 +1,40 @@
-// $(document).on('click', 'a', function (e) {
-//   _gaq.push(['_trackPageview', e.target.href]);
-// });
+// Routes
+// ------
+function setSession(cntx, key) {
+  var slug = cntx.params.slug;
+  var _id = cntx.params._id;
+  var tag = cntx.params.tag;
+  var sessionKey = key + 'Query';
 
+  Session.set(key + 'Opts', {sort: [['publishedAt', 'desc']]});
+
+  if (_id) {
+    return Session.set(sessionKey, {_id: _id});
+  }
+  if (slug) {
+    return Session.set(sessionKey, {slug: slug});
+  }
+  if (tag) {
+    return Session.set(sessionKey, {tags: tag});
+  }
+  return Session.set(sessionKey, {});
+}
+
+function setSettingQuery() {
+  setSession(this, 'setting');
+}
+
+function setProductQuery() {
+  setSession(this, 'product');
+}
+
+function setPostQuery() {
+  setSession(this, 'post');
+}
+
+function setUserQuery() {
+  setSession(this, 'user');
+}
 
 function postCreate() {
   // Set the query to all
@@ -9,39 +42,14 @@ function postCreate() {
   Session.set('postOptions', {sort: [['publishedAt', 'desc']]});
 }
 
-function setPostQuery() {
-  var self = this;
-  var slug = self.params.slug;
-  var _id = self.params._id;
-  var tag = self.params.tag;
-  Session.set('postOpts', {sort: [['publishedAt', 'desc']]});
-  if (_id) {
-    return Session.set('postQuery', {_id: _id});
-  }
-  if (slug) {
-    return Session.set('postQuery', {slug: slug});
-  }
-  if (tag) {
-    return Session.set('postQuery', {tags: tag});
-  }
+function verifyEmailToken(token) {
+  Session.set('verifyEmailToken', token);
+  return this.redirect('accountEmails');
 }
 
-function setProductQuery() {
-  var self = this;
-  var slug = self.params.slug;
-  var _id = self.params._id;
-  var tag = self.params.tag;
-  Session.set('productOpts', {sort: [['publishedAt', 'desc']]});
-
-  if (_id) {
-    return Session.set('productQuery', {_id: _id});
-  }
-  if (slug) {
-    return Session.set('productQuery', {slug: slug});
-  }
-  if (tag) {
-    return Session.set('productQuery', {tags: tag});
-  }
+function pageDetail() {
+  var page = this.context.params.page;
+  Session.set('postQuery', {slug: page});
 }
 
 function verifyEmailToken(token) {
@@ -60,7 +68,7 @@ function pageDetail() {
 // Run before routes
 Meteor.Router.beforeRouting = function () {
   // clears all seen flash messages.
-  Belt.Flash.clear();
+  // Belt.Flash.clear();
 };
 
 Meteor.Router.add({
@@ -91,8 +99,10 @@ Meteor.Router.add({
   '/products/tags/:tag': { to: 'productList',   and: setProductQuery },
 
   // Admin
-  '/admin':       'adminHome',
-  '/admin/users': 'adminUserList',
+  '/admin':            'adminHome',
+  '/admin/users':      'adminUserList',
+  '/admin/users/new':  { to: 'adminUserNew',    and: setUserQuery },
+  '/admin/users/:_id': { to: 'adminUserDetail', and: setUserQuery },
 
   '/admin/posts':           { to: 'adminPostList',   and: setPostQuery },
   '/admin/posts/new':       { to: 'adminPostCreate', and: setPostQuery },
