@@ -3,5 +3,5 @@
 //
 // https://github.com/meteor/meteor/issues/810
 Meteor.users._transform = function (doc) {
-  return new Belt.User(doc);
+  return Meteor.users.create(doc);
 };
