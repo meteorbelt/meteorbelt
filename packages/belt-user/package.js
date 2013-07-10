@@ -4,6 +4,8 @@ Package.describe({
 
 Package.on_use(function (api, where) {
   api.use('belt');
+  api.use('belt-collection');
+  
   api.use(['accounts-base', 'underscore'], ['client', 'server']);
 
   api.add_files('user_common.js', ['client', 'server']);

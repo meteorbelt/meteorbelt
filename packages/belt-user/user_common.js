@@ -1,12 +1,19 @@
-//
 // User
-//
-// A User class that takes a document in its constructor
-var User = function (doc) {
-    _.extend(this, doc);
-  };
+// ----
 
-_.extend(User.prototype, {
+Meteor.users.schema({
+  createdAt: Date,
+  services:  Object,
+  emails:    [Object],
+  // XXX restrict
+  profile:   Object
+});
+
+// Add methods to the Meteor.users instances
+Meteor.users.methods({
+  // # Meteor.users.displayName
+  // 
+  // 
   displayName: function () {
     if (this.profile && this.profile.name) {
       return this.profile.name;
@@ -48,29 +55,5 @@ _.extend(User.prototype, {
       s: size
     });
   }
+
 });
-
-// Access Control -- verify that the user is modifying their profile
-// or the modification is being made by an admin.
-User.ownerOrAdmin = function (reqId, ownerId) {
-  if ((ownerId === reqId) || Roles.userIsInRole(reqId, 'admin')) {
-    return true;
-  }
-  return false;
-};
-
-/**
-  @function isAdmin
-  @param {String} reqId
-  @return {Boolean} true if user reqId belongs to an admin
-*/
-User.isAdmin = function (reqId) {
-  if (Roles.userIsInRole(reqId, 'admin')) {
-    return true;
-  }
-  return false;
-};
-
-// Package Exports
-// ---------------
-Belt.User = User;
