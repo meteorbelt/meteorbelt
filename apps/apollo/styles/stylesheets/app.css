@@ -545,7 +545,7 @@ select {
   margin-right: auto;
   margin-top: 0;
   margin-bottom: 0;
-  max-width: 62.5em;
+  max-width: 75em;
   *zoom: 1;
 }
 /* line 121, ../../../../../../../.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/zurb-foundation-4.2.3/scss/foundation/components/_global.scss */
@@ -2037,8 +2037,8 @@ p aside {
 /* Default header styles */
 /* line 181, ../../../../../../../.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/zurb-foundation-4.2.3/scss/foundation/components/_type.scss */
 h1, h2, h3, h4, h5, h6 {
-  font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
-  font-weight: bold;
+  font-family: "Proxima Nova", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 300;
   font-style: normal;
   color: #222222;
   text-rendering: optimizeLegibility;
@@ -4647,7 +4647,7 @@ form.custom .custom.disabled {
 
   /* line 382, ../../../../../../../.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/zurb-foundation-4.2.3/scss/foundation/components/_top-bar.scss */
   .contain-to-grid .top-bar {
-    max-width: 62.5em;
+    max-width: 75em;
     margin: 0 auto;
   }
 
