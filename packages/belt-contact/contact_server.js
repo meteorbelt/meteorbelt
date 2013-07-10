@@ -13,7 +13,7 @@ Meteor.methods({
       throw new Meteor.Error(400, 'Please provide a message');
     }
     // Prepare email
-    var to = Config.Site.contactEmail;
+    var to = Belt.Settings.get('site').email;
     var from = name + ' <' + email + '>';
     var subject = 'Message from ' + name;
     body = body + '\n\n' + name + '\n' + email + '\n' + phone;

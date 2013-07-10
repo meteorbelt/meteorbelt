@@ -11,7 +11,7 @@ Template.contact.created = function () {
   }
 };
 
-Template.contact.created = function () {
+Template.contact.rendered = function () {
   $(document).foundation('section');
 };
 
@@ -38,7 +38,7 @@ Template.contact.events({
     Belt.Flash.clear();
     e.preventDefault();
     var f = form2js('contact-form');
-    Meteor.call('contactSendEmail', f.email, f.name, f.phone, f.comment, function (err) {
+    Meteor.call('contactSendEmail', f.email, f.name, f.phone, f.message, function (err) {
       if (err) {
         Belt.Flash.error(err.reason);
         return;

@@ -1,44 +1,44 @@
 <template name="contactForm">
   <form id="contact-form" class="form-horizontal">
     <div class="row">
-      <div class="small-10 small-offset-2 columns">
+      <div class="large-10 large-offset-2 columns">
         <h6>Please fill in your information</h6>
       </div>
     </div>
     <div class="row">
-      <div class="small-2 columns">
-        <label class="inline right">Name</label>
+      <div class="large-2 columns">
+        <label class="inline">Name</label>
       </div>
-      <div class="small-10 columns">
+      <div class="large-10 columns">
         <input autofocus type="text" name="name" placeholder="John Smith">
       </div>
     </div>
     <div class="row">
-      <div class="small-2 columns">
-        <label class="inline right">Email</label>
+      <div class="large-2 columns">
+        <label class="inline">Email</label>
       </div>
-      <div class="small-10 columns">
+      <div class="large-10 columns">
         <input type="text" name="email" placeholder="john@example.com">
       </div>
     </div>
     <div class="row">
-      <div class="small-2 columns">
-        <label class="inline right">Phone <i>(optional)</i></label>
+      <div class="large-2 columns">
+        <label class="inline">Phone <i>(optional)</i></label>
       </div>
-      <div class="small-10 columns">
+      <div class="large-10 columns">
         <input type="tel" name="phone" placeholder="316 555 1234">
       </div>
     </div>
     <div class="row">
-      <div class="small-2 columns">
-        <label class="inline right">Message</label>
+      <div class="large-2 columns">
+        <label class="inline">Message</label>
       </div>
-      <div class="small-10 columns">
-        <textarea rows="4" placeholder="Hello..."></textarea>
+      <div class="large-10 columns">
+        <textarea name="message" rows="4" placeholder="Hello..."></textarea>
       </div>
     </div>
     <div class="row collapse">
-      <div class="small-10 small-offset-2">
+      <div class="large-10 large-offset-2">
         <input class="radius button" type="submit" value="Send Message">     
       </div>
     </div>
@@ -110,7 +110,7 @@
     <!-- Form -->
     <div class="large-8 columns">
       <p>{{{contact.text}}}</p>
-      <div class="section-container tabs" data-section>
+      <div class="section-container tabs" data-section="tabs">
         {{> contactAll}}
         {{> contactPerson contact}}
       </div>
