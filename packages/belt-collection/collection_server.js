@@ -31,26 +31,26 @@ _.extend(Meteor.Collection.prototype, {
   },
 
   // override
-  __validatedUpdate: Meteor.Collection.prototype._validatedUpdate,
-  _validatedUpdate: function (userId, selector, mutator, options) {
-    var result, previous;
-    var self = this;
+  // __validatedUpdate: Meteor.Collection.prototype._validatedUpdate,
+  // _validatedUpdate: function (userId, selector, mutator, options) {
+  //   var result, previous;
+  //   var self = this;
 
-    var doc = this.findOne(selector);
-    var _update = self._collection.update;
-    self._collection.update = function (selector, mutator, options) {
-      var args = [userId, doc, selector, mutator, options];
-      if (self._process("before", "update", args) !== false) {
-        previous = this.find(selector).fetch();
-        // xxx validation needed
-        _update.call(this, selector, mutator, options);
-        args = [userId, selector, mutator, options, previous];
-        self._process("after", "update", args);
-      }
-    };
-    self.__validatedUpdate(userId, selector, mutator, options);
-    self._collection.update = _update;
-  },
+  //   var doc = this.findOne(selector);
+  //   var _update = self._collection.update;
+  //   self._collection.update = function (selector, mutator, options) {
+  //     var args = [userId, doc, selector, mutator, options];
+  //     if (self._process("before", "update", args) !== false) {
+  //       previous = this.find(selector).fetch();
+  //       // xxx validation needed
+  //       _update.call(this, selector, mutator, options);
+  //       args = [userId, selector, mutator, options, previous];
+  //       self._process("after", "update", args);
+  //     }
+  //   };
+  //   self.__validatedUpdate(userId, selector, mutator, options);
+  //   self._collection.update = _update;
+  // },
 
   // override
   __validatedRemove: Meteor.Collection.prototype._validatedRemove,
