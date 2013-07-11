@@ -33,6 +33,7 @@ var tags = function (collection, options) {
     });
   }
 };
+
 var owner = function (collection, options) {
 
   options = options || { required: true };
@@ -122,22 +123,25 @@ var allowAdmin = function (collection, options) {
     if (options.insert === true) {
       collection.allow({
         insert: function (userId, doc) {
+          // XXX this returns an doc not a boolean
           return Roles.userIsInRole(userId, 'admin');
         }
       });
     }
 
-    if (options.insert === true) {
+    if (options.update === true) {
       collection.allow({
         update: function (userId, docs, fields, modifier) {
+          // XXX this returns an doc not a boolean
           return Roles.userIsInRole(userId, 'admin');
-        },
+        }
       });
-    } 
+    }
 
-    if (options.insert === true) {
+    if (options.remove === true) {
       collection.allow({
         remove: function (userId, docs) {
+          // XXX this returns an doc not a boolean
           return Roles.userIsInRole(userId, 'admin');
         }
       });
