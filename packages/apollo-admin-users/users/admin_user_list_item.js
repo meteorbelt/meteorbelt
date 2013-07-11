@@ -23,6 +23,7 @@ Template.adminUserListItem.events({
       console.log('data', tmpl.data);
       var makeAdmin = window.confirm("Are you sure you want to make " + tmpl.data.profile.name + " an admin?");
       if (makeAdmin === true) {
+        // XXX Unsafe
         Meteor.call('userAddUsersToRoles', tmpl.data._id, 'admin', function (err) {
           Belt.Flash.error('an error occured: ', err);
         });
@@ -31,6 +32,7 @@ Template.adminUserListItem.events({
       }
       return;
     }
+    // XXX Unsafe
     Meteor.call('userRemoveUsersFromRoles', tmpl.data._id, 'admin', function (err) {
       if (err) {
         Belt.Flash.error('an error occured: ', err);

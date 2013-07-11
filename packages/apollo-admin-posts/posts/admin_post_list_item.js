@@ -5,6 +5,7 @@ Template.adminPostListItem.helpers({
 });
 
 Template.adminPostListItem.events({
+
   'click .delete': function (e, tmpl) {
     e.preventDefault();
     var remove = window.confirm("Are you sure you want to remove this post?");
@@ -18,7 +19,8 @@ Template.adminPostListItem.events({
       });
     }
   },
+
   'click .post-list-item': function (e, tmpl) {
-    Session.set('postId', tmpl.data._id);
+    Session.set('postId', tmpl.data._id );
   }
 });

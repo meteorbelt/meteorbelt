@@ -23,29 +23,25 @@
 
       <!-- Posts -->
       <div class="row">
-        <div class="small-12 columns">
-          {{#with allPosts}}
-            {{#if this.count}}
-              <div class="col col-lg-4">
-                <div class="menu post-menu">
-                  Posts
-                  <a href="{{adminPostNewPath}}" class="btn btn-primary new-post pull-right">
-                    <i class="icon-pencil"></i>
-                  </a>
-                </div>
-                {{#each this}}
-                  {{> adminPostListItem}}
-                {{/each}}
-              </div>
+        {{#with allPosts}}
+          {{#if this.count}}
+            <div class="small-4 columns">
+              {{#each this}}
+                {{> adminPostListItem}}
+              {{/each}}
+            </div>
+            <div class="small-8 columns">
               {{> adminPostDetailPreview}}
-            {{else}}
+            </div>
+          {{else}}
+            <div class="small-12 columns">
               <h4>No posts yet</h4>
               <a href="{{adminPostNewPath}}" class="button">
                 <i class="icon-plus"></i>  New Post
               </a>
-            {{/if}}
-          {{/with}}
-        </div>
+            </div>
+          {{/if}}
+        {{/with}}
       </div>
 
     </div>

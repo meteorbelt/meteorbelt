@@ -32,6 +32,10 @@ function setPostQuery() {
   setSession(this, 'post');
 }
 
+function setPostId(_id) {
+  Session.set('postId', _id);
+}
+
 function setUserQuery() {
   setSession(this, 'user');
 }
@@ -106,7 +110,7 @@ Meteor.Router.add({
 
   '/admin/posts':           { to: 'adminPostList',   and: setPostQuery },
   '/admin/posts/new':       { to: 'adminPostCreate', and: setPostQuery },
-  '/admin/posts/:_id':      { to: 'adminPostDetail', and: setPostQuery },
+  '/admin/posts/:_id':      { to: 'adminPostDetail', and: setPostId },
   '/admin/posts/tags/:tag': { to: 'adminPostList',   and: setPostQuery },
 
   '/admin/products':           { to: 'adminProductList',   and: setProductQuery },

@@ -1,21 +1,16 @@
 Template.adminPostDetail.rendered = function () {
-  var post;
-  if (Session.get('postId')) {
-    post = Posts.findOne({
-      _id: Session.get('postId')
-    });
+  if (Session.get('postQuery')) {
+    this.post = Posts.find(Session.get('postQuery')).fetch()[0];
+  } else {
+    // set the post var to a new object
+    this.post = Posts.create();
   }
-  // set the post var to a new object
-  this.post = post || Posts.create();
 };
 
 Template.adminPostDetail.helpers({
   // post returns the current post
   post: function () {
-    return Posts.findOne({_id: Session.get('postId')});
-  },
-  isDirty: function () {
-    return Session.get('postIsDirty');
+    return Posts.findOne(Session.get('postQuery'));
   }
 });
 
@@ -83,7 +78,7 @@ Template.adminPostDetail.events({
       }
       // if the post is new redirect to the correct url
       if (!post._id) {
-        Meteor.Router.to('adminPostDetail' + id);
+        Meteor.Router.to('adminPostDetail', id);
       }
     });
   },
@@ -96,13 +91,13 @@ Template.adminPostDetail.events({
     Meteor.Router.to('adminPostList');
     // If the post has been modified notify the user the their changes will
     // be lost
-    // if (this.post.isDirty()) {
-    //   var exit = window.confirm("You have unsaved changes that will be lost");
-    //   if (exit === true) {
-    //     return Meteor.Router.to('/admin/posts');
-    //   }
-    // } else {
-    //   Meteor.Router.to('/admin/posts');
-    // }
+    if (this.post) {
+      var exit = window.confirm("You have unsaved changes that will be lost");
+      if (exit === true) {
+        return Meteor.Router.to('adminPostList');
+      }
+    } else {
+      Meteor.Router.to('adminPostList');
+    }
   }
 });

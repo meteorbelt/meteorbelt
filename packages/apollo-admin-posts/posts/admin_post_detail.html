@@ -10,24 +10,36 @@
 
       <!-- Header -->
       <header class="row">
-        <div class="small-9 columns">
-          <h3>
-            <input class="col small-9" id="post-title" type="text" name="title" value="{{post.title}}" placeholder="Post title" required="true">
-          </h3>
+        <div class="small-7 columns">
+          <input id="post-title" type="text" name="title" value="{{post.title}}" placeholder="[Enter Title]" required="true">
         </div>
-        <div class="small-3 columns vertical">
-          <button class="button publish primary">
-            {{#if post.isPublished}}
-              Update
-            {{else}}
-              Publish
-            {{/if}}
-          </button>
-          <button class="button save{{#if isDirty}} success{{/if}}">Save</button>
-          <button class="button cancel">Close</button>
+        <div class="small-5 columns vertical">
+          <div class="button-group">
+            <button class="button small publish primary">
+              {{#if post.isPublished}}
+                Update
+              {{else}}
+                Publish
+              {{/if}}
+            </button>
+            <button class="button small save{{#if isDirty}} success{{/if}}">Save</button>
+            <button class="button small cancel">Close</button>
+          </div>
         </div>
       </header>
+      <div class="row">
+        <div class="large-6 columns">
+          <div class="switch">
+            <input id="x" name="switch-x" type="radio" checked>
+            <label for="x" onclick="">Draft</label>
 
+            <input id="x1" name="switch-x" type="radio">
+            <label for="x1" onclick="">Published</label>
+
+            <span></span>
+          </div>
+        </div>
+      </div>
       <!-- Posts -->
       <div class="row">
         <div class="small-12 columns richtext-tall">
