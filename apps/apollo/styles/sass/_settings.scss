@@ -1208,7 +1208,8 @@ $header-font-weight: 300;
 // Background color for the top bar
 
 // $topbar-bg: #111 !default;
-$topbar-bg: $green-bright-color;
+// $topbar-bg: $green-bright-color;
+$topbar-bg: #112233;
 
 // Height and margin
 
@@ -1228,7 +1229,7 @@ $topbar-height: 50px;
 // Style the top bar dropdown elements
 
 // $topbar-dropdown-bg: #222;
-$topbar-dropdown-bg: darken($green-bright-color, 8%);
+$topbar-dropdown-bg: #112233;
 // $topbar-dropdown-link-color: #fff;
 // $topbar-dropdown-link-bg: lighten($topbar-bg, 5%);
 // $topbar-dropdown-toggle-size: 5px;
@@ -1259,9 +1260,11 @@ $topbar-dropdown-bg: darken($green-bright-color, 8%);
 // $topbar-menu-link-color: #fff;
 // $topbar-menu-icon-color: #fff;
 // $topbar-menu-link-color-toggled: #888;
-$topbar-menu-link-color-toggled: lighten($green-bright-color, 30%);
+// $topbar-menu-link-color-toggled: lighten($green-bright-color, 30%);
+$topbar-menu-link-color-toggled: lighten($topbar-dropdown-bg, 30%);
+
 // $topbar-menu-icon-color-toggled: #888;
-$topbar-menu-icon-color-toggled: lighten($green-bright-color, 30%);
+$topbar-menu-icon-color-toggled: lighten($topbar-dropdown-bg, 30%);
 
 // Transitions and breakpoint styles
 
