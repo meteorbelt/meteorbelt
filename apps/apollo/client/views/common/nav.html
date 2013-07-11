@@ -15,9 +15,6 @@
 
         <!-- Left Nav Section -->
         <ul class="left">
-
-          <li class="{{isActiveExact 'home'}}"><a href="/admin">Admin</a></li>
-          <li class="divider"></li>
           <li class="{{isActiveExact 'home'}}"><a href="{{homePath}}">Home</a></li>
           <li class="{{isActive 'postList'}}"><a href="{{postListPath}}">Blog</a></li>
           <li class="{{isActive 'productList'}}"><a href="{{productListPath}}">Products</a></li>
@@ -26,7 +23,6 @@
           {{#if isInRole 'admin'}}
             <li class="{{isActive 'adminHome'}}"><a href="{{adminHomePath}}">Admin</a></li>
           {{/if}}
-          <li class="divider"></li>
         </ul>
 
         <!-- Right Nav Section -->
