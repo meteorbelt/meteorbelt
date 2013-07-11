@@ -3,6 +3,37 @@ Tinytest.add('belt - schema - Belt.Schema is Global', function (test) {
   test.isTrue(typeof Belt.Schema !== 'undefined');
 });
 
+Tinytest.add('belt - schema - null values', function (test) {
+
+  // XXX is this desired result?
+  // Or should we be removing properites that are null?
+
+  var s = {
+    str:  String,
+    num:  Number,
+    date: Date
+    // obj: {
+    //   str:  String,
+    //   num:  Number,
+    //   date: Date
+    // }
+  };
+
+  var d = {};
+
+  var o = {
+    str:  null,
+    num:  null,
+    date: null
+    // obj: {
+    //   str:  null,
+    //   num:  null,
+    //   date: null
+    // }
+  };
+  test.equal(Belt.Schema.populate(s, d), o);
+});
+
 Tinytest.add('belt - schema - populate - String', function (test) {
   var s = {
     simple:     String,
@@ -124,7 +155,7 @@ Tinytest.add('belt - schema - populate - Boolean', function (test) {
     complex:     true,
     complexStr:  false,
     castT:       true,
-    castF:       false,
+    castF:       null,
     defaultValT: true,
     defaultValF: false
   };
@@ -197,7 +228,7 @@ Tinytest.add('belt - schema - populate - Array - declarative', function (test) {
     str:  ['10', '20', '30'],
     num:  [10, 20, 30],
     date: [date, date, date],
-    bool: [true, false, true]
+    bool: [true, null, true]
   };
 
   test.equal(Belt.Schema.populate(s, d), o);

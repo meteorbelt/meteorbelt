@@ -11,6 +11,9 @@ if (typeof Object.name === 'undefined') Object.name = "Object";
 var Types = {
   'Date': {
     cast: function (v) {
+      if (_.isUndefined(v) || _.isNull(v)) {
+        return null;
+      }
       return new Date(v);
     },
     validate: function (v) {
@@ -24,6 +27,9 @@ var Types = {
   },
   'Boolean': {
     cast: function (v) {
+      if (_.isUndefined(v) || _.isNull(v)) {
+        return null;
+      }
       return Boolean(v);
     },
     validate: function (v) {
@@ -35,7 +41,7 @@ var Types = {
   },
   'String': {
     cast: function (v) {
-      return String(v);
+      return v ? String(v) : null;
     },
     validate: function (v) {
       return _.isString(v);
@@ -46,6 +52,9 @@ var Types = {
   },
   'Number': {
     cast: function (v) {
+      if (_.isUndefined(v) || _.isNull(v)) {
+        return null;
+      }
       return Number(v);
     },
     validate: function (v) {
@@ -164,6 +173,7 @@ var _populate = function (schema, value) {
   // we need to dig deeper.
   if (! schema.type) {
     _.each(schema, function (schemaPart, key) {
+
       // Only populate values that actually exist (value[key])
       // or values that have a default value (schema[key])
       // Account for:
@@ -171,11 +181,10 @@ var _populate = function (schema, value) {
       // - Number 0
       var defaultPresent = (
            ! _.isUndefined(schema[key]['default'])
-        || ! _.isNull(schema[key]['default']));
+        || _.isNull(schema[key]['default']));
 
-      var valuePresent = (
-           ! _.isUndefined(value[key])
-        || ! _.isNull(value[key]));
+      var valuePresent = (value && 
+        (! _.isUndefined(value[key]) || ! _.isNull(value[key])));
 
       if (defaultPresent || valuePresent) {
         newValues[key] = _populate(schemaPart, value[key]);
@@ -191,6 +200,7 @@ var _populate = function (schema, value) {
     // If some one tries to set a default that is not the proper type.
     value = schema['default'];
   }
+
   var type = getTypeFromKey(schema.type);
   // populate type with value
   return type.cast(value);
