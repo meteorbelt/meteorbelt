@@ -7,11 +7,11 @@
 }
 
 .top {
-  height: emCalc(105px);
+  height: emCalc(95px);
   @include linear-gradient(#b7dddb, #dcece1);
 }
 
-.logo {
+.logo a {
   color: #fff;
 }
 

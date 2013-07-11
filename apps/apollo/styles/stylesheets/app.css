@@ -6692,7 +6692,7 @@ a.th {
 
 /* line 9, ../sass/_body.scss */
 .top {
-  height: 6.5625em;
+  height: 5.9375em;
   background-color: #b7dddb;
   background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #b7dddb), color-stop(100%, #dcece1));
   background-image: -webkit-linear-gradient(#b7dddb, #dcece1);
@@ -6700,7 +6700,7 @@ a.th {
 }
 
 /* line 14, ../sass/_body.scss */
-.logo {
+.logo a {
   color: #fff;
 }
 
