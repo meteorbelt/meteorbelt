@@ -165,6 +165,7 @@ _.extend(Meteor.Collection.prototype, {
       // to determine if the doc as been saved.
       // Maybe we could do a findOne here? Or we have a `dirty` attribute?
       if (! doc._id) {
+        delete doc._id;
         id = this.insert(doc, fn);
       }
       // Update
