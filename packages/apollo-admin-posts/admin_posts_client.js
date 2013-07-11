@@ -12,7 +12,7 @@ Meteor.startup(function () {
       }, {
         id: 'create',
         name: 'Create',
-        url: '/admin/users/new'
+        url: '/admin/posts/new'
       }
     ]
   };
