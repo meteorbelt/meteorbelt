@@ -1,10 +1,13 @@
 // User
 // ----
 
+Belt.User = {};
+
 Meteor.users.schema({
   createdAt: Date,
   services:  Object,
   emails:    [Object],
+  roles:     [String],
   // XXX restrict
   profile:   Object
 });
@@ -57,3 +60,4 @@ Meteor.users.methods({
   }
 
 });
+
