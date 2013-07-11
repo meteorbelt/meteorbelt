@@ -3,7 +3,7 @@ var Model = function (doc, schema) {
     this._schema = schema;
     // Add the _id schema
     this.schema({_id: { type: String }});
-    this.populate(doc);
+    this._populate(doc);
   } else {
     _.extend(this, doc);
   }
@@ -34,7 +34,12 @@ _.extend(Model.prototype, {
     _.extend(this._schema, obj);
   },
 
-  populate: function (doc) {
+  // XXX Keep this as an internal method until the desired behavior
+  // has been determined
+  //
+  // Currently populate replaces all attributes with those that are passed in.
+  // Should it simply extend instead?
+  _populate: function (doc) {
     if (this._schema) {
       doc = Belt.Schema.populate(this._schema, doc || {});
     }

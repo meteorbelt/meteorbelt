@@ -10,7 +10,7 @@ var postSchema = {
   isPublished: { type: Boolean, 'default': false },
 };
 
-Tinytest.add('belt - model - populate', function (t) {
+Tinytest.add('belt - model - _populate', function (t) {
   var doc = {
     title: 1, // will be converted to string
     body: "Post Body",
@@ -25,7 +25,7 @@ Tinytest.add('belt - model - populate', function (t) {
 
   // start off with an empy doc
   var p = new Belt.Model({}, postSchema);
-  p.populate(doc);
+  p._populate(doc);
   t.equal(p.title, expect.title);
   t.equal(p.body, expect.body);
   t.equal(p.publishedAt, expect.publishedAt);
@@ -86,13 +86,19 @@ Tinytest.add('belt - model - schema', function (t) {
 
   var c = new Belt.Model(com1, commentSchema);
 
-  p.populate({extra: 'new stuff'});
+  p._populate({extra: 'new stuff'});
+  c._populate({extra: 'new stuff'});
 
   // won't show up because the extra property is not present in the schema
   // XXX failing on IE8 ???? Only when the next test is present
   t.equal(p.extra, undefined);
 
-  t.equal(c.name, 'George');
-  t.equal(p.title, doc1.title);
-  t.equal(p.body, doc1.body);
+  // XXX populate replaces all attributes with those that
+  // are passed in.
+  // t.equal(c.name, com1.name);
+  // t.equal(p.title, doc1.title);
+  // t.equal(p.body, doc1.body);
+  t.equal(c.name, null);
+  t.equal(p.title, null);
+  t.equal(p.body, null);
 });
