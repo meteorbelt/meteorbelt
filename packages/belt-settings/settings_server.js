@@ -7,16 +7,16 @@ Meteor.publish('settings', function () {
 });
 
 function insertMissing(settingsList) {
-  try {
-    // TODO: should this be async?
-    // XXX this is inefficient
-    _.each(settingsList, function (v, k) {
+  // TODO: should this be async?
+  // XXX this is inefficient
+  _.each(settingsList, function (v, k) {
+    try {
       return Belt.Settings.insert(v);
-    });
-  } catch (err) {
-    // TODO ignore duplicate error
-    // console.log('err', err.stack);
-  }
+    } catch (err) {
+      // TODO ignore duplicate error
+      // console.log('err', err.stack);
+    }
+  });
 }
 
 // objectToList takes a settings object and returns a collection of object
