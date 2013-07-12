@@ -13,7 +13,7 @@ Template.adminSettingDetail.events({
     var f = form2js('setting-form');
     var s = Belt.Settings.findOne(
       Session.get('settingQuery'));
-    s.populate({data: f});
+    s._populate({data: f});
     s.save(function (err, id) {
       if (err) {
         return Belt.Flash.error(err);
