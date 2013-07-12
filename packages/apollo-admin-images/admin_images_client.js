@@ -8,11 +8,11 @@ Meteor.startup(function () {
       {
         id: 'list',
         name: 'List',
-        url: '/admin/posts'
+        url: '/admin/images'
       }, {
         id: 'create',
         name: 'Create',
-        url: '/admin/posts/new'
+        url: '/admin/images/new'
       }
     ]
   };
