@@ -13,6 +13,7 @@
 
 .logo a {
   color: #fff;
+  text-shadow: 1px 1px 35px #91E0E0, 1px 1px 10px #7BB6B6;
 }
 
 #footer {
@@ -43,15 +44,16 @@ $richtext-button-active-color: $alert-color;
     @include button-base;
     @include button-size(emCalc(9px), false);
     color: $richtext-button-color;
-    background: none;
+    background: #f9f9f9;
     border: none;
     &:hover,
     &:focus { 
-      background: none;
+      background: #f3f3f3;
       color: $richtext-button-active-color;
     }
 
     &.wysihtml5-command-active {
+      background: #f3f3f3;
       color: $richtext-button-active-color;
     }
 

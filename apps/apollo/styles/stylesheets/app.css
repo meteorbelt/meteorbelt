@@ -6702,31 +6702,32 @@ a.th {
 /* line 14, ../sass/_body.scss */
 .logo a {
   color: #fff;
+  text-shadow: 1px 1px 35px #91E0E0, 1px 1px 10px #7BB6B6;
 }
 
-/* line 18, ../sass/_body.scss */
+/* line 19, ../sass/_body.scss */
 #footer {
   background-color: #112233;
   color: #73a1d0;
 }
 
-/* line 23, ../sass/_body.scss */
+/* line 24, ../sass/_body.scss */
 .footer-inner {
   padding-top: 0.625em;
 }
 
-/* line 27, ../sass/_body.scss */
+/* line 28, ../sass/_body.scss */
 .clickable {
   cursor: pointer;
 }
 
-/* line 31, ../sass/_body.scss */
+/* line 32, ../sass/_body.scss */
 .richtext-tall #belt-richtext-textarea {
   width: 100%;
   height: 600px;
 }
 
-/* line 42, ../sass/_body.scss */
+/* line 43, ../sass/_body.scss */
 #belt-richtext-toolbar .button {
   border-style: solid;
   border-width: 1px;
@@ -6745,26 +6746,27 @@ a.th {
   padding-left: 1.125em;
   font-size: 0.8125em;
   color: #999999;
-  background: none;
+  background: #f9f9f9;
   border: none;
 }
-/* line 49, ../sass/_body.scss */
+/* line 50, ../sass/_body.scss */
 #belt-richtext-toolbar .button:hover, #belt-richtext-toolbar .button:focus {
-  background: none;
+  background: #f3f3f3;
   color: #c60f13;
 }
-/* line 54, ../sass/_body.scss */
+/* line 55, ../sass/_body.scss */
 #belt-richtext-toolbar .button.wysihtml5-command-active {
+  background: #f3f3f3;
   color: #c60f13;
 }
 
-/* line 62, ../sass/_body.scss */
+/* line 64, ../sass/_body.scss */
 .post-list-item {
   padding: 5px 10px;
   border-bottom: 1px solid #dedede;
   cursor: pointer;
 }
-/* line 67, ../sass/_body.scss */
+/* line 69, ../sass/_body.scss */
 .post-list-item.active {
   color: #fff;
   background-color: #2ba6cb;
