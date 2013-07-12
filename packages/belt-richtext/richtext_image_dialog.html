@@ -1,39 +1,88 @@
 <template name="beltRichtextImageDialog">
   <div id="belt-richtext-image-dialog" class="reveal-modal">
+
+    <a class="close-reveal-modal">&#215;</a>
+
     <form>
-      <div class="modal-header">
-        <h3>Image Link</h3>
+
+      <div class="row">
+        <div class="large-12 columns">
+          <h3>Image Link</h3>
+        </div>
       </div>
-      <div class="modal-body">
-        <label>Name</label>
-        <input type="text" name="name">
-        <label>Caption</label>
-        <textarea name="caption" rows="2"></textarea>
-        <label>URL</label>
-        <input value="http://" type="url" name="image-url">
-        <label>Width</label>
-        <div class="input-group col-span-3">
-          <input type="number" name="width" default="845" step="50">
-          <span class="input-group-addon">px</span>
+
+      <div class="row">
+        <div class="large-12 columns">
+          <label>Name</label>
+          <input type="text" name="name">
         </div>
-        <label>Height</label>
-        <div class="input-group col-span-3">
-          <input type="number" name="height" step="50">
-          <span class="input-group-addon">px</span>
+      </div>
+
+      <div class="row">
+        <div class="large-12 columns">
+          <label>URL</label>
+          <input value="http://" type="url" name="image-url">
         </div>
-        <label>Position</label>
-        <br>
+      </div>
+
+      <div class="row">
+        <div class="large-12 columns">
+          <label>Caption</label>
+          <textarea name="caption" rows="2"></textarea>
+        </div>
+      </div>
+      
+      <div class="row">
+
+        <div class="large-12 columns">
+          <h4>Placement</h4>
+        </div>
+
+        <div class="small-6 columns">
+          <div class="row collapse">
+            <label>Width</label>
+            <div class="small-9 columns">
+              <input type="number" name="width" default="845" step="50">
+            </div>
+            <div class="small-3 columns">
+              <span class="postfix">px</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="small-6 columns">
+          <div class="row collapse">
+            <label>Height</label>
+            <div class="small-9 columns">
+              <input type="number" name="height" default="845" step="50">
+            </div>
+            <div class="small-3 columns">
+              <span class="postfix">px</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="row">
+        <div class="small-12 columns">
+        <label>Position (Optional)</label>
         <select class="col-span-3" name="position">
           <option value="none">none</option>
           <option value="left">left</option>
           <option value="right">right</option>
         </select>
+        </div>
       </div>
-      <div class="modal-footer">
-        <input type="submit" value="Cancel" class="btn cancel-dialog">
-        <input type="submit" value="Insert Image" class="btn btn-primary image-insert">
+
+      <div class="row">
+        <div class="small-12 columns">
+          <input type="submit" value="Cancel" class="button cancel-dialog">
+          <input type="submit" value="Insert Image" class="button primary image-insert">
+        </div>
       </div>
+      
     </form>
-    <a class="close-reveal-modal">&#215;</a>
+                    
   </div>
 </template>
