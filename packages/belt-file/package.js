@@ -4,6 +4,9 @@ Package.describe({
 
 Package.on_use(function (api, where) {
   api.use('belt');
+  api.use('belt-collection');
+  api.use('belt-ink-filepicker');
+
   api.use('mongo-livedata', ['client', 'server']);
   api.add_files('file_client.js', 'client');
 });

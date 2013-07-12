@@ -1,8 +1,6 @@
 
-var filepicker = filepicker || null;
-
 // Private
-function init(key) {
+function init() {
   var a = document;
   var b = a.createElement("script");
   b.type = "text/javascript";
@@ -24,10 +22,19 @@ function init(key) {
   return d;
 }
 
-if (!this.filepicker) {
-  var fpioKey = 'XXXXXXXXXXXXXXXXXXXXXX';
-  filepicker = init(fpioKey);
-  filepicker.setKey(key);
-}
+var filepicker;
 
+Deps.autorun(function () {
+  // Only instantiate filepicker if we have an Api key
+  // This maybe slower, but it's filepicker, so it should be alright
+  var settings = Belt.Settings.get('inkFilepicker');
+  if (settings && settings.apikey) {
+    filepicker = init();
+    filepicker.setKey(settings.apikey);
+  }
+});
+
+
+// XXX ideally we would add a namespace e.g. Ink.filepicker, but filepicker
+// must be using the global, because that doesn't work.
 this.filepicker = filepicker;

@@ -6,8 +6,11 @@
         "description": "Web simple",
         "email": "John Doe <john@example.com>"
       },
+      "inkFilepicker": {
+        "apikey": null
+      },
       "googleAnalytics": {
-        "code": "UA-XXXXXXX-X"
+        "code": null
       },
       "contact": {
         "text": "We'd love to hear from you. You can either reach out to us as a whole and one of our awesome team members will get back to you, or if you have a specific question reach out to one of our staff. We love getting email <em>all day</em>.",
