@@ -1,5 +1,5 @@
 // XXX we shouldn't be using a global here. Find a better way.
-Template.beltRichtextImageDialog.events({
+Template.beltRichtextImageModal.events({
   'click input[type="submit"]': function (e, template) {
     e.preventDefault();
     var cls;
@@ -31,11 +31,11 @@ Template.beltRichtextImageDialog.events({
     var html = '<div class="thumbnail">' + imgTag + '<div class="caption">' + caption + '</div></div>';
     console.log('markup', html);
     beltRichtextEditorInstance.composer.commands.exec("insertHTML", html);
-    $('#belt-richtext-image-dialog').modal('hide');
+    $('#belt-richtext-image-modal').foundation('reveal', 'close');
   },
 
   'click .cancel-dialog': function (e) {
     e.preventDefault();
-    $('#belt-richtext-image-dialog').modal('hide');
+    $('#belt-richtext-image-modal').foundation('reveal', 'close');
   }
 });

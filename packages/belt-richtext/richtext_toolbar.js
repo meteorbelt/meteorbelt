@@ -9,18 +9,17 @@ Template.beltRichtextToolbar.events({
       mimetypes: ['image/*'],
       services: ['COMPUTER']
     }, function (file) {
-      $('#belt-richtext-image-dialog').foundation('reveal', 'open');
-      $('#belt-richtext-image-dialog input[name="image-url"]').val(file.url);
-      $('#belt-richtext-image-dialog input[name="name"]').val(file.filename);
+      $('#belt-richtext-image-modal').foundation('reveal', 'open');
+      $('#belt-richtext-image-modal input[name="image-url"]').val(file.url);
+      $('#belt-richtext-image-modal input[name="name"]').val(file.filename);
     }, function (err) {
       Meteor._debug('beltRichtextToolbar: Belt.File.pick err: ', err);
     });
   },
 
   'click #rt-link-button': function (e) {
-    debugger;
     e.preventDefault();
-    $('#belt-richtext-link-dialog').modal();
-    $('#belt-richtext-link-dialog input[name="link-url"]').focus();
+    $('#belt-richtext-link-modal').foundation('reveal', 'open');
+    $('#belt-richtext-link-modal input[name="link-url"]').focus();
   }
 });
