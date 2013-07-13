@@ -1,6 +1,9 @@
 <template name="postList">
   <div class="row">
-    <div class="col col-lg-9">
+    <div class="large-3 push-9 columns">
+      {{> postSidebar}}
+    </div>
+    <div class="large-9 pull-3 columns">
       {{#if allPosts.count}}
         {{#each allPosts}}
           <span>{{formatDate publishedAt format="MMMM Do, YYYY"}}</span>
@@ -14,9 +17,6 @@
       {{else}}
         <h3>No Posts yet.</h3>
       {{/if}}
-    </div>
-    <div class="col col-lg-3">
-      {{> postSidebar}}
     </div>
   </div>
 </template>
