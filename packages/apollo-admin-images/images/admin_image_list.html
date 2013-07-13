@@ -1,0 +1,36 @@
+<template name="adminImageList">
+  <div class="row">
+    <div class="large-3 columns">
+      {{> adminNav }}
+    </div>
+    <div class="large-9 columns">
+
+      <!-- Header -->
+      <header class="row">
+        <div class="small-12 columns">
+          <h2>Images</h2>
+        </div>
+      </header>
+      
+      <!-- Section Nav -->
+      <div class="row">
+
+        <div class="small-6 columns">
+          <button class="add-image small"><i class="icon-plus"></i>&nbsp;&nbsp;&nbsp;Add Image</button>
+        </div>
+
+        <div class="small-6 columns">
+          <dl class="sub-nav">
+            <dd class="active"><a class="display-list" href="#">List</a></dd>
+            <dd><a class="display-thumbnail" href="#">Thumbnail</a></dd>
+          </dl> 
+        </div>
+
+      </div>
+
+      <!-- Gallery -->
+      {{> imageList }}  
+    
+    </div>
+  </div>
+</template>

@@ -1,0 +1,11 @@
+<template name="imageModal">
+  {{#with image}}
+  <div id="apollo-image-modal" class="reveal-modal">
+    
+    <a class="close-reveal-modal">&#215;</a>
+
+    <h3>{{filename}}</h3> 
+    <img class="image-thumbnail" src="{{urlBySize 500 null}}" alt="{{filename}}">
+  </div>
+  {{/with}}
+</template>

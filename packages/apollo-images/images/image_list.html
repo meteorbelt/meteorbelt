@@ -1,0 +1,21 @@
+<template name="imageList">
+  <div class="row">
+    <table class="small-12 columns">
+      <thead>
+        <tr>
+          <td></td>
+          <td>Name</td>
+          <td>Dimensions</td>
+          <td>Size</td>
+          <td></td>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each images}}
+          {{> imageListItem}}
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+  {{> imageModal}}
+</template>

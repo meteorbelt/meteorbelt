@@ -32,6 +32,10 @@ function setPostQuery() {
   setSession(this, 'post');
 }
 
+function setImageQuery() {
+  setSession(this, 'image');
+}
+
 function setPostId(_id) {
   Session.set('postId', _id);
 }
@@ -112,6 +116,11 @@ Meteor.Router.add({
   '/admin/posts/new':       { to: 'adminPostCreate', and: setPostQuery },
   '/admin/posts/:_id':      { to: 'adminPostDetail', and: setPostId },
   '/admin/posts/tags/:tag': { to: 'adminPostList',   and: setPostQuery },
+
+  '/admin/images':           { to: 'adminImageList',   and: setImageQuery },
+  '/admin/images/new':       { to: 'adminImageCreate', and: setImageQuery },
+  '/admin/images/:_id':      { to: 'adminImageDetail', and: setImageQuery },
+  '/admin/images/tags/:tag': { to: 'adminImageList',   and: setImageQuery },
 
   '/admin/products':           { to: 'adminProductList',   and: setProductQuery },
   '/admin/products/new':       { to: 'adminProductCreate', and: setProductQuery },
