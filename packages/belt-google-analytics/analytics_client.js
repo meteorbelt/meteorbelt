@@ -1,4 +1,5 @@
-var _gaq = _gaq || [];
+// @export _gaq
+_gaq = _gaq || [];
 
 if (Belt.Settings.findOne('googleAnalytics')) {
   _gaq.push(['_setAccount', 'UA-XXXXXXX-X']);
@@ -11,10 +12,6 @@ if (Belt.Settings.findOne('googleAnalytics')) {
   var s = document.getElementsByTagName('script')[0];
   s.parentNode.insertBefore(ga, s);
 }
-
-// Exports
-// -------
-this._gaq = _gaq;
 
 
 // page viewed

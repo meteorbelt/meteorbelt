@@ -5,7 +5,9 @@ Package.describe({
 Package.on_use(function (api, where) {
   api.use('belt');
   api.use('belt-slug');
-  api.use('mongo-livedata', ['client', 'server']);
+  api.use('deps', 'client');
+  api.use('session', 'client');
+
   api.add_files('product_common.js', ['client', 'server']);
   api.add_files('product_client.js', 'client');
   api.add_files('product_server.js', 'server');

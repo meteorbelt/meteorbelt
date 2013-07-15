@@ -4,8 +4,10 @@ Package.describe({
 
 Package.on_use(function (api, where) {
   api.use('belt');
-  api.use('roles', ['client', 'server']);
-  api.use('mongo-livedata', ['client', 'server']);
+  api.use('deps', 'client');
+  api.use('roles', where);
+  api.use('session', 'client');
+
   api.add_files('order_common.js', ['client', 'server']);
   api.add_files('order_client.js', 'client');
   api.add_files('order_server.js', 'server');

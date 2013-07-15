@@ -4,7 +4,9 @@ Package.describe({
 
 Package.on_use(function (api, where) {
   api.use('belt');
-  api.use('mongo-livedata', 'client');
+  api.use('deps', 'client');
+  api.use('handlebars', 'client');
+  api.use('session', 'client');
   api.use('templating', 'client');
 
   api.add_files([
@@ -20,7 +22,8 @@ Package.on_use(function (api, where) {
     'richtext_toolbar.html',
     'richtext_toolbar.js',
     'richtext.html',
-    'richtext.js'], 'client');
+    'richtext.js'
+  ], 'client');
 });
 
 Package.on_test(function (api) {

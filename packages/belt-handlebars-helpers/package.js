@@ -4,6 +4,8 @@ Package.describe({
 
 Package.on_use(function (api, where) {
   api.use('belt');
+  api.use('handlebars', 'client');
+
   api.add_files('handlebars_helpers_client.js', 'client');
 });
 

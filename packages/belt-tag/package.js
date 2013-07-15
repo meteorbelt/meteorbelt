@@ -7,10 +7,10 @@ Package.on_use(function (api, where) {
   api.use('belt-model');
   api.use('belt-user');
   api.use('belt-slug');
-
-  api.use('mongo-livedata', ['client', 'server']);
-  api.use('underscore');
+  api.use('deps', 'client');
+  api.use('session', 'client');
   api.use('roles', ['client', 'server']);
+  api.use('underscore');
 
   api.add_files('tag_common.js', ['client', 'server']);
   api.add_files('tag_client.js', 'client');

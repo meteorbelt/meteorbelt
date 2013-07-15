@@ -5,7 +5,8 @@ Package.describe({
 Package.on_use(function (api, where) {
   api.use('belt');
   api.use('underscore');
-  api.use('mongo-livedata', ['client', 'server']);
+  api.use('deps', 'client');
+  
   api.add_files('settings_common.js', ['client', 'server']);
   api.add_files('settings_server.js', 'server');
   api.add_files('settings_client.js', 'client');
