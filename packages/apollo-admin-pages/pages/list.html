@@ -1,0 +1,51 @@
+
+<template name="adminPageList">
+  <div class="row">
+
+    <!-- Nav Column -->
+    <div class="large-3 columns">
+      {{> adminNav }}
+    </div>
+
+    <!-- Content Column -->
+    <div class="large-9 columns">
+
+      <!-- Header -->
+      <header class="row">
+        <div class="small-9 columns">
+          <h2>Pages</h2>
+        </div>
+        <div class="small-3 columns vertical">
+          <a href="{{adminPageCreatePath}}" class="pull-right">
+            <i class="icon-plus"></i> New Page
+          </a>
+        </div>
+      </header>
+
+      <!-- Pages -->
+      <div class="row">
+        {{#with allPages}}
+          {{#if this.count}}
+            <div class="small-4 columns">
+              {{#each this}}
+                {{> adminPageListItem}}
+              {{/each}}
+            </div>
+            <div class="small-8 columns">
+              {{> adminPageDetailPreview}}
+            </div>
+          {{else}}
+            <div class="small-12 columns">
+              <h4>No pages yet</h4>
+              <a href="{{adminPageNewPath}}" class="button">
+                <i class="icon-plus"></i>  New Page
+              </a>
+            </div>
+          {{/if}}
+        {{/with}}
+      </div>
+
+    </div>
+
+  </div>
+</template>

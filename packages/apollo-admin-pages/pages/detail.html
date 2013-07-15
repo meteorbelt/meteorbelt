@@ -1,0 +1,49 @@
+
+<template name="adminPageDetail">
+  <div class="row">
+    <!-- Nav Column -->
+    <div class="large-3 columns">
+      {{> adminNav }}
+    </div>
+
+    <!-- Content Column -->
+    <div class="large-9 columns">
+
+      <!-- Header -->
+      <header class="row">
+        <div class="small-7 columns">
+          <input id="page-title" type="text" name="title" value="{{page.title}}" placeholder="[Enter Title]" required="true">
+        </div>
+        <div class="small-5 columns vertical">
+          <div class="button-group">
+            <button class="button small publish primary">
+              {{#if page.isPublished}}
+                Update
+              {{else}}
+                Publish
+              {{/if}}
+            </button>
+            <button class="button small save{{#if isDirty}} success{{/if}}">Save</button>
+            <button class="button small cancel">Close</button>
+          </div>
+        </div>
+      </header>
+      <div class="row">
+        <div class="large-6 columns">
+          <form class="custom">
+            <label for="published">
+              <input type="checkbox" {{publishedCheck}} id="published" style="display: none;">
+              <span class="custom checkbox {{publishedCheck}}"></span> Published
+            </label>
+          </form>
+
+        </div>
+      </div>
+      <!-- Pages -->
+      <div class="row">
+        <div class="small-12 columns richtext-tall">
+          {{Richtext page.body}}
+        </div>
+      </div>
+  </div>
+</template>
