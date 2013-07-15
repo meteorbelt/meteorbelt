@@ -1,10 +1,12 @@
 Template.adminPostDetail.rendered = function () {
-  if (Session.get('postQuery')) {
-    this.post = Posts.find(Session.get('postQuery')).fetch()[0];
-  } else {
-    // set the post var to a new object
-    this.post = Posts.create();
-  }
+  var post;
+  if (Session.get('postQuery'))
+    post = Posts.find(Session.get('postQuery')).fetch()[0];
+  // if not post; set the post var to a new object
+  if (!post)
+    post = Posts.create();
+  this.post = post;
+  return;
 };
 
 Template.adminPostDetail.helpers({
@@ -51,6 +53,7 @@ Template.adminPostDetail.events({
 
   'click .publish': function (e, tmpl) {
     e.preventDefault();
+    
     var post = postPopulate(tmpl.post, tmpl);
     post.isPublished = true;
     post.save(function (err, id) {
@@ -67,6 +70,7 @@ Template.adminPostDetail.events({
 
   'click .save': function (e, tmpl) {
     e.preventDefault();
+
     var post = postPopulate(tmpl.post, tmpl);
     post.save(function (err, id) {
       if (err) {
