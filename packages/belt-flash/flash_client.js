@@ -35,15 +35,21 @@ flash.info = function (message) {
 
 // clear hides viewed message
 flash.clear = function () {
-  flash.Collection.update({
-    seen: true
-  }, {
-    $set: {
-      show: false
-    }
-  }, {
-    multi: true
-  });
+  // XXX I have no idea why this is necessary
+  // the router will relaod the page twice without this.
+  f = flash.Collection.find({}, { reactive: false }).fetch();
+  if (f && f.length) {
+    flash.Collection.update({
+      seen: true
+    }, {
+      $set: {
+        show: false
+      }
+    }, {
+      multi: true
+    });
+  }
+  return;
 };
 
 Belt.Flash = flash;
