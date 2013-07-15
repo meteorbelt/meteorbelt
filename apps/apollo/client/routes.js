@@ -1,57 +1,39 @@
 // Routes
 // ------
 function setSession(cntx, key) {
-  var slug = cntx.params.slug;
+
   var _id = cntx.params._id;
+  var slug = cntx.params.slug;
   var tag = cntx.params.tag;
-  var sessionKey = key + 'Query';
 
-  Session.set(key + 'Opts', {sort: [['publishedAt', 'desc']]});
+  console.log("cntx.params: ", cntx.params);
 
-  if (_id) {
-    return Session.set(sessionKey, {_id: _id});
-  }
-  if (slug) {
-    return Session.set(sessionKey, {slug: slug});
-  }
-  if (tag) {
-    return Session.set(sessionKey, {tags: tag});
-  }
-  return Session.set(sessionKey, {});
-}
+  var query = {};
 
-function setSettingQuery() {
-  setSession(this, 'setting');
-}
+  if (_id)
+    query._id = _id;
+    if (_id === 'new')
+      Session.set(key + 'Id', null);
 
-function setProductQuery() {
-  setSession(this, 'product');
+  if (slug)
+    query.slug = slug;
+  if (tag)
+    query.tag = tag;
+
+  Session.set(key + 'Opts', { sort: [['publishedAt', 'desc']] });
+  Session.set(key + 'Query', query);
 }
 
 function setPageQuery() {
-  setSession(this, 'post');
+  setSession(this, 'page');
 }
 
 function setPostQuery() {
   setSession(this, 'post');
 }
 
-function setImageQuery() {
-  setSession(this, 'image');
-}
-
-function setPostId(_id) {
-  Session.set('postId', _id);
-}
-
-function setUserQuery() {
-  setSession(this, 'user');
-}
-
-function postCreate() {
-  // Set the query to all
-  Session.set('postQuery', {});
-  Session.set('postOptions', {sort: [['publishedAt', 'desc']]});
+function setProductQuery() {
+  setSession(this, 'product');
 }
 
 function verifyEmailToken(token) {
@@ -59,20 +41,19 @@ function verifyEmailToken(token) {
   return this.redirect('accountEmails');
 }
 
-function pageDetail() {
-  var page = this.context.params.page;
-  Session.set('postQuery', {slug: page});
-}
+var addResourceRotues = function (basePath, name, key) {
 
-function verifyEmailToken(token) {
-  Session.set('verifyEmailToken', token);
-  return this.redirect('accountEmails');
-}
+  var r = {};
 
-function pageDetail() {
-  var page = this.context.params.page;
-  Session.set('postQuery', {slug: page});
-}
+  function setQuery() {
+    setSession(this, key || name);
+  }
+
+  r[basePath]           = { to: name + 'List',   and: setQuery },
+  r[basePath + '/:_id'] = { to: name + 'Detail', and: setQuery },
+
+  Meteor.Router.add(r);
+};
 
 // Routes
 // ------
@@ -83,33 +64,13 @@ Meteor.Router.beforeRouting = function () {
   Belt.Flash.clear();
 };
 
-  // Admin Routes
-Meteor.Router.add({
-  '/admin/images':           { to: 'adminImageList',   and: setImageQuery },
-  '/admin/images/new':       { to: 'adminImageCreate', and: setImageQuery },
-  '/admin/images/:_id':      { to: 'adminImageDetail', and: setImageQuery },
-  '/admin/images/tags/:tag': { to: 'adminImageList',   and: setImageQuery },
 
-  '/admin/pages':           { to: 'adminPageList',   and: setPageQuery },
-  '/admin/pages/new':       { to: 'adminPageDetail', and: setPageQuery },
-  '/admin/pages/:_id':      { to: 'adminPageDetail', and: setPageQuery },
-  '/admin/pages/tags/:tag': { to: 'adminPageList',   and: setPageQuery },
+addResourceRotues('/admin/settings', 'adminSetting', 'setting');
+addResourceRotues('/admin/posts', 'adminPost', 'post');
+addResourceRotues('/admin/pages', 'adminPage', 'page');
+addResourceRotues('/admin/images', 'adminImage', 'image');
+addResourceRotues('/admin/users', 'adminUser', 'user');
 
-  '/admin/posts':           { to: 'adminPostList',   and: setPostQuery },
-  '/admin/posts/new':       { to: 'adminPostCreate', and: setPostQuery },
-  '/admin/posts/:_id':      { to: 'adminPostDetail', and: setPostId },
-  '/admin/posts/tags/:tag': { to: 'adminPostList',   and: setPostQuery },
-
-  '/admin/products':           { to: 'adminProductList',   and: setProductQuery },
-  '/admin/products/new':       { to: 'adminProductCreate', and: setProductQuery },
-  '/admin/products/:_id':      { to: 'adminProductDetail', and: setProductQuery },
-  '/admin/products/tags/:tag': { to: 'adminProductList',   and: setProductQuery },
-
-  '/admin':            'adminHome',
-  '/admin/users':      'adminUserList',
-  '/admin/users/new':  { to: 'adminUserNew',    and: setUserQuery },
-  '/admin/users/:_id': { to: 'adminUserDetail', and: setUserQuery },
-});
 
 Meteor.Router.add({
   // Static
@@ -128,6 +89,9 @@ Meteor.Router.add({
   '/account/reset-password/complete':  'accountResetPasswordComplete',
   '/verify-email/:token':              verifyEmailToken,
 
+  // Admin
+  '/admin': 'adminHome',
+
   // Blog
   '/blog':           { to: 'postList',   and: setPostQuery },
   '/blog/:slug':     { to: 'postDetail', and: setPostQuery },
@@ -139,7 +103,7 @@ Meteor.Router.add({
   '/products/tags/:tag': { to: 'productList',   and: setProductQuery },
 
   // Page
-  '/pages/:page': { to: 'pageDetail', and: pageDetail },
+  '/pages/:slug': { to: 'pageDetail', and: setPageQuery },
 
   '*': 'notFound'
 });
