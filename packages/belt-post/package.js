@@ -20,7 +20,6 @@ Package.on_use(function (api, where) {
 
 Package.on_test(function (api) {
   api.use('belt-post');
-  api.use('belt-test');
   api.use('tinytest');
 
   api.add_files('post_tests.js', ['client', 'server']);

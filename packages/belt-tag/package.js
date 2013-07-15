@@ -19,7 +19,6 @@ Package.on_use(function (api, where) {
 
 Package.on_test(function (api) {
   api.use('belt-tag');
-  api.use('belt-test');
   api.use('tinytest');
 
   api.add_files('tag_tests.js', 'server');
