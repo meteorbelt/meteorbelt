@@ -1,7 +1,7 @@
 Template.adminPostDetail.rendered = function () {
   var post;
-  if (Session.get('postQuery'))
-    post = Posts.find(Session.get('postQuery')).fetch()[0];
+  if (Session.get('postId'))
+    post = Posts.findOne(Session.get('postId'));
   // if not post; set the post var to a new object
   if (!post)
     post = Posts.create();
@@ -12,7 +12,7 @@ Template.adminPostDetail.rendered = function () {
 Template.adminPostDetail.helpers({
   // post returns the current post
   post: function () {
-    return Posts.findOne(Session.get('postQuery'));
+    return Posts.findOne(Session.get('postId'));
   }
 });
 
@@ -38,7 +38,7 @@ function postPopulate(post, tmpl) {
   // post.tags = _.map(tmpl.find('#post-tags').value.split(','), function (x) {
   //   return x.trim();
   // });
-  post.owner = Meteor.userId();
+  // post.owner = Meteor.userId();
   return post;
 }
 

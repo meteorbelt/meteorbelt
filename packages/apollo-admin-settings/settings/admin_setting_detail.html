@@ -1,23 +1,32 @@
 <template name="adminSettingDetail">
-
-  <!-- Header -->
-  <header class="row">
-    <div class="small-12 columns">
-      <h2>{{camelCaseToTitle setting._id}} Settings</h2>
+  <div class="row">
+    <!-- Nav Column -->
+    <div class="large-3 columns">
+      {{> adminNav }}
     </div>
-  </header>
 
-  <!-- Settings Form -->
-  <form class="form-horizontal" id="setting-form">
-    {{> adminSettingFormField setting.data }}
-    <div class="row">
-      <div class="small-9 small-offset-3 columns">
-        <input type="submit" class="button success" value="save">
-        <button class="button cancel">cancel</button>
-      </div>
+    <!-- Content Column -->
+    <div class="large-9 columns">
+
+      <!-- Header -->
+      <header class="row">
+        <div class="small-12 columns">
+          <h2>{{camelCaseToTitle setting._id}} Settings</h2>
+        </div>
+      </header>
+
+      <!-- Settings Form -->
+      <form class="form-horizontal" id="setting-form">
+        {{> adminSettingFormField setting.data }}
+        <div class="row">
+          <div class="small-9 small-offset-3 columns">
+            <input type="submit" class="button success" value="save">
+            <button class="button cancel">cancel</button>
+          </div>
+        </div>
+      </form>
     </div>
-  </form>
-
+  </div>
 </template>
 
 <template name="adminSettingFormField">
