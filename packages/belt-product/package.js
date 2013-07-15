@@ -3,7 +3,6 @@ Package.describe({
 });
 
 Package.on_use(function (api, where) {
-  api.use('belt');
   api.use('belt-slug');
   api.use('deps', 'client');
   api.use('session', 'client');

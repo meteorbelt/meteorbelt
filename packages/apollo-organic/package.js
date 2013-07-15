@@ -17,7 +17,6 @@ function addThemeFiles(api, name) {
 }
 
 Package.on_use(function (api, where) {
-  api.use('belt');
   api.use('less', 'client');
 
   addThemeFiles(api, 'apollo-organic');

@@ -3,6 +3,7 @@ Package.describe({
 });
 
 Package.on_use(function (api, where) {
+  api.use('belt', 'client');
   api.use('deps', 'client');
   api.use('belt-settings', 'client');
 

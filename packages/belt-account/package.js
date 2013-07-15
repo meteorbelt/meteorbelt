@@ -3,7 +3,6 @@ Package.describe({
 });
 
 Package.on_use(function (api, where) {
-  api.use('belt');
   api.use(['accounts-base', 'underscore'], ['client', 'server']);
 
   api.add_files('account_common.js', ['client', 'server']);

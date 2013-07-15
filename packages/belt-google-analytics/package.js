@@ -5,7 +5,6 @@ Package.describe({
 Package.on_use(function (api, where) {
   api.use('deps', 'client');
 
-  api.use('belt');
   api.use('belt-settings');
 
   // XXX there seems to be a bug preventing this file name

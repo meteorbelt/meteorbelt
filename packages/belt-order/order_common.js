@@ -1,6 +1,7 @@
 // Orders
 // ------
-var Orders = this.Orders = new Meteor.Collection('order', {
+// @export Orders
+Orders = this.Orders = new Meteor.Collection('order', {
 
   schema: {
     price:  { type: Number, required: true },

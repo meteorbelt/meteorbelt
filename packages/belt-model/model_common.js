@@ -1,4 +1,5 @@
-var Model = function (doc, schema) {
+// @export Orders
+Model = function (doc, schema) {
   if (schema) {
     this._schema = schema;
     // Add the _id schema

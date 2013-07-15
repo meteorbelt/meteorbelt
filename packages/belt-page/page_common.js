@@ -1,5 +1,6 @@
 // Collection
 // ----------
+// @export Pages
 Pages = new Belt.Collection('page', {
   schema: {
     title: String,

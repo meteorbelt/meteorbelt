@@ -3,7 +3,6 @@ Package.describe({
 });
 
 Package.on_use(function (api) {
-  api.use('belt');
   api.use('roles');
   api.use('underscore');
   api.add_files([

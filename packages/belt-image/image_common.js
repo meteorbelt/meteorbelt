@@ -1,5 +1,6 @@
 // Image
 // -----
+// @export Images
 Images = new Belt.Collection('image', {
   schema: {
     filename: { type: String, required: true },

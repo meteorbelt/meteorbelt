@@ -1,5 +1,6 @@
 // Post
 // ----
+// @export Posts
 Posts = new Belt.Collection('posts', {
 
   schema: {

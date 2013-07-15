@@ -3,7 +3,6 @@ Package.describe({
 });
 
 Package.on_use(function (api, where) {
-  api.use('belt');
   api.use('underscore');
   api.add_files('error_common.js', ['client', 'server']);
 });
