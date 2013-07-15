@@ -28,6 +28,10 @@ function setProductQuery() {
   setSession(this, 'product');
 }
 
+function setPageQuery() {
+  setSession(this, 'post');
+}
+
 function setPostQuery() {
   setSession(this, 'post');
 }
@@ -76,8 +80,36 @@ function pageDetail() {
 // Run before routes
 Meteor.Router.beforeRouting = function () {
   // clears all seen flash messages.
-  // Belt.Flash.clear();
+  Belt.Flash.clear();
 };
+
+  // Admin Routes
+Meteor.Router.add({
+  '/admin/images':           { to: 'adminImageList',   and: setImageQuery },
+  '/admin/images/new':       { to: 'adminImageCreate', and: setImageQuery },
+  '/admin/images/:_id':      { to: 'adminImageDetail', and: setImageQuery },
+  '/admin/images/tags/:tag': { to: 'adminImageList',   and: setImageQuery },
+
+  '/admin/pages':           { to: 'adminPageList',   and: setPageQuery },
+  '/admin/pages/new':       { to: 'adminPageDetail', and: setPageQuery },
+  '/admin/pages/:_id':      { to: 'adminPageDetail', and: setPageQuery },
+  '/admin/pages/tags/:tag': { to: 'adminPageList',   and: setPageQuery },
+
+  '/admin/posts':           { to: 'adminPostList',   and: setPostQuery },
+  '/admin/posts/new':       { to: 'adminPostCreate', and: setPostQuery },
+  '/admin/posts/:_id':      { to: 'adminPostDetail', and: setPostId },
+  '/admin/posts/tags/:tag': { to: 'adminPostList',   and: setPostQuery },
+
+  '/admin/products':           { to: 'adminProductList',   and: setProductQuery },
+  '/admin/products/new':       { to: 'adminProductCreate', and: setProductQuery },
+  '/admin/products/:_id':      { to: 'adminProductDetail', and: setProductQuery },
+  '/admin/products/tags/:tag': { to: 'adminProductList',   and: setProductQuery },
+
+  '/admin':            'adminHome',
+  '/admin/users':      'adminUserList',
+  '/admin/users/new':  { to: 'adminUserNew',    and: setUserQuery },
+  '/admin/users/:_id': { to: 'adminUserDetail', and: setUserQuery },
+});
 
 Meteor.Router.add({
   // Static
@@ -105,27 +137,6 @@ Meteor.Router.add({
   '/products':           { to: 'productList',   and: setProductQuery },
   '/products/:slug':     { to: 'productDetail', and: setProductQuery },
   '/products/tags/:tag': { to: 'productList',   and: setProductQuery },
-
-  // Admin
-  '/admin':            'adminHome',
-  '/admin/users':      'adminUserList',
-  '/admin/users/new':  { to: 'adminUserNew',    and: setUserQuery },
-  '/admin/users/:_id': { to: 'adminUserDetail', and: setUserQuery },
-
-  '/admin/posts':           { to: 'adminPostList',   and: setPostQuery },
-  '/admin/posts/new':       { to: 'adminPostCreate', and: setPostQuery },
-  '/admin/posts/:_id':      { to: 'adminPostDetail', and: setPostId },
-  '/admin/posts/tags/:tag': { to: 'adminPostList',   and: setPostQuery },
-
-  '/admin/images':           { to: 'adminImageList',   and: setImageQuery },
-  '/admin/images/new':       { to: 'adminImageCreate', and: setImageQuery },
-  '/admin/images/:_id':      { to: 'adminImageDetail', and: setImageQuery },
-  '/admin/images/tags/:tag': { to: 'adminImageList',   and: setImageQuery },
-
-  '/admin/products':           { to: 'adminProductList',   and: setProductQuery },
-  '/admin/products/new':       { to: 'adminProductCreate', and: setProductQuery },
-  '/admin/products/:_id':      { to: 'adminProductDetail', and: setProductQuery },
-  '/admin/products/tags/:tag': { to: 'adminProductList',   and: setProductQuery },
 
   // Page
   '/pages/:page': { to: 'pageDetail', and: pageDetail },
