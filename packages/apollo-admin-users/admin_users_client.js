@@ -17,5 +17,5 @@ Meteor.startup(function () {
       }
     ]
   };
-  Belt.AdminPages.addPage(page);
+  AdminPages.addPage(page);
 });

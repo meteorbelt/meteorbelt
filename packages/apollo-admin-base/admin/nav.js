@@ -9,7 +9,7 @@ Template.adminNav.rendered = function () {
 
 Template.adminNav.helpers({
   sections: function () {
-    return Belt.AdminPages.find();
+    return AdminPages.find();
   }
 });
 

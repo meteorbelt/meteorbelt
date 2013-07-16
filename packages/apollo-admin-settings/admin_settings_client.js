@@ -13,5 +13,5 @@ Deps.autorun(function () {
       };
     })
   };
-  Belt.AdminPages.addPage(page);
+  AdminPages.addPage(page);
 });

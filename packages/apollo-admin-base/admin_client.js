@@ -1,5 +1,6 @@
 
-var AdminPages = new Belt.Collection(null, {
+// @export AdminPages
+AdminPages = new Belt.Collection(null, {
 
   schema: {
     name:     { type: String, required: true },
@@ -36,5 +37,3 @@ var AdminPages = new Belt.Collection(null, {
     }
   }
 });
-
-Belt.AdminPages = AdminPages;
