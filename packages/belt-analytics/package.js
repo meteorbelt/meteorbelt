@@ -3,10 +3,6 @@ Package.describe({
 });
 
 Package.on_use(function (api, where) {
-  api.use('deps', 'client');
-  api.use('mongo-livedata', 'client');
-  api.use('startup', 'client');
-  api.use('templating', 'client');
 
   api.add_files('analytics_common.js', ['client', 'server']);
   // api.add_files('analytics_client.js', 'client');

@@ -3,7 +3,6 @@ Package.describe({
 });
 
 Package.on_use(function (api, where) {
-  api.use('mongo-livedata', ['client', 'server']);
   api.add_files('faq_common.js', ['client', 'server']);
 });
 

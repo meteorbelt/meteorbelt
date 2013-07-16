@@ -3,7 +3,6 @@ Package.describe({
 });
 
 Package.on_use(function (api, where) {
-  api.use('mongo-livedata', 'client');
   api.use('templating', 'client');
 
   api.add_files([

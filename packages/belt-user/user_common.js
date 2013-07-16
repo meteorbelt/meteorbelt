@@ -1,6 +1,6 @@
 // User
 // ----
-
+// @export User
 User = {};
 
 Meteor.users.schema({

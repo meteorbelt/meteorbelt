@@ -24,8 +24,8 @@ belt-app-settings
 belt-accounting
 belt-bootstrap
 belt-collection
+belt-collection-plugins
 belt-contact
-belt-error
 belt-faq
 belt-file
 belt-flash
@@ -44,7 +44,6 @@ belt-meta
 belt-model
 belt-order
 belt-page
-belt-plugins
 belt-post
 belt-product
 belt-richtext
@@ -53,7 +52,6 @@ belt-slug
 belt-tag
 belt-text-utils
 belt-user
-belt-validation
 
 # Apollo
 apollo-accounts
