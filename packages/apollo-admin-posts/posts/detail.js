@@ -26,10 +26,10 @@ function parseDate(input) {
 function postPopulate(post, tmpl) {
 //  // if slug is present return an error if it is in use
 //  if (opts.slug) {
-//    p.slug = Belt.Slug.unique(opts.slug, Posts, true);
+//    p.slug = Slug.unique(opts.slug, Posts, true);
 //  } else {
 //    // use the title, don't care if the slug is an exact match
-//    p.slug = Belt.Slug.unique(opts.title, Posts);
+//    p.slug = Slug.unique(opts.title, Posts);
 //  }
   post.title = tmpl.find("#post-title").value;
   post.body = tmpl.find("#belt-richtext-textarea").value;

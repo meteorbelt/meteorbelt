@@ -15,7 +15,7 @@ var tags = function (collection, options) {
       // tags must be slugs
       if (doc.tags) {
         doc.tags = _.map(doc.tags, function (t) {
-          return Belt.Slug.generate(t);
+          return Slug.generate(t);
         });
       }
     }

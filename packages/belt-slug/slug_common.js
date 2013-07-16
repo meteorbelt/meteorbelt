@@ -1,7 +1,7 @@
 // Slug
 // ----
-
-var slug = {};
+// @export Slug
+Slug = {};
 
 // This is Django's URLify code
 // From https://raw.github.com/django/django/master/django/contrib/admin/static/admin/js/urlify.js
@@ -136,13 +136,13 @@ function URLify(s, num_chars) {
   return s.substring(0, num_chars); // trim to first num_chars chars
 }
 
-slug.generate = function (text, numberOfChars) {
+Slug.generate = function (text, numberOfChars) {
   return URLify(text, numberOfChars);
 };
 
 // unique checks does a search off the provided collection for entries with
 // a slug of the provided value
-slug.unique = function (text, collection, errorIfInUse) {
+Slug.unique = function (text, collection, errorIfInUse) {
   if (!text) {
     throw new Meteor.Error(403, 'You must provided the text to slugify');
   }
@@ -167,8 +167,6 @@ slug.unique = function (text, collection, errorIfInUse) {
   return s;
 };
 
-var Plugins = {};
-
 // Plugin
 // ------
 Plugins.slug = function (collection, options) {
@@ -189,10 +187,10 @@ Plugins.slug = function (collection, options) {
     insert: function(doc, user) {
       // if slug is present return an error if it is in use
       if (collection.slug) {
-        collection.slug = Belt.Slug.unique(self.slug, posts, true);
+        collection.slug = Slug.unique(self.slug, posts, true);
       } else {
         // use the title, don't care if the slug is an exact match
-        collection.slug = Belt.Slug.unique(opts.title, posts);
+        collection.slug = Slug.unique(opts.title, posts);
       }
     }
   });
@@ -203,8 +201,3 @@ Plugins.slug = function (collection, options) {
     }
   });
 };
-
-// Exports
-// -------
-Belt.Slug = slug;
-Belt.Slug.Plugins = Plugins;

@@ -58,7 +58,7 @@ Template.adminOrderDetail.events({
       };
     // insert
     if (!Session.get('productId')) {
-      f.slug = Belt.Slug.unique(f.name, Products);
+      f.slug = Slug.unique(f.name, Products);
       return Products.insert(f, callback);
     }
     // update
