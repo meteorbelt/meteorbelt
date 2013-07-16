@@ -113,7 +113,7 @@ Meteor.Router.add({
 Meteor.Router.filters({
   trackRoute: function (page) {
     // TODO
-    // Belt.Analytics.pageViewed(page);
+    // Analytics.pageViewed(page);
     return page;
   },
   // isAdmin filter check to see if the current user is an admin.

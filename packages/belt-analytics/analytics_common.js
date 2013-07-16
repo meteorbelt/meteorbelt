@@ -1,2 +1,2 @@
 
-Belt.Analytics = {};
+Analytics = {};
