@@ -1,7 +1,7 @@
 // User
 // ----
 
-Belt.User = {};
+User = {};
 
 Meteor.users.schema({
   createdAt: Date,

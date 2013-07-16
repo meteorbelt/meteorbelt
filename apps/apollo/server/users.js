@@ -1,2 +1,2 @@
-// Use Belt.User.onCreateUser method;
-Accounts.onCreateUser(Belt.User.customOnCreateUser);
+// Use User.onCreateUser method;
+Accounts.onCreateUser(User.onCreate);

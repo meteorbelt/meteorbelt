@@ -31,7 +31,7 @@ Meteor.publish('allUsers', function () {
 //
 // Accounts
 //
-Belt.User.customOnCreateUser = function (opts, user) {
+User.onCreate = function (opts, user) {
   user.profile = opts.profile || {};
   if (opts.email) {
     // hash the email address for use with Gravatar
