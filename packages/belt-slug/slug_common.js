@@ -140,38 +140,12 @@ Slug.generate = function (text, numberOfChars) {
   return URLify(text, numberOfChars);
 };
 
-// unique checks does a search off the provided collection for entries with
-// a slug of the provided value
-Slug.unique = function (text, collection, errorIfInUse) {
-  if (!text) {
-    throw new Meteor.Error(403, 'You must provided the text to slugify');
-  }
-  if (!collection) {
-    throw new Meteor.Error(403, 'You must provide a collection');
-  }
-  errorIfInUse = errorIfInUse || false;
-  // turn the text into a slug
-  var s = slug.get(text);
-  // check for existing record with this slug
-  var r = collection.findOne({
-    slug: s
-  });
-  if (r) {
-    // sometimes we would prefer to have an error if the slug is in use.
-    if (errorIfInUse) {
-      throw new Meteor.Error(403, 'Slug already in use');
-    }
-    // sometimes we just want a new slug.
-    return slug.unique(s + '-1', collection);
-  }
-  return s;
-};
 
 // Plugin
 // ------
 CollectionPlugins.slug = function (collection, options) {
 
-  options = options || { required: true };
+  options = _.defaults(options, { required: true, unique: true })
 
   if (! options.ref) {
     throw new error('You must provide the attribute to use for the slug ' +
@@ -180,24 +154,45 @@ CollectionPlugins.slug = function (collection, options) {
   }
 
   collection.schema({
-    slug: { types: String, required: options.required }
+    slug: { type: String, required: options.required }
   });
 
   collection.before({
-    insert: function(doc, user) {
-      // if slug is present return an error if it is in use
-      if (collection.slug) {
-        collection.slug = Slug.unique(self.slug, posts, true);
-      } else {
-        // use the title, don't care if the slug is an exact match
-        collection.slug = Slug.unique(opts.title, posts);
-      }
+    insert: function(userId, doc) {
+      doc.slugify();
     }
   });
 
   collection.statics({
     findOneBySlug: function (slug, fn) {
       return this.findOne({slug: slug}, fn);
+    }
+  });
+
+  collection.methods({
+    slugify: function (slug) {
+      var self = this;
+
+      // use the passed in falue or the slug reference
+      slug = slug || self[options.ref];
+
+      // generate the slug
+      var s = Slug.generate(slug);
+
+      // if we want a unique value (default) then we must insure
+      // that an existing doc is not using it
+      if (options.unique) {
+        var r = collection.findOneBySlug(s);
+        // if we have a result and the result is not this instance
+        if (r && r._id !== self._id) {
+          // run it again with a "-1" at the end of the slug e.g.
+          // some-thing -> some-thing-1 -> something-1-1
+          self.slugify(s + '-1');
+          return
+        }
+      }
+      // add the slug as an slug attribute
+      return self.slug = s
     }
   });
 };

@@ -8,8 +8,11 @@ Package.on_use(function (api, where) {
 });
 
 Package.on_test(function (api) {
+  api.use('belt-collection');
+  api.use('belt-collection-plugins');
   api.use('belt-slug');
+  
   api.use('tinytest');
 
-  api.add_files('slug_tests.js', 'server');
+  api.add_files('slug_tests.js', 'client');
 });

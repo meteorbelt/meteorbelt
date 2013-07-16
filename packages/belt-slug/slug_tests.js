@@ -1,5 +1,5 @@
 // Should create the correct slug
-Tinytest.add("belt - slug - get", function (test) {
+Tinytest.add("belt - slug - generate", function (t) {
   // TODO add more values
   var maps = [
     {start: 'Make Slug', end: 'make-slug'},
@@ -8,46 +8,41 @@ Tinytest.add("belt - slug - get", function (test) {
   ];
   var i;
   for (i = 0; i < maps.length; i += 1) {
-    test.equal(Slug.generate(maps[i].start), maps[i].end);
+    t.equal(Slug.generate(maps[i].start), maps[i].end);
   }
 });
 
-var Model = new Meteor.Collection('model');
 
-Tinytest.add("belt - slug - unique", function (test) {
+Tinytest.add("belt - slug - plugin", function (t) {
 
-  var start, slug, ids = [];
-
-  start = 'Make slug';
-  slug = Slug.unique(start, Model);
-  test.equal(slug, 'make-slug');
-  // Save the collection.
-  ids[0] = Model.insert({slug: slug});
-
-  // slug should now have a `-1`
-  slug = Slug.unique(start, Model);
-  test.equal(slug, 'make-slug-1');
-  ids[1] = Model.insert({slug: slug});
-
-  // slug should now have a `-1-1`
-  slug = Slug.unique(start, Model);
-  test.equal(slug, 'make-slug-1-1');
-
-  // Should throw an error if the slug is in use
-  test.throws(function () {
-    slug = Slug.unique(start, Model, true);
+  var C = new Collection(null);
+  
+  C.schema({
+    title: String
   });
 
-  // You must provide text to slug
-  test.throws(function () {
-    Slug.unique();
-  });
+  C.plugin(CollectionPlugins.slug, { ref: 'title' });
 
-  // You must provide a Collection
-  test.throws(function () {
-    Slug.unique(start);
-  });
-  // cleanup
-  Model.remove(ids[0]);
-  Model.remove(ids[1]);
+  var c = C.create({ title: 'Hello World' });
+
+  // test slugify 
+  c.slugify();
+  t.equal(c.slug, 'hello-world');
+
+  // test insert
+  var cid = C.insert(c);
+  var cc = C.findOne(cid);
+  t.equal(cc.slug, 'hello-world');
+
+  // test insert again
+  var d =  C.create({ title: 'hello world' });
+  var did = C.insert(d);
+  var dd = C.findOne(did);
+  t.equal(dd.slug, 'hello-world-1');
+
+  // test insert again and again
+  var e =  C.create({ title: 'hello world' });
+  var eid = C.insert(e);
+  var ee = C.findOne(eid);
+  t.equal(ee.slug, 'hello-world-1-1');
 });
