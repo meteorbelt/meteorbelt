@@ -1,6 +1,8 @@
+// CollectionPlugins
+// -----------------
+// @export CollectionPlugins
+CollectionPlugins = {};
 
-// Plugins
-// -------
 
 var tags = function (collection, options) {
 
@@ -150,16 +152,12 @@ var allowAdmin = function (collection, options) {
   }
 };
 
-var Plugins = {};
-
 // Properties
-Plugins.owner = owner;
-Plugins.createdAt = createdAt;
-Plugins.updatedAt = updatedAt;
-Plugins.isPublic = isPublic;
-Plugins.tags = tags;
+CollectionPlugins.owner = owner;
+CollectionPlugins.createdAt = createdAt;
+CollectionPlugins.updatedAt = updatedAt;
+CollectionPlugins.isPublic = isPublic;
+CollectionPlugins.tags = tags;
 
 // Permissions
-Plugins.allowAdmin = allowAdmin;
-
-CollectionPlugins = Plugins;
+CollectionPlugins.allowAdmin = allowAdmin;

@@ -3,7 +3,7 @@ Package.describe({
 });
 
 Package.on_use(function (api, where) {
-  api.use('mongo-livedata', ['client', 'server']);
+  api.use('belt-collection-plugins');
   api.add_files('slug_common.js', ['client', 'server']);
 });
 

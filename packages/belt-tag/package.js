@@ -3,9 +3,8 @@ Package.describe({
 });
 
 Package.on_use(function (api, where) {
-  api.use('belt-model');
-  api.use('belt-user');
-  api.use('belt-slug');
+  api.use('belt-collection');
+  api.use('belt-collection-plugins');
   api.use('deps', 'client');
   api.use('session', 'client');
   api.use('roles', ['client', 'server']);

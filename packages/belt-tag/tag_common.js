@@ -1,7 +1,7 @@
 // Tag
 // ---
-
-var Tags = new Collection('tag', {
+// @export Tags
+Tags = new Collection('tag', {
   schema: {
     slug: { type: String, required: true }
   }
@@ -16,7 +16,3 @@ Tags.plugin(CollectionPlugins.updatedAt);
 
 // Permissions
 Tags.plugin(CollectionPlugins.allowAdmin);
-
-// Exports
-// -------
-this.Tags = Tags;

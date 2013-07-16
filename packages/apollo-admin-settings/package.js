@@ -4,8 +4,8 @@ Package.describe({
 
 Package.on_use(function (api, where) {
   api.use('router', 'client');
-  api.use('belt-settings');
-  api.use('belt-text');
+  api.use('belt-app-settings');
+  api.use('belt-text-utils');
   
   api.use('apollo-admin-base');
 

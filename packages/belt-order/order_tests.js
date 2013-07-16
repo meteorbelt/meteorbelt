@@ -13,7 +13,7 @@ var user = {
   email: 'john@examle.com'
 };
 
-var order = new Order({
+var order = Orders.create({
   type: 'cart',
   items: [{
     sku: 'eggs-12',

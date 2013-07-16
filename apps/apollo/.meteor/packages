@@ -19,8 +19,8 @@ roles
 router
 
 # Belt
-belt
 belt-account
+belt-app-settings
 belt-accounting
 belt-bootstrap
 belt-collection
@@ -49,10 +49,9 @@ belt-post
 belt-product
 belt-richtext
 belt-schema
-belt-settings
 belt-slug
 belt-tag
-belt-text
+belt-text-utils
 belt-user
 belt-validation
 

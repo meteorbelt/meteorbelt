@@ -6,7 +6,7 @@ Package.on_use(function (api) {
   api.use('roles');
   api.use('underscore');
   api.add_files([
-    'plugins_collection_common.js'
+    'collection_plugins_common.js'
   ], ['client', 'server']);
 });
 
@@ -15,6 +15,6 @@ Package.on_test(function (api) {
   api.use('tinytest');
 
   api.add_files([
-    'plugins_collection_tests.js'
+    'collection_plugins_tests.js'
   ], 'client');
 });

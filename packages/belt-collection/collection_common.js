@@ -273,7 +273,8 @@ _.each(["before", "after"], function (type) {
 // Alternative Constructor //
 /////////////////////////////
 
-var Collection = function (name, options) {
+// @export Collection
+Collection = function (name, options) {
   var self = this;
   if (options) {
     _.each(['schema', 'methods', 'statics', 'before', 'after'], function (method) {
@@ -300,7 +301,3 @@ var Collection = function (name, options) {
 Collection.prototype = new Meteor.Collection(null);
 
 Collection.prototype.constructor = Collection;
-
-// Exports
-// -------
-Collection = Collection;

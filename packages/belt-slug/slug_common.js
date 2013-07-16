@@ -169,7 +169,7 @@ Slug.unique = function (text, collection, errorIfInUse) {
 
 // Plugin
 // ------
-Plugins.slug = function (collection, options) {
+CollectionPlugins.slug = function (collection, options) {
 
   options = options || { required: true };
 

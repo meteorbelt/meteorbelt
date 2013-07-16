@@ -1,7 +1,8 @@
 
-var Text = {};
+// @export TextUtils
+TextUtils = {};
 
-Text.camelCaseToTitle = function (text) {
+TextUtils.camelCaseToTitle = function (text) {
   if (! text) return text;
 
   var newText = "";
@@ -29,7 +30,3 @@ Text.camelCaseToTitle = function (text) {
   }
   return newText;
 };
-
-// Exports
-// -------
-TextUtils = Text;

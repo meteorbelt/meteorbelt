@@ -1,5 +1,6 @@
 // Product
 // -------
+// @export Products
 Products = new Collection('product', {
   schema: {
     name:        { type: String, required: true },
