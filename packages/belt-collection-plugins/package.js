@@ -6,7 +6,9 @@ Package.on_use(function (api) {
   api.use('roles');
   api.use('underscore');
   api.add_files([
-    'collection_plugins_common.js'
+    'collection_plugins_common.js',
+    'collection_plugins_attributes.js',
+    'collection_plugins_permissions.js'
   ], ['client', 'server']);
 });
 
