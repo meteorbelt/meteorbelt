@@ -1,7 +1,7 @@
 // @export CollectionPlugins.tags
 CollectionPlugins.tags = function (collection, options) {
 
-  options = options || { required: false, type: 'string' };
+  options = _.defaults(options || {}, { required: true, type: 'string' })
 
   collection.schema({
     tags: [options.type]
@@ -23,7 +23,7 @@ CollectionPlugins.tags = function (collection, options) {
 // @export CollectionPlugins.owner
 CollectionPlugins.owner = function (collection, options) {
 
-  options = options || { required: true };
+  options = _.defaults(options || {}, { required: true });
 
   collection.schema({
     ownerId: { type: String, required: options.required }
@@ -67,7 +67,7 @@ CollectionPlugins.owner = function (collection, options) {
 // @export CollectionPlugins.createdAt
 CollectionPlugins.createdAt = function (collection, options) {
 
-  options = options || { required: true };
+  options = _.defaults(options || {}, { required: true });
 
   collection.schema({
     createdAt: { type: Date, required: options.required }
@@ -83,7 +83,7 @@ CollectionPlugins.createdAt = function (collection, options) {
 // @export CollectionPlugins.updatedAt
 CollectionPlugins.updatedAt = function (collection, options) {
 
-  options = options || { required: true };
+  options = _.defaults(options || {}, { required: true });
 
   collection.schema({
     updatedAt: { type: Date, required: options.required }
@@ -106,7 +106,7 @@ CollectionPlugins.updatedAt = function (collection, options) {
 // @export CollectionPlugins.isPublic
 CollectionPlugins.isPublic = function (collection, options) {
 
-  options = options || { required: true };
+  options = _.defaults(options || {}, { required: true });
 
   collection.schema({
     isPublic: { type: Boolean, required: options.required, 'default': false }
