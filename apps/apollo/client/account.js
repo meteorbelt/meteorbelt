@@ -26,13 +26,13 @@ Meteor.startup(function () {
     Accounts.verifyEmail(Accounts._verifyEmailToken, function (err) {
       Accounts._enableAutoLogin();
       if (err) {
-        Belt.Flash.error('An Error occured while attempting to verifiy your Email address. Please try again.');
+        Flash.error('An Error occured while attempting to verifiy your Email address. Please try again.');
         return;
       }
       Accounts._resetPasswordToken = '';
       Meteor.defer(function () {
         Meteor.Router.to('/account/emails');
-        Belt.Flash.success('Email address successfully verified.');
+        Flash.success('Email address successfully verified.');
       });
     });
   }

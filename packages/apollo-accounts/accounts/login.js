@@ -6,7 +6,7 @@ Template.accountLogin.events({
     var opts = form2js('login');
     Meteor.loginWithPassword(opts.email, opts.password, function (err) {
       if (err) {
-        Belt.Flash.error(err.reason);
+        Flash.error(err.reason);
         return;
       }
       // success redirect

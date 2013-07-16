@@ -13,7 +13,7 @@ Template.adminPostDetailPreview.events({
       var p = Posts.findOne(Session.get('postId'));
       Posts.remove(p._id, function (err) {
         if (err) {
-          return Belt.Flash.error(err.reason);
+          return Flash.error(err.reason);
         }
         // if no error...
         Meteor._debug('post deleted successfully');

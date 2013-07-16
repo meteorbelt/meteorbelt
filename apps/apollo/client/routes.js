@@ -61,7 +61,7 @@ var addResourceRotues = function (basePath, name, key) {
 // Run before routes
 Meteor.Router.beforeRouting = function () {
   // clears all seen flash messages.
-  Belt.Flash.clear();
+  Flash.clear();
 };
 
 
@@ -138,7 +138,7 @@ Meteor.Router.filters({
     if (Roles.userIsInRole(Meteor.userId(), 'admin')) {
       return page;
     }
-    Belt.Flash.error('You do not have access to this page. Try logging in.');
+    Flash.error('You do not have access to this page. Try logging in.');
     return 'accountLogin';
   },
   // isLoggedIn filter check to see if the current user is logged in.
@@ -150,7 +150,7 @@ Meteor.Router.filters({
     if (Meteor.user()) {
       return page;
     }
-    Belt.Flash.error('You must be logged in to view this page');
+    Flash.error('You must be logged in to view this page');
     return 'accountLogin';
   }
 });

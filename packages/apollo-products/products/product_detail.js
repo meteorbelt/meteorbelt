@@ -19,9 +19,9 @@ Template.productDetail.events({
     };
     Meteor.call('orderAddToCart', obj, function (err) {
       if (err) {
-        return Belt.Flash.error('An error occured: ', err);
+        return Flash.error('An error occured: ', err);
       }
-      return Belt.Flash.success('Item added successfully');
+      return Flash.success('Item added successfully');
     });
   }
 });

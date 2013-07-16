@@ -1,3 +1,3 @@
 Template.beltFlashes.helpers({
-  flashes: Belt.Flash.Collection.find()
+  flashes: Flash.Collection.find()
 });

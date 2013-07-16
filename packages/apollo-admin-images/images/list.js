@@ -12,7 +12,7 @@ Template.adminImageList.events({
       i.owner = Meteor.userId();
       i.save(function (err, id) {
         if (err)
-          Belt.Flash.error(err);
+          Flash.error(err);
       });
     }, function (err) {
       Meteor._debug('Admin Image error: ', err);

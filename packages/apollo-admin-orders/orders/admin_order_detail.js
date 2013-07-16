@@ -45,14 +45,14 @@ Template.adminOrderDetail.events({
     f.price = parseFloat(f.price, 10).toFixed(2);
     f.images = Session.get('productImages');
     if (!f.name || !f.name.length) {
-      return Belt.Flash.error("Please fill in name");
+      return Flash.error("Please fill in name");
     }
     if (!f.description || !f.description.length) {
-      return Belt.Flash.error("Please fill in the description");
+      return Flash.error("Please fill in the description");
     }
     var callback = function (err, id) {
         if (err) {
-          return Belt.Flash.error(err.reason);
+          return Flash.error(err.reason);
         }
         Meteor.Router.to('/admin/products');
       };

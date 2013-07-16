@@ -10,7 +10,7 @@ Template.accountEmailsItem.events({
     e.preventDefault();
     Meteor.call('userEmailDelete', Meteor.userId(), tmpl.data.address, function (err) {
       if (err) {
-        return Belt.Flash.error(err.reason);
+        return Flash.error(err.reason);
       }
     });
   },
@@ -19,9 +19,9 @@ Template.accountEmailsItem.events({
     e.preventDefault();
     Meteor.call('userEmailVerify', Meteor.userId(), tmpl.data.address, function (err) {
       if (err) {
-        return Belt.Flash.error(err.reason);
+        return Flash.error(err.reason);
       }
-      return Belt.Flash.info("We have sent a verification email to '" + tmpl.data.address + "' -- please follow the instructions in it.");
+      return Flash.info("We have sent a verification email to '" + tmpl.data.address + "' -- please follow the instructions in it.");
     });
   },
 
@@ -29,9 +29,9 @@ Template.accountEmailsItem.events({
     e.preventDefault();
     Meteor.call('userEmailMakeDefault', Meteor.userId(), tmpl.data.address, function (err) {
       if (err) {
-        return Belt.Flash.error(err.reason);
+        return Flash.error(err.reason);
       }
-      //return Belt.Flash.info(tmpl.data.address + " is now your default email");
+      //return Flash.info(tmpl.data.address + " is now your default email");
     });
   }
 });

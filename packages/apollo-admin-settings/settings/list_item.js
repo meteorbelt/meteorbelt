@@ -13,7 +13,7 @@ Template.adminSettingListItem.events({
     if (remove === true) {
       Belt.Settings.remove(tmpl.data._id, function (err, post) {
         if (err) {
-          return Belt.Flash.error(err.reason);
+          return Flash.error(err.reason);
         }
         // if no error...
         console.log('post deleted successfully');

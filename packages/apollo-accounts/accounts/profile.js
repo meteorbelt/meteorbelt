@@ -10,9 +10,9 @@ Template.accountProfile.events({
     var f = form2js('profile-form');
     Meteor.call('userProfileUpdate', Meteor.userId(), f, function (err, id) {
       if (err) {
-        return Belt.Flash.error(err.reason);
+        return Flash.error(err.reason);
       }
-      Belt.Flash.success('Profile updated successfully');
+      Flash.success('Profile updated successfully');
     });
   }
 });

@@ -8,10 +8,10 @@ Template.accountResetPassword.events({
     var email = tmpl.find('input[name="email"]').value;
     Meteor.call('userResetPassword', email, function (err) {
       if (err) {
-        Belt.Flash.error(err.reason);
+        Flash.error(err.reason);
         return;
       }
-      Belt.Flash.success('We have sent an email to  ' + email + ' -- please follow the direction in it.');
+      Flash.success('We have sent an email to  ' + email + ' -- please follow the direction in it.');
       email = '';
     });
   }

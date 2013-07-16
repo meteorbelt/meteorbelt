@@ -25,7 +25,7 @@ Template.adminUserListItem.events({
       if (makeAdmin === true) {
         // XXX Unsafe
         Meteor.call('userAddUsersToRoles', tmpl.data._id, 'admin', function (err) {
-          Belt.Flash.error('an error occured: ', err);
+          Flash.error('an error occured: ', err);
         });
         Roles.addUsersToRoles(tmpl.data._id, ['admin']);
         return;
@@ -35,7 +35,7 @@ Template.adminUserListItem.events({
     // XXX Unsafe
     Meteor.call('userRemoveUsersFromRoles', tmpl.data._id, 'admin', function (err) {
       if (err) {
-        Belt.Flash.error('an error occured: ', err);
+        Flash.error('an error occured: ', err);
       }
     });
     return;
@@ -51,7 +51,7 @@ Template.adminUserListItem.events({
     if (remove === true) {
       Posts.remove(tmpl.data._id, function (err, post) {
         if (err) {
-          return Belt.Flash.error(err.reason);
+          return Flash.error(err.reason);
         }
         // if no error...
         console.log('post deleted successfully');

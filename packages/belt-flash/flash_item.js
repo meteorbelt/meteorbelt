@@ -4,7 +4,7 @@ Template.beltFlashItem.created = function () {
   var id = this.data._id;
   Meteor.setTimeout(function () {
     // mark the flash as "seen" after 100 milliseconds
-    Belt.Flash.Collection.update(id, {
+    Flash.Collection.update(id, {
       $set: {
         seen: true
       }

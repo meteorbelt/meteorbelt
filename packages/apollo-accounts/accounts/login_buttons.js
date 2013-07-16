@@ -11,7 +11,7 @@ Template.accountLoginButtons.events({
     Meteor.logout(function (err) {
       Meteor._debug('logout err: ', err);
       if (err) {
-        Belt.Flash.error(err.reason);
+        Flash.error(err.reason);
         return;
       }
       // success redirect

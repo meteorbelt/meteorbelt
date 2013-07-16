@@ -16,9 +16,9 @@ Template.adminSettingDetail.events({
     s._populate({data: f});
     s.save(function (err, id) {
       if (err) {
-        return Belt.Flash.error(err);
+        return Flash.error(err);
       }
-      return Belt.Flash.success('Setting update successfully');
+      return Flash.success('Setting update successfully');
     });
   },
 

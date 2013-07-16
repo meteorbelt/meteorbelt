@@ -9,7 +9,7 @@ Template.adminProductListItem.events({
     if (remove === true) {
       Products.remove(tmpl.data._id, function (err, post) {
         if (err) {
-          return Belt.Flash.error(err.reason);
+          return Flash.error(err.reason);
         }
         // if no error...
         console.log('post deleted successfully');

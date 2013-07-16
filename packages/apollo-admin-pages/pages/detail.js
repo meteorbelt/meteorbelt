@@ -49,7 +49,7 @@ Template.adminPageDetail.events({
     page.save(function (err, id) {
       if (err) {
         _.each(err.details, function (v, k) {
-          Belt.Flash.error(k + " " + v);
+          Flash.error(k + " " + v);
         });
         return;
       }
@@ -64,9 +64,9 @@ Template.adminPageDetail.events({
     var page = pagePopulate(tmpl.page, tmpl);
     page.save(function (err, id) {
       if (err) {
-        Belt.Flash.clear();
+        Flash.clear();
         _.each(err.details, function (v, k) {
-          Belt.Flash.error(k + " " + v);
+          Flash.error(k + " " + v);
         });
         return;
       }

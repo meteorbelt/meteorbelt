@@ -10,10 +10,10 @@ Template.accountEmails.events({
     var address = tmpl.find('input[name="address"]').value;
     Meteor.call('userEmailAdd', Meteor.userId(), address, function (err) {
       if (err) {
-        Belt.Flash.error(err.reason);
+        Flash.error(err.reason);
         return;
       }
-      Belt.Flash.info("We have sent a verification email to '" + address + "' -- please follow the instructions in it.");
+      Flash.info("We have sent a verification email to '" + address + "' -- please follow the instructions in it.");
       tmpl.find('input[name="address"]').value = '';
     });
   }

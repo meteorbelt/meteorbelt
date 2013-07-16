@@ -35,15 +35,15 @@ Template.contact.helpers({
 Template.contact.events({
   'click input[type="submit"]': function (e, tmpl) {
     //Clear all flash messages
-    Belt.Flash.clear();
+    Flash.clear();
     e.preventDefault();
     var f = form2js('contact-form');
     Meteor.call('contactSendEmail', f.email, f.name, f.phone, f.message, function (err) {
       if (err) {
-        Belt.Flash.error(err.reason);
+        Flash.error(err.reason);
         return;
       }
-      Belt.Flash.success('Your message was sent successfully. ' +
+      Flash.success('Your message was sent successfully. ' +
         'Thank for your interest. We will be contacting you soon.');
       document.getElementById('contact-form').reset();
     });

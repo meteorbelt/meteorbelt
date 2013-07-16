@@ -59,7 +59,7 @@ Template.adminPostDetail.events({
     post.save(function (err, id) {
       if (err) {
         _.each(err.details, function (v, k) {
-          Belt.Flash.error(k + " " + v);
+          Flash.error(k + " " + v);
         });
         return;
       }
@@ -74,9 +74,9 @@ Template.adminPostDetail.events({
     var post = postPopulate(tmpl.post, tmpl);
     post.save(function (err, id) {
       if (err) {
-        Belt.Flash.clear();
+        Flash.clear();
         _.each(err.details, function (v, k) {
-          Belt.Flash.error(k + " " + v);
+          Flash.error(k + " " + v);
         });
         return;
       }
