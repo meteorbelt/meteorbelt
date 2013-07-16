@@ -8,7 +8,7 @@ Deps.autorun(function () {
     subpages: _.map(settings, function (s) {
       return {
         id: s._id,
-        name: Belt.Text.camelCaseToTitle(s._id),
+        name: TextUtils.camelCaseToTitle(s._id),
         url: '/admin/settings/' + s._id
       };
     })

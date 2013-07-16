@@ -32,4 +32,4 @@ Text.camelCaseToTitle = function (text) {
 
 // Exports
 // -------
-Belt.Text = Text;
+TextUtils = Text;

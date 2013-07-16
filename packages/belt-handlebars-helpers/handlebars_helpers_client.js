@@ -21,7 +21,7 @@ Handlebars.registerHelper('timeSince', function (date) {
 });
 
 Handlebars.registerHelper('camelCaseToTitle', function (text) {
-  return Belt.Text.camelCaseToTitle(text);
+  return TextUtils.camelCaseToTitle(text);
 });
 
 Handlebars.registerHelper('isSelected', function (a, b) {
