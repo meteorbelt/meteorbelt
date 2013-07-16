@@ -36,7 +36,7 @@ Belt.User.customOnCreateUser = function (opts, user) {
   if (opts.email) {
     // hash the email address for use with Gravatar
     opts.email = opts.email.trim().toLowerCase();
-    user.emailHash = Belt.MD5.hex(opts.email);
+    user.emailHash = MD5.hex(opts.email);
   }
   if (!user.profile.name) {
     // if no name user the user's username

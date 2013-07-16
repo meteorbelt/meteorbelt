@@ -23,7 +23,7 @@ obj.urlFromHash = function (hash, opts) {
 };
 
 obj.urlFromEmail = function (email, opts) {
-  var hash = Belt.MD5.hash(email.trim().toLowerCase());
+  var hash = MD5.hash(email.trim().toLowerCase());
   return this.urlFromHash(hash, opts);
 };
 

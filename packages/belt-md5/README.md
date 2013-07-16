@@ -13,7 +13,7 @@ $ mrt add belt-flash
 ## API
 
 ```
-Belt.MD5.hash('test@example.com');
+MD5.hash('test@example.com');
 ```
 
 ### Basics

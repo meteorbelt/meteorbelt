@@ -50,7 +50,7 @@ Meteor.users.methods({
     //return 'https://api.twitter.com/1/users/profile_image?screen_name=' + user.services.twitter.screenName;
     //}
     if (!this.emailHash) {
-      this.emailHash = Belt.MD5.hex(this.getEmail());
+      this.emailHash = MD5.hex(this.getEmail());
       // save
     }
     return Belt.Gravatar.urlFromHash(this.emailHash, {
