@@ -65,6 +65,11 @@ _.extend(Meteor.Collection.prototype, {
     var userId = Meteor.userId();
     var result;
 
+    // Remove null `_id`s
+    // Mongo complains if the `_id` is null.
+    if (_.isNull(doc._id)) {
+      delete doc._id;
+    }
     // call before insert function
     if (self._process("before", "insert", [userId, doc, fn]) !== false) {
 
@@ -162,7 +167,7 @@ _.extend(Meteor.Collection.prototype, {
     var id;
     // var userId = getUserId.call(self);
     var userId = Meteor.userId();
- 
+
     // process before functions
     if (self._process('before', 'save', [userId, doc, fn]) !== false) {
       // XXX sometime you will want to specify the _id. This is not a good way
