@@ -1,25 +1,15 @@
+// @export CollectionPlugins.tags
 CollectionPlugins.tags = function (collection, options) {
 
-  options = options || { required: false };
+  options = options || { required: false, type: 'string' };
 
   collection.schema({
-    tags: [String]
-  });
-
-  collection.before({
-    save: function (userId, doc) {
-      // tags must be slugs
-      if (doc.tags) {
-        doc.tags = _.map(doc.tags, function (t) {
-          return Slug.generate(t);
-        });
-      }
-    }
+    tags: [options.type]
   });
 
   collection.statics({
-    findByTag: function (tags, opts, callback) {
-      return this.find({tags: tags}, opts, callback);
+    findByTag: function (tags, options, callback) {
+      return this.find({tags: tags}, options, callback);
     }
   });
 
@@ -30,32 +20,51 @@ CollectionPlugins.tags = function (collection, options) {
   }
 };
 
+// @export CollectionPlugins.owner
 CollectionPlugins.owner = function (collection, options) {
 
   options = options || { required: true };
 
   collection.schema({
-    owner: { type: String, required: options.required }
+    ownerId: { type: String, required: options.required }
   });
 
   collection.before({
     save: function (userId, doc) {
-      if (doc.owner) {
+      if (doc.ownerId) {
         // allow user to be filled in by admin
         // XXX logic
         return;
       }
-      doc.owner = userId;
+      doc.ownerId = userId;
+    },
+
+    insert: function (userId, doc) {
+      if (doc.ownerId) {
+        // allow user to be filled in by admin
+        // XXX logic
+        return;
+      }
+      doc.ownerId = userId;
+    },
+
+    update: function (userId, selector, modifier) {
+      if (! modifier.$set) modifier.$set = {};
+      // XXX logic
+      // allow user to be filled in by admin
+      modifier.$set.ownerId = userId;
     }
+
   });
 
   if (Meteor.isServer) {
     collection._ensureIndex({
-      'owner': 1
+      'ownerId': 1
     });
   }
 };
 
+// @export CollectionPlugins.createdAt
 CollectionPlugins.createdAt = function (collection, options) {
 
   options = options || { required: true };
@@ -65,12 +74,13 @@ CollectionPlugins.createdAt = function (collection, options) {
   });
 
   collection.before({
-    insert: function (user, doc) {
+    insert: function (userId, doc) {
       doc.createdAt = new Date();
     }
   });
 };
 
+// @export CollectionPlugins.updatedAt
 CollectionPlugins.updatedAt = function (collection, options) {
 
   options = options || { required: true };
@@ -80,16 +90,20 @@ CollectionPlugins.updatedAt = function (collection, options) {
   });
 
   collection.before({
-    insert: function (user, doc) {
+
+    insert: function (userId, doc) {
       doc.updatedAt = new Date();
     },
+
     update: function (userId, selector, modifier) {
       if (! modifier.$set) modifier.$set = {};
       modifier.$set.updatedAt = new Date();
     }
+
   });
 };
 
+// @export CollectionPlugins.isPublic
 CollectionPlugins.isPublic = function (collection, options) {
 
   options = options || { required: true };
@@ -99,9 +113,10 @@ CollectionPlugins.isPublic = function (collection, options) {
   });
 
   collection.statics({
-    findPublic: function (query) {
+    findPublic: function (query, options, callback) {
+      query = qeury || {};
       query.isPublic = true;
-      return this.find(query);
+      return this.find(query, options, callback);
     }
   });
 };

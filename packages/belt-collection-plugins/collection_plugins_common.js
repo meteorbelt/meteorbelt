@@ -1,4 +1,2 @@
-// CollectionPlugins
-// -----------------
 // @export CollectionPlugins
 CollectionPlugins = {};

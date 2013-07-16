@@ -1,3 +1,4 @@
+// TODO move this to Roles
 CollectionPlugins.allowAdmin = function (collection, options) {
 
   options = options || {
