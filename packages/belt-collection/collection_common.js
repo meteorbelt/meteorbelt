@@ -61,7 +61,8 @@ _.extend(Meteor.Collection.prototype, {
   _insert: Meteor.Collection.prototype.insert,
   insert: function (doc, fn) {
     var self = this;
-    var userId = getUserId.call(self);
+    // var userId = getUserId.call(self);
+    var userId = Meteor.userId();
     var result;
 
     // call before insert function
@@ -94,7 +95,8 @@ _.extend(Meteor.Collection.prototype, {
   update: function (selector, modifier, options, fn) {
     var self = this;
     var result;
-    var userId = getUserId.call(self);
+    // var userId = getUserId.call(self);
+    var userId = Meteor.userId();
 
     // call before update functions
     var args = [userId, selector, modifier, options, fn];
@@ -142,7 +144,8 @@ _.extend(Meteor.Collection.prototype, {
   remove: function (selector, fn) {
     var self = this;
     var result;
-    var userId = getUserId.call(self);
+    // var userId = getUserId.call(self);
+    var userId = Meteor.userId();
 
     if (self._process("before", "remove", [userId, selector, fn]) !== false) {
       var previous = self._collection.find(selector, { reactive: false }).fetch();
@@ -157,8 +160,9 @@ _.extend(Meteor.Collection.prototype, {
   save: function (doc, fn) {
     var self = this;
     var id;
-    var userId = getUserId.call(self);
-
+    // var userId = getUserId.call(self);
+    var userId = Meteor.userId();
+ 
     // process before functions
     if (self._process('before', 'save', [userId, doc, fn]) !== false) {
       // XXX sometime you will want to specify the _id. This is not a good way
