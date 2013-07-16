@@ -6,8 +6,6 @@ function setSession(cntx, key) {
   var slug = cntx.params.slug;
   var tag = cntx.params.tag;
 
-  console.log("cntx.params: ", cntx.params);
-
   var query = {};
 
   if (_id)
