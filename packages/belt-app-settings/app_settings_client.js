@@ -1,0 +1,3 @@
+// Subscribe
+// ---------
+Meteor.subscribe('settings');

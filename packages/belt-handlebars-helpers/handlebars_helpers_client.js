@@ -2,7 +2,7 @@
 // Handlebars helpers
 //
 Handlebars.registerHelper('Site', function () {
-  return Belt.Settings.get('site');
+  return AppSettings.get('site');
 });
 
 Handlebars.registerHelper('resize', function (url, width, height) {

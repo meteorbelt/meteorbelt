@@ -4,7 +4,7 @@ function addressToString(a) {
 }
 
 Template.contact.created = function () {
-  var contact = Belt.Settings.get('contact');
+  var contact = AppSettings.get('contact');
   if (contact && contact.showAddress) {
     var addr = addressToString(contact.address);
     // Maps.addressToMap('contact-map', addr);
@@ -19,11 +19,11 @@ Template.contact.preserve(["#contact-map"]);
 
 Template.contact.helpers({
   contact: function () {
-    return Belt.Settings.get('contact');
+    return AppSettings.get('contact');
   },
   mapUrl: function () {
     var url;
-    var c =  Belt.Settings.get('contact');
+    var c =  AppSettings.get('contact');
     if (c && c.address) {
       var addr = addressToString(c.address);
       url = "http://maps.googleapis.com/maps/api/staticmap?center=" + addr + "&zoom=13&size=200x200&sensor=false"

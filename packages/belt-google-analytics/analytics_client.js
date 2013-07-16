@@ -1,7 +1,7 @@
 // @export _gaq
 _gaq = _gaq || [];
 
-if (Belt.Settings.findOne('googleAnalytics')) {
+if (AppSettings.findOne('googleAnalytics')) {
   _gaq.push(['_setAccount', 'UA-XXXXXXX-X']);
   _gaq.push(['_trackPageview']);
 

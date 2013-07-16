@@ -3,7 +3,7 @@
 // Publish
 // -------
 Meteor.publish('settings', function () {
-  return Belt.Settings.find({'public': true});
+  return AppSettings.find({'public': true});
 });
 
 function insertMissing(settingsList) {
@@ -11,7 +11,7 @@ function insertMissing(settingsList) {
   // XXX this is inefficient
   _.each(settingsList, function (v, k) {
     try {
-      return Belt.Settings.insert(v);
+      return AppSettings.insert(v);
     } catch (err) {
       // TODO ignore duplicate error
       // console.log('err', err.stack);
@@ -69,5 +69,5 @@ if (Meteor.settings && _.isObject(Meteor.settings.belt)) {
 // Exports
 // -------
 // For testing
-Belt.Settings._objectToList = objectToList;
-Belt.Settings._insertMissing = insertMissing;
+AppSettings._objectToList = objectToList;
+AppSettings._insertMissing = insertMissing;

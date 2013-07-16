@@ -27,7 +27,7 @@ var filepicker;
 Deps.autorun(function () {
   // Only instantiate filepicker if we have an Api key
   // This maybe slower, but it's filepicker, so it should be alright
-  var settings = Belt.Settings.get('inkFilepicker');
+  var settings = AppSettings.get('inkFilepicker');
   if (settings && settings.apikey) {
     filepicker = init();
     filepicker.setKey(settings.apikey);

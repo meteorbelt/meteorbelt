@@ -6,14 +6,14 @@ Package.on_use(function (api, where) {
   api.use('underscore');
   api.use('deps', 'client');
   
-  api.add_files('settings_common.js', ['client', 'server']);
-  api.add_files('settings_server.js', 'server');
-  api.add_files('settings_client.js', 'client');
+  api.add_files('app_settings_common.js', ['client', 'server']);
+  api.add_files('app_settings_server.js', 'server');
+  api.add_files('app_settings_client.js', 'client');
 });
 
 Package.on_test(function (api) {
   api.use('belt-settings');
   api.use('tinytest');
 
-  api.add_files('settings_tests.js', 'server');
+  api.add_files('app_settings_tests.js', 'server');
 });

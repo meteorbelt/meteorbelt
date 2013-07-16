@@ -1,6 +1,6 @@
 // Accounts
 // --------
 if (typeof Accounts.emailTemplates !== 'undefined') {
-  //Accounts.emailTemplates.siteName = Belt.settings.site.name;
-  //Accounts.emailTemplates.from = Belt.settings.site.email;
+  //Accounts.emailTemplates.siteName = AppSettings.get('site').title;
+  //Accounts.emailTemplates.from = AppSettings.get('site').email;
 }

@@ -1,6 +1,6 @@
 
 Deps.autorun(function () {
-  var settings = Belt.Settings.find().fetch();
+  var settings = AppSettings.find().fetch();
   var page = {
     _id: 'settings',
     name: 'Settings',

@@ -1,8 +1,8 @@
 // Tests
 // -----
 
-Tinytest.add('belt - settings - Belt.Settings is Global', function (test) {
-  test.isTrue(typeof Belt.Settings !== 'undefined');
+Tinytest.add('belt - settings - AppSettings is Global', function (test) {
+  test.isTrue(typeof AppSettings !== 'undefined');
 });
 
 var settings = {
@@ -41,7 +41,7 @@ var settings = {
 
 Tinytest.add('belt - settings - objectToList', function (test) {
 
-  var r = Belt.Settings._objectToList(settings.belt);
+  var r = AppSettings._objectToList(settings.belt);
   var out = [{
     "_id": "site",
     "public": true,
@@ -87,6 +87,6 @@ Tinytest.add('belt - settings - objectToList', function (test) {
 
 Tinytest.add('belt - settings - insertMissing', function (test) {
   // TODO better tests
-  // var r = Belt.Settings._insertMissing(Belt.Settings._objectToList(settings));
-  // var s = Belt.Settings.find().fetch();
+  // var r = AppSettings._insertMissing(AppSettings._objectToList(settings));
+  // var s = AppSettings.find().fetch();
 });
