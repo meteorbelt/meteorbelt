@@ -1,7 +1,9 @@
 // Gravatar package provides functions for interacting with the
 // Gravatar API (http://en.gravatar.com/site/implement/images/)
 
-var obj = {};
+// @export Gravatar
+Gravatar = {};
+
 var BASE_URL = '://www.gravatar.com/avatar/';
 
 var urlify = function (val, key) {
@@ -10,7 +12,7 @@ var urlify = function (val, key) {
 
 // urlByHash takes an email hash and
 // opts s, d
-obj.urlFromHash = function (hash, opts) {
+Gravatar.urlFromHash = function (hash, opts) {
   opts = opts || {};
   var protocol = opts.secure ? 'https' : 'http';
   delete opts.secure;
@@ -22,9 +24,7 @@ obj.urlFromHash = function (hash, opts) {
   return url;
 };
 
-obj.urlFromEmail = function (email, opts) {
+Gravatar.urlFromEmail = function (email, opts) {
   var hash = MD5.hash(email.trim().toLowerCase());
   return this.urlFromHash(hash, opts);
 };
-
-Belt.Gravatar = obj;

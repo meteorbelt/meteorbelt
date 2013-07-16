@@ -53,7 +53,7 @@ Meteor.users.methods({
       this.emailHash = MD5.hex(this.getEmail());
       // save
     }
-    return Belt.Gravatar.urlFromHash(this.emailHash, {
+    return Gravatar.urlFromHash(this.emailHash, {
       //d: 'http://example.com/img/default_avatar.png',
       s: size
     });
