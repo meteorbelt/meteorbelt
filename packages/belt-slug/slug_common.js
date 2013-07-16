@@ -140,15 +140,37 @@ Slug.generate = function (text, numberOfChars) {
   return URLify(text, numberOfChars);
 };
 
+var slugify = function (self, collection, options, slug) {
+
+  // use the passed in falue or the slug reference
+  slug = slug || self[options.ref];
+
+  // generate the slug
+  var s = Slug.generate(slug);
+
+  // if we want a unique value (default) then we must insure
+  // that an existing doc is not using it
+  if (options.unique) {
+    var r = collection.findOneBySlug(s);
+    // if we have a result and the result is not this instance
+    if (r && r._id !== self._id) {
+      // run it again with a "-1" at the end of the slug e.g.
+      // some-thing -> some-thing-1 -> something-1-1
+      return slugify(self, collection, options, s + '-1');
+    }
+  }
+  // return the slug
+  return s
+};
 
 // Plugin
 // ------
 CollectionPlugins.slug = function (collection, options) {
 
-  options = _.defaults(options, { required: true, unique: true })
+  options = _.defaults(options || {}, { required: true, unique: true });
 
   if (! options.ref) {
-    throw new error('You must provide the attribute to use for the slug ' +
+    throw new Error('You must provide the attribute to use for the slug ' +
       'E.g. { ref : "title" } would use the "title" property to generate ' +
       'the slug');
   }
@@ -158,8 +180,18 @@ CollectionPlugins.slug = function (collection, options) {
   });
 
   collection.before({
-    insert: function(userId, doc) {
-      doc.slugify();
+    insert: function (userId, doc) {
+      doc.slug = slugify(doc, collection, options);
+    },
+
+    update: function (userId, selector, modifier) {
+      if (! modifier.$set) modifier.$set = {};
+      // if some one is trying to set the slug, make sure that it's unique
+      var slug = modifier.$set.slug
+      if (slug) {
+        var doc = this.findOne(selector);
+        modifier.$set.slug = slugify(doc, collection, options, slug);
+      }
     }
   });
 
@@ -171,28 +203,7 @@ CollectionPlugins.slug = function (collection, options) {
 
   collection.methods({
     slugify: function (slug) {
-      var self = this;
-
-      // use the passed in falue or the slug reference
-      slug = slug || self[options.ref];
-
-      // generate the slug
-      var s = Slug.generate(slug);
-
-      // if we want a unique value (default) then we must insure
-      // that an existing doc is not using it
-      if (options.unique) {
-        var r = collection.findOneBySlug(s);
-        // if we have a result and the result is not this instance
-        if (r && r._id !== self._id) {
-          // run it again with a "-1" at the end of the slug e.g.
-          // some-thing -> some-thing-1 -> something-1-1
-          self.slugify(s + '-1');
-          return
-        }
-      }
-      // add the slug as an slug attribute
-      return self.slug = s
+      this.slug = slugify(this, collection, options, slug);
     }
   });
 };

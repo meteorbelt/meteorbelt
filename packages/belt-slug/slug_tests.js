@@ -12,16 +12,15 @@ Tinytest.add("belt - slug - generate", function (t) {
   }
 });
 
+var C = new Collection(null);
 
-Tinytest.add("belt - slug - plugin", function (t) {
+C.schema({
+  title: String
+});
 
-  var C = new Collection(null);
-  
-  C.schema({
-    title: String
-  });
+C.plugin(CollectionPlugins.slug, { ref: 'title' });
 
-  C.plugin(CollectionPlugins.slug, { ref: 'title' });
+Tinytest.add("belt - slug - plugin - insert", function (t) {
 
   var c = C.create({ title: 'Hello World' });
 
@@ -45,4 +44,26 @@ Tinytest.add("belt - slug - plugin", function (t) {
   var eid = C.insert(e);
   var ee = C.findOne(eid);
   t.equal(ee.slug, 'hello-world-1-1');
+});
+
+Tinytest.add("belt - slug - plugin - update", function (t) {
+
+  var c = C.create({ title: 'Hello Planet' });
+
+  // test insert
+  var cid = C.insert(c);
+  var cc = C.findOne(cid);
+  t.equal(cc.slug, 'hello-planet');
+
+  // when the ref changes the slug should stay the same.
+  C.update(cid, { $set: { title: 'Hello Galaxy'} });
+  var dd = C.findOne(cid);
+  t.equal(dd.slug, 'hello-planet');
+
+  // but when the slug changes it should be reevaluated and updated
+  // TODO: bridle test -- relies on 'pluging - insert'
+  C.update(cid, { $set: { slug: 'Hello World'} });
+  var ee = C.findOne(cid);
+  t.equal(ee.slug, 'hello-world-1-1-1');
+  
 });
