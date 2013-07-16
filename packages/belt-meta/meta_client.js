@@ -24,4 +24,4 @@ meta.set = function (name, val) {
   return meta.add(name, val);
 };
 
-Belt.Meta = meta;
+Meta = meta;
