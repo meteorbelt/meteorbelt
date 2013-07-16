@@ -3,7 +3,7 @@ Template.adminImageList.events({
   'click .add-image': function (e, tmpl) {
     e.preventDefault();
 
-    Belt.File.pick({
+    File.pick({
       mimetypes: ['image/*'],
       services: ['COMPUTER']
     }, function (file) {

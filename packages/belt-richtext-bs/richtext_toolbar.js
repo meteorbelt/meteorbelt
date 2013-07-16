@@ -4,7 +4,7 @@ var global = this;
 Template.beltRichtextToolbar.events({
   'click #rt-image-btn': function (e) {
     e.preventDefault();
-    Belt.File.pick({
+    File.pick({
       mimetypes: ['image/*'],
       services: ['COMPUTER']
     }, function (file) {
@@ -12,7 +12,7 @@ Template.beltRichtextToolbar.events({
       $('#belt-richtext-image-dialog input[name="image-url"]').val(file.url);
       $('#belt-richtext-image-dialog input[name="name"]').val(file.filename);
     }, function (err) {
-      Meteor._debug('beltRichtextToolbar: Belt.File.pick err: ', err);
+      Meteor._debug('beltRichtextToolbar: File.pick err: ', err);
     });
   },
 
