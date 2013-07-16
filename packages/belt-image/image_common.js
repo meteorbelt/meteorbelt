@@ -27,10 +27,10 @@ Images = new Belt.Collection('image', {
 // -------
 
 // Properties
-Images.plugin(Belt.Plugins.tags);
-Images.plugin(Belt.Plugins.isPublic);
-Images.plugin(Belt.Plugins.owner);
-// Images.plugin(Belt.Plugins.slug, { required: true, attr: "title" });
+Images.plugin(CollectionPlugins.tags);
+Images.plugin(CollectionPlugins.isPublic);
+Images.plugin(CollectionPlugins.owner);
+// Images.plugin(CollectionPlugins.slug, { required: true, attr: "title" });
 
 // Permissions
-Images.plugin(Belt.Plugins.allowAdmin);
+Images.plugin(CollectionPlugins.allowAdmin);

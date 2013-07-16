@@ -12,11 +12,11 @@ Pages = new Belt.Collection('page', {
 // -------
 
 // Properties
-Pages.plugin(Belt.Plugins.createdAt);
-Pages.plugin(Belt.Plugins.updatedAt);
-Pages.plugin(Belt.Plugins.tags);
-Pages.plugin(Belt.Plugins.isPublic);
-Pages.plugin(Belt.Plugins.owner);
+Pages.plugin(CollectionPlugins.createdAt);
+Pages.plugin(CollectionPlugins.updatedAt);
+Pages.plugin(CollectionPlugins.tags);
+Pages.plugin(CollectionPlugins.isPublic);
+Pages.plugin(CollectionPlugins.owner);
 
 // Permissions
-Pages.plugin(Belt.Plugins.allowAdmin);
+Pages.plugin(CollectionPlugins.allowAdmin);

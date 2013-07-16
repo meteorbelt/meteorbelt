@@ -11,11 +11,11 @@ var Tags = new Belt.Collection('tag', {
 // -------
 
 // Properties
-Tags.plugin(Belt.Plugins.createdAt);
-Tags.plugin(Belt.Plugins.updatedAt);
+Tags.plugin(CollectionPlugins.createdAt);
+Tags.plugin(CollectionPlugins.updatedAt);
 
 // Permissions
-Tags.plugin(Belt.Plugins.allowAdmin);
+Tags.plugin(CollectionPlugins.allowAdmin);
 
 // Exports
 // -------

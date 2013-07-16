@@ -162,4 +162,4 @@ Plugins.tags = tags;
 // Permissions
 Plugins.allowAdmin = allowAdmin;
 
-Belt.Plugins = Plugins;
+CollectionPlugins = Plugins;

@@ -20,12 +20,12 @@ Posts = new Belt.Collection('posts', {
 // -------
 
 // Properties
-Posts.plugin(Belt.Plugins.createdAt);
-Posts.plugin(Belt.Plugins.updatedAt);
-Posts.plugin(Belt.Plugins.tags);
-Posts.plugin(Belt.Plugins.isPublic);
-Posts.plugin(Belt.Plugins.owner);
-// Posts.plugin(Belt.Plugins.slug, { required: true, attr: "title" });
+Posts.plugin(CollectionPlugins.createdAt);
+Posts.plugin(CollectionPlugins.updatedAt);
+Posts.plugin(CollectionPlugins.tags);
+Posts.plugin(CollectionPlugins.isPublic);
+Posts.plugin(CollectionPlugins.owner);
+// Posts.plugin(CollectionPlugins.slug, { required: true, attr: "title" });
 
 // Permissions
-Posts.plugin(Belt.Plugins.allowAdmin);
+Posts.plugin(CollectionPlugins.allowAdmin);
