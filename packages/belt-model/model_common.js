@@ -1,4 +1,4 @@
-// @export Orders
+// @export Model
 Model = function (doc, schema) {
   if (schema) {
     this._schema = schema;
@@ -67,8 +67,3 @@ _.extend(Model.prototype, {
     return Schema.validate(this._schema, this.toObject());
   }
 });
-
-// Exports
-// -------
-
-Belt.Model = Model;

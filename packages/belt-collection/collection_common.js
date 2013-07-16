@@ -35,7 +35,7 @@ function makeValidationError(err) {
 
 _.extend(Meteor.Collection.prototype, {
 
-  _BaseModel: Belt.Model,
+  _BaseModel: Model,
 
   _process: function (type, verb, args) {
     var self = this;

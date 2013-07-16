@@ -1,6 +1,6 @@
 
-Tinytest.add('belt - model - Belt.Model is Global', function (test) {
-  test.isTrue(typeof Belt.Model !== 'undefined');
+Tinytest.add('belt - model - Model is Global', function (test) {
+  test.isTrue(typeof Model !== 'undefined');
 });
 
 var postSchema = {
@@ -24,7 +24,7 @@ Tinytest.add('belt - model - _populate', function (t) {
   };
 
   // start off with an empy doc
-  var p = new Belt.Model({}, postSchema);
+  var p = new Model({}, postSchema);
   p._populate(doc);
   t.equal(p.title, expect.title);
   t.equal(p.body, expect.body);
@@ -35,7 +35,7 @@ Tinytest.add('belt - model - _populate', function (t) {
 
   // populate on construction
   // start off with an empy doc
-  p = new Belt.Model(doc, postSchema);
+  p = new Model(doc, postSchema);
   t.equal(p.title, expect.title);
   t.equal(p.body, expect.body);
   t.equal(p.publishedAt, expect.publishedAt);
@@ -50,7 +50,7 @@ Tinytest.add('belt - model - validate', function (t) {
     publishedAt: new Date()
   };
 
-  var p1 = new Belt.Model(doc1, postSchema);
+  var p1 = new Model(doc1, postSchema);
   t.equal(p1.validate(), null);
 
   // invalid
@@ -60,7 +60,7 @@ Tinytest.add('belt - model - validate', function (t) {
     isPublished: 'yes please',
     publishedAt: 'hello'
   };
-  var p2 = new Belt.Model(doc2, postSchema);
+  var p2 = new Model(doc2, postSchema);
   var err = {
     body: "required",
   };
@@ -74,7 +74,7 @@ Tinytest.add('belt - model - schema', function (t) {
     publishedAt: new Date()
   };
 
-  var p = new Belt.Model(doc1, postSchema);
+  var p = new Model(doc1, postSchema);
 
   // mix in another schema to try and break things
   var commentSchema = {
@@ -84,7 +84,7 @@ Tinytest.add('belt - model - schema', function (t) {
     name: 'George'
   };
 
-  var c = new Belt.Model(com1, commentSchema);
+  var c = new Model(com1, commentSchema);
 
   p._populate({extra: 'new stuff'});
   c._populate({extra: 'new stuff'});
