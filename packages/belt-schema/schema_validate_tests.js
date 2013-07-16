@@ -32,9 +32,9 @@ Tinytest.add('belt - schema - validate - String', function (test) {
   };
 
   // valid
-  test.equal(Belt.Schema.validate(s, valid), null);
+  test.equal(Schema.validate(s, valid), null);
   // invalid
-  test.equal(Belt.Schema.validate(s, invalid), err);
+  test.equal(Schema.validate(s, invalid), err);
 });
 
 Tinytest.add('belt - schema - validate - Number', function (test) {
@@ -70,9 +70,9 @@ Tinytest.add('belt - schema - validate - Number', function (test) {
   };
 
   // valid
-  test.equal(Belt.Schema.validate(s, valid), null);
+  test.equal(Schema.validate(s, valid), null);
   // invalid
-  test.equal(Belt.Schema.validate(s, invalid), err);
+  test.equal(Schema.validate(s, invalid), err);
 });
 
 Tinytest.add('belt - schema - validate - Date', function (test) {
@@ -108,9 +108,9 @@ Tinytest.add('belt - schema - validate - Date', function (test) {
   };
 
   // valid
-  test.equal(Belt.Schema.validate(s, valid), null);
+  test.equal(Schema.validate(s, valid), null);
   // invalid
-  test.equal(Belt.Schema.validate(s, invalid), err);
+  test.equal(Schema.validate(s, invalid), err);
 });
 
 Tinytest.add('belt - schema - validate - Boolean', function (test) {
@@ -156,9 +156,9 @@ Tinytest.add('belt - schema - validate - Boolean', function (test) {
   };
 
   // valid
-  test.equal(Belt.Schema.validate(s, valid), null);
+  test.equal(Schema.validate(s, valid), null);
   // invalid
-  test.equal(Belt.Schema.validate(s, invalid), err);
+  test.equal(Schema.validate(s, invalid), err);
 });
 
 Tinytest.add('belt - schema - validate - Array - simple', function (test) {
@@ -194,9 +194,9 @@ Tinytest.add('belt - schema - validate - Array - simple', function (test) {
   };
 
   // valid
-  test.equal(Belt.Schema.validate(s, valid), null);
+  test.equal(Schema.validate(s, valid), null);
   // invalid
-  test.equal(Belt.Schema.validate(s, invalid), err);
+  test.equal(Schema.validate(s, invalid), err);
 });
 
 Tinytest.add('belt - schema - validate - Array - declarative', function (test) {
@@ -253,11 +253,11 @@ Tinytest.add('belt - schema - validate - Array - declarative', function (test) {
   };
 
   // valid
-  test.equal(Belt.Schema.validate(s, valid), null);
-  test.equal(Belt.Schema.validate(s2, valid), null);
+  test.equal(Schema.validate(s, valid), null);
+  test.equal(Schema.validate(s2, valid), null);
   // invalid
-  test.equal(Belt.Schema.validate(s, invalid), err);
-  test.equal(Belt.Schema.validate(s2, invalid), err);
+  test.equal(Schema.validate(s, invalid), err);
+  test.equal(Schema.validate(s2, invalid), err);
 });
 
 Tinytest.add('belt - schema - validate - Object - simple', function (test) {
@@ -289,9 +289,9 @@ Tinytest.add('belt - schema - validate - Object - simple', function (test) {
   };
 
   // valid
-  test.equal(Belt.Schema.validate(s, valid), null);
+  test.equal(Schema.validate(s, valid), null);
   // invalid
-  test.equal(Belt.Schema.validate(s, invalid), err);
+  test.equal(Schema.validate(s, invalid), err);
 });
 
 Tinytest.add('belt - schema - validate - Object - declarative', function (test) {
@@ -381,7 +381,7 @@ Tinytest.add('belt - schema - validate - Object - declarative', function (test) 
   };
 
   // invalid
-  test.equal(Belt.Schema.validate(s, invalid), err);
+  test.equal(Schema.validate(s, invalid), err);
 });
 
 /*

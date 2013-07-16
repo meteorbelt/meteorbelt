@@ -1,5 +1,8 @@
 'use strict';
 
+// @export Schema
+Schema = {};
+
 // XXX dirty hack to give IE8 Constructor functions a name property
 if (typeof String.name === 'undefined') String.name = "String";
 if (typeof Number.name === 'undefined') Number.name = "Number";
@@ -8,7 +11,7 @@ if (typeof Boolean.name === 'undefined') Boolean.name = "Boolean";
 if (typeof Array.name === 'undefined') Array.name = "Array";
 if (typeof Object.name === 'undefined') Object.name = "Object";
 
-var Types = {
+SchemaTypes = {
   'Date': {
     cast: function (v) {
       if (_.isUndefined(v) || _.isNull(v)) {
@@ -105,10 +108,10 @@ var getTypeFromKey = function (type) {
   }
   // capitalize first letter
   var typeKey = type.charAt(0).toUpperCase() + type.substring(1);
-  if (_.isUndefined(Types[typeKey])) {
+  if (_.isUndefined(SchemaTypes[typeKey])) {
     throw new Error('Undefined type ' + typeKey);
   }
-  return Types[typeKey];
+  return SchemaTypes[typeKey];
 };
 
 /**
@@ -272,7 +275,7 @@ var _validate = function (schema, value) {
   return null;
 };
 
-var populate = function (schema, doc) {
+Schema.populate = function (schema, doc) {
   if (_.isUndefined(schema)) {
     throw new Error('You must provide a schema');
   }
@@ -282,7 +285,7 @@ var populate = function (schema, doc) {
   return _populate(schema, doc);
 };
 
-var validate = function (schema, doc) {
+Schema.validate = function (schema, doc) {
   if (_.isUndefined(schema)) {
     throw new Error('You must provide a schema');
   }
@@ -293,17 +296,3 @@ var validate = function (schema, doc) {
   var v = _validate(schema, doc);
   return _.isEmpty(v) ? null : v;
 };
-
-
-// Schema
-// ------
-
-var Schema = {};
-
-Schema.Types = Types;
-Schema.populate = populate;
-Schema.validate = validate;
-
-// Exports
-// -------
-Belt.Schema = Schema;

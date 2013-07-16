@@ -1,6 +1,6 @@
 
-Tinytest.add('belt - schema - Belt.Schema is Global', function (test) {
-  test.isTrue(typeof Belt.Schema !== 'undefined');
+Tinytest.add('belt - schema - Schema is Global', function (test) {
+  test.isTrue(typeof Schema !== 'undefined');
 });
 
 Tinytest.add('belt - schema - null values', function (test) {
@@ -31,7 +31,7 @@ Tinytest.add('belt - schema - null values', function (test) {
     //   date: null
     // }
   };
-  test.equal(Belt.Schema.populate(s, d), o);
+  test.equal(Schema.populate(s, d), o);
 });
 
 Tinytest.add('belt - schema - populate - String', function (test) {
@@ -59,7 +59,7 @@ Tinytest.add('belt - schema - populate - String', function (test) {
     defaultVal: 'default'
   };
 
-  test.equal(Belt.Schema.populate(s, d), o);
+  test.equal(Schema.populate(s, d), o);
 });
 
 Tinytest.add('belt - schema - populate - Number', function (test) {
@@ -87,7 +87,7 @@ Tinytest.add('belt - schema - populate - Number', function (test) {
     defaultVal: 188
   };
 
-  test.equal(Belt.Schema.populate(s, d), o);
+  test.equal(Schema.populate(s, d), o);
 });
 
 Tinytest.add('belt - schema - populate - Date', function (test) {
@@ -119,7 +119,7 @@ Tinytest.add('belt - schema - populate - Date', function (test) {
   };
 
   // verbosity necessary because IE will not compare dates
-  var r =  Belt.Schema.populate(s, d);
+  var r =  Schema.populate(s, d);
   _.each(r, function (val, key) {
     test.equal(val.toString(), o[key].toString());
   });
@@ -160,7 +160,7 @@ Tinytest.add('belt - schema - populate - Boolean', function (test) {
     defaultValF: false
   };
 
-  test.equal(Belt.Schema.populate(s, d), o);
+  test.equal(Schema.populate(s, d), o);
 });
 
 Tinytest.add('belt - schema - populate - Array - simple', function (test) {
@@ -190,7 +190,7 @@ Tinytest.add('belt - schema - populate - Array - simple', function (test) {
     defaultVal: ['a', 'b', 'c']
   };
 
-  test.equal(Belt.Schema.populate(s, d), o);
+  test.equal(Schema.populate(s, d), o);
 });
 
 Tinytest.add('belt - schema - populate - Array - declarative', function (test) {
@@ -231,8 +231,8 @@ Tinytest.add('belt - schema - populate - Array - declarative', function (test) {
     bool: [true, null, true]
   };
 
-  test.equal(Belt.Schema.populate(s, d), o);
-  test.equal(Belt.Schema.populate(s2, d), o);
+  test.equal(Schema.populate(s, d), o);
+  test.equal(Schema.populate(s2, d), o);
 });
 
 /*
@@ -249,7 +249,7 @@ Tinytest.add('belt - schema - populate - Array - declarative - default', functio
     str: ['a', 'b', 'c']
   };
 
-  test.equal(Belt.Schema.populate(s3, d3), o3);
+  test.equal(Schema.populate(s3, d3), o3);
 
 });
 */
@@ -276,7 +276,7 @@ Tinytest.add('belt - schema - populate - Object - simple', function (test) {
     defaultVal: { hello: 'world' }
   };
 
-  test.equal(Belt.Schema.populate(s, d), o);
+  test.equal(Schema.populate(s, d), o);
 
 });
 
@@ -341,13 +341,13 @@ Tinytest.add('belt - schema - populate - Object - declarative', function (test) 
     }
   };
 
-  test.equal(Belt.Schema.populate(s, d), o);
+  test.equal(Schema.populate(s, d), o);
 
   // var t = [
   //   {schema: s, doc: d, expect: o}
   // ];
   // _.each(t, function (el, i, list) {
-  //   var actual = Belt.Schema.populate(el.schema, el.doc);
+  //   var actual = Schema.populate(el.schema, el.doc);
   //   _.each(actual, function (val, key) {
   //     test.equal(actual[key], el.expect[key], 'doc: ' + (i + 1) + ' key: ' + key);
   //   });
@@ -374,13 +374,13 @@ Tinytest.add('belt - schema - populate defaults', function (test) {
     arr:   ['a', 2, 'c']
   };
 
-  test.equal(Belt.Schema.populate(s, d), o);
+  test.equal(Schema.populate(s, d), o);
 
   // var t = [
   //   {schema: s, doc: d, expect: o}
   // ];
   // _.each(t, function (el, i, list) {
-  //   var actual = Belt.Schema.populate(el.schema, el.doc);
+  //   var actual = Schema.populate(el.schema, el.doc);
   //   // reverse order of each so we don't missing attributes
   //   _.each(el.expect, function (val, key) {
   //     test.equal(actual[key], el.expect[key], 'doc: ' + (i + 1) + ' key: ' + key);

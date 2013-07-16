@@ -4,6 +4,7 @@ Package.describe({
 
 Package.on_use(function (api, where) {
   api.use('underscore');
+
   api.add_files([
     'schema_common.js'
     ], ['client', 'server']);

@@ -42,7 +42,7 @@ _.extend(Model.prototype, {
   // Should it simply extend instead?
   _populate: function (doc) {
     if (this._schema) {
-      doc = Belt.Schema.populate(this._schema, doc || {});
+      doc = Schema.populate(this._schema, doc || {});
     }
     _.extend(this, doc);
   },
@@ -64,7 +64,7 @@ _.extend(Model.prototype, {
    *         num is omitted because there was no error.
    */
   validate: function () {
-    return Belt.Schema.validate(this._schema, this.toObject());
+    return Schema.validate(this._schema, this.toObject());
   }
 });
 
