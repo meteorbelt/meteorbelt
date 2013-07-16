@@ -10,6 +10,7 @@ function setSession(cntx, key) {
 
   if (_id)
     query._id = _id;
+    Session.set(key + 'Id', _id);
     if (_id === 'new')
       Session.set(key + 'Id', null);
 
