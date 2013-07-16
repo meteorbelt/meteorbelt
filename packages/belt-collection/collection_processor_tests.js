@@ -6,7 +6,7 @@
  */
 
 Tinytest.addAsync("belt - collection - processors - before insert", function (test, next) {
-  var C = new Belt.Collection(null);
+  var C = new Collection(null);
 
   test.equal(C.find({a: 1}).count(), 0);
 
@@ -24,7 +24,7 @@ Tinytest.addAsync("belt - collection - processors - before insert", function (te
 });
 
 Tinytest.addAsync("belt - collection - processors - after insert", function (test, next) {
-  var C = new Belt.Collection(null);
+  var C = new Collection(null);
 
   test.equal(C.find({a: 1}).count(), 0);
 
@@ -42,7 +42,7 @@ Tinytest.addAsync("belt - collection - processors - after insert", function (tes
 });
 
 Tinytest.add("belt - collection - processors - before update", function (test) {
-  var C = new Belt.Collection(null);
+  var C = new Collection(null);
 
   test.equal(C.find({a: 1}).count(), 0);
 
@@ -64,7 +64,7 @@ Tinytest.add("belt - collection - processors - before update", function (test) {
 });
 
 Tinytest.addAsync("belt - collection - processors - after update", function (test, next) {
-  var C = new Belt.Collection(null);
+  var C = new Collection(null);
 
   test.equal(C.find({a: 1}).count(), 0);
 
@@ -90,7 +90,7 @@ Tinytest.addAsync("belt - collection - processors - after update", function (tes
 });
 
 Tinytest.addAsync("belt - collection - processors - after update with options omitted and callback specified", function (test, next) {
-  var C = new Belt.Collection(null);
+  var C = new Collection(null);
 
   var pass_count = 0;
   var pass = function () {
@@ -128,7 +128,7 @@ Tinytest.addAsync("belt - collection - processors - after update with options om
 });
 
 Tinytest.addAsync("belt - collection - processors - before remove", function (test, next) {
-  var C = new Belt.Collection(null);
+  var C = new Collection(null);
 
   test.equal(C.find({a: 1}).count(), 0);
 
@@ -153,7 +153,7 @@ Tinytest.addAsync("belt - collection - processors - before remove", function (te
 });
 
 Tinytest.addAsync("belt - collection - processors - after remove", function (test, next) {
-  var C = new Belt.Collection(null);
+  var C = new Collection(null);
 
   test.equal(C.find({a: 1}).count(), 0);
 

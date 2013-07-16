@@ -20,6 +20,6 @@ var postalAddressMixin = function (collection, options) {
 
 };
 
-var PostalAddress = Belt.Collection('PostalAddress');
+var PostalAddress = Collection('PostalAddress');
 
 PostalAddress.pluggins(postalAddressMixin);

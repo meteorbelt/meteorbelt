@@ -1,7 +1,7 @@
 // Post
 // ----
 // @export Posts
-Posts = new Belt.Collection('posts', {
+Posts = new Collection('posts', {
 
   schema: {
     title:       { type: String, required: true },

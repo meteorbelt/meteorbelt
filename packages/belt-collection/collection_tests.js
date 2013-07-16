@@ -10,7 +10,7 @@ function resetPosts() {
 // Collections //
 /////////////////
 
-var Posts = this.Posts = new Belt.Collection(null);
+var Posts = this.Posts = new Collection(null);
 
 Posts.schema({
   title:       { type: String, required: true },
@@ -38,7 +38,7 @@ Posts.statics({
 //   }
 // });
 
-var Comments = this.Comments = new Belt.Collection(null);
+var Comments = this.Comments = new Collection(null);
 
 Comments.schema({
   title: { type: String, required: true },
@@ -75,8 +75,8 @@ var c1 = {
   body: "Comment Body"
 };
 
-Tinytest.add('belt - collection - Belt.Collection is Global', function (test) {
-  test.isTrue(typeof Belt.Collection !== 'undefined');
+Tinytest.add('belt - collection - Collection is Global', function (test) {
+  test.isTrue(typeof Collection !== 'undefined');
 });
 
 Tinytest.add('belt - collection - model created', function (t) {
@@ -184,7 +184,7 @@ Tinytest.addAsync('belt - collection - model save', function (t, done) {
 });
 
 Tinytest.add("belt - collection - alternative constructor", function (t) {
-  var PostAlt = new Belt.Collection(null, {
+  var PostAlt = new Collection(null, {
     schema: {
       _id:         { type: String },
       title:       { type: String, required: true },

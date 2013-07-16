@@ -1,7 +1,7 @@
 // AppSettings
 // -----------
 // @export AppSettings
-AppSettings = new Belt.Collection('settings', {
+AppSettings = new Collection('settings', {
   statics: {
     // convience method to return the data object
     get: function (id) {

@@ -303,4 +303,4 @@ Collection.prototype.constructor = Collection;
 
 // Exports
 // -------
-Belt.Collection = Collection;
+Collection = Collection;

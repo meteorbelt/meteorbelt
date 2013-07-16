@@ -1,6 +1,6 @@
 // Product
 // -------
-Products = new Belt.Collection('product', {
+Products = new Collection('product', {
   schema: {
     name:        { type: String, required: true },
     description: { type: String, required: true},

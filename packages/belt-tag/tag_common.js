@@ -1,7 +1,7 @@
 // Tag
 // ---
 
-var Tags = new Belt.Collection('tag', {
+var Tags = new Collection('tag', {
   schema: {
     slug: { type: String, required: true }
   }

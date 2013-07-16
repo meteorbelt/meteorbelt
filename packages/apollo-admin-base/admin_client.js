@@ -1,6 +1,6 @@
 
 // @export AdminPages
-AdminPages = new Belt.Collection(null, {
+AdminPages = new Collection(null, {
 
   schema: {
     name:     { type: String, required: true },
