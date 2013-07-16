@@ -7,7 +7,7 @@ Template.contact.created = function () {
   var contact = Belt.Settings.get('contact');
   if (contact && contact.showAddress) {
     var addr = addressToString(contact.address);
-    // Belt.Maps.addressToMap('contact-map', addr);
+    // Maps.addressToMap('contact-map', addr);
   }
 };
 

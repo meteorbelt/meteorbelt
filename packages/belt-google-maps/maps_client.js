@@ -1,3 +1,5 @@
+// @export Maps
+Maps = {};
 
 function init() {
   var script = document.createElement("script");
@@ -14,7 +16,7 @@ function mapsReady() {
   _ready = true;
 }
 
-function addressToMap(elementId, address) {
+Maps.addressToMap = function (elementId, address) {
 
   if (! _ready) {
     if (! _initCalled) {
@@ -50,8 +52,3 @@ function addressToMap(elementId, address) {
 }
 
 this.googleMapsReady = mapsReady;
-
-var Maps = {};
-Maps.addressToMap = addressToMap;
-
-Belt.Maps = Maps;
