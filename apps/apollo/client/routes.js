@@ -15,6 +15,7 @@ function setSession(cntx, key) {
       Session.set(key + 'Id', null);
 
   if (slug)
+    Session.set(key + 'Slug', slug);
     query.slug = slug;
   if (tag)
     query.tag = tag;
