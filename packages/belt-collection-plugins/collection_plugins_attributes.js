@@ -57,6 +57,15 @@ CollectionPlugins.owner = function (collection, options) {
 
   });
 
+  collection.methods({
+
+    owner: function () {
+      if (!this.ownerId) return
+      return Meteor.users.findOne(this.ownerId);
+    }
+    
+  });
+
   if (Meteor.isServer) {
     collection._ensureIndex({
       'ownerId': 1
