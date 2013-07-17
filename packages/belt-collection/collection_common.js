@@ -209,6 +209,8 @@ _.extend(Meteor.Collection.prototype, {
                        'signature:\n  function (collection, options) {};'
     if (_.isUndefined(fn)) {
       throw new Error('The passed in plugin is not valid. Please check the path.\n' +
+                      'If you using a CollectionPlugin from another package, be sure' +
+                      'to include it in your package.js file.\n' +
                       pluginErrMsg);
     }
     if (typeof fn !== 'function') {
