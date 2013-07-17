@@ -12,8 +12,9 @@ CollectionPlugins.tags = function (collection, options) {
       return this.find({tags: tags}, options, callback);
     }
   });
-
-  if (Meteor.isServer) {
+  
+  // Only create an index on the server, and for collections that are persisted.
+  if (Meteor.isServer && collection._name) {
     collection._ensureIndex({
       'tags': 1
     });
@@ -60,10 +61,11 @@ CollectionPlugins.owner = function (collection, options) {
       if (!this.ownerId) return
       return Meteor.users.findOne(this.ownerId);
     }
-    
+
   });
 
-  if (Meteor.isServer) {
+  // Only create an index on the server, and for collections that are persisted.
+  if (Meteor.isServer && collection._name) {
     collection._ensureIndex({
       'ownerId': 1
     });
