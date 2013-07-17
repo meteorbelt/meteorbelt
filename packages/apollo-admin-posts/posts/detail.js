@@ -6,7 +6,7 @@ Template.adminPostDetail.rendered = function () {
   if (!post)
     post = Posts.create();
   this.post = post;
-  return;
+  $(document).foundation('section');
 };
 
 Template.adminPostDetail.helpers({
@@ -18,43 +18,30 @@ Template.adminPostDetail.helpers({
 
 // parse a date in yyyy-mm-dd format
 function parseDate(input) {
+  console.log("input: ", input);
+  if (!input) return;
   var parts = input.match(/(\d+)/g);
   // new date(year, month [, date [, hours[, minutes[, seconds[, ms]]]]])
   return new Date(parts[0], parts[1] - 1, parts[2]); // months are 0-based
 }
 
-function postPopulate(post, tmpl) {
-//  // if slug is present return an error if it is in use
-//  if (opts.slug) {
-//    p.slug = Slug.unique(opts.slug, Posts, true);
-//  } else {
-//    // use the title, don't care if the slug is an exact match
-//    p.slug = Slug.unique(opts.title, Posts);
-//  }
+function populatePost(post, tmpl) {
   post.title = tmpl.find("#post-title").value;
   post.body = tmpl.find("#belt-richtext-textarea").value;
-  // post.slug = tmpl.find("#post-slug").value;
-  // post.publishedAt = parseDate(tmpl.find("#post-published-at").value);
-  // post.tags = _.map(tmpl.find('#post-tags').value.split(','), function (x) {
-  //   return x.trim();
-  // });
-  // post.owner = Meteor.userId();
+  post.slug = tmpl.find("#post-slug").value;
+  post.publishedAt = parseDate(tmpl.find("#post-published-at").value);
+  post.tags = _.map(tmpl.find('#post-tags').value.split(','), function (x) {
+    return x.trim();
+  });
   return post;
 }
 
 Template.adminPostDetail.events({
-  // TODO: add this.
-  // 'keyup #post-title': function (e, tmpl) {
-  //   // TODO mark post as dirty on #richtext-textarea, #post-tags,
-  //   // #post-slug change
-  //   //Session.set('postSlug', tmpl.find("#post-title").value);
-  //   Session.set('postIsDirty', true);
-  // },
 
   'click .publish': function (e, tmpl) {
     e.preventDefault();
     
-    var post = postPopulate(tmpl.post, tmpl);
+    var post = populatePost(tmpl.post, tmpl);
     post.isPublished = true;
     post.save(function (err, id) {
       if (err) {
@@ -71,7 +58,7 @@ Template.adminPostDetail.events({
   'click .save': function (e, tmpl) {
     e.preventDefault();
 
-    var post = postPopulate(tmpl.post, tmpl);
+    var post = populatePost(tmpl.post, tmpl);
     post.save(function (err, id) {
       if (err) {
         Flash.clear();
@@ -92,7 +79,6 @@ Template.adminPostDetail.events({
   'click .cancel': function (e) {
     e.preventDefault();
 
-    Meteor.Router.to('adminPostList');
     // If the post has been modified notify the user the their changes will
     // be lost
     if (this.post) {

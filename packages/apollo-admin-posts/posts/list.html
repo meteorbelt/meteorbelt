@@ -11,40 +11,132 @@
 
       <!-- Header -->
       <header class="row">
-        <div class="small-9 columns">
+
+        <div class="small-8 columns">
           <h2>Posts</h2>
         </div>
-        <div class="small-3 columns vertical">
-          <a href="{{adminPostNewPath}}" class="pull-right">
-            <i class="icon-plus"></i> New Post
+
+        <div class="small-3 columns">
+          <a href="/admin/posts/new" class="small button pull-right">
+            <i class="icon-plus"></i>&nbsp;&nbsp;&nbsp;New Post
           </a>
         </div>
+
       </header>
 
       <!-- Posts -->
-      <div class="row">
-        {{#with allPosts}}
-          {{#if this.count}}
-            <div class="small-4 columns">
-              {{#each this}}
-                {{> adminPostListItem}}
-              {{/each}}
+      {{#with allPosts}}
+
+        <!-- Yes Posts -->
+        {{#if this.count}}
+          
+          <div class="row">
+            <div class="small-12 columns">
+              <dl class="sub-nav">
+                <dd class="{{#if listView }}active{{/if}}"><a class="display-button display-list" href="#">List</a></dd>
+                <dd class="{{#if listView }} {{else}}active{{/if}}"><a class="display-button display-preview" href="#">Preview</a></dd>
+              </dl> 
             </div>
-            <div class="small-8 columns">
-              {{> adminPostDetailPreview}}
-            </div>
+          </div>
+
+          {{#if listView }}
+            {{> adminPostListDetail }}
           {{else}}
+            {{> adminPostListPreview }}
+          {{/if}}
+
+        <!-- No Posts -->
+        {{else}}
+          <div class="row">
             <div class="small-12 columns">
               <h4>No posts yet</h4>
               <a href="{{adminPostNewPath}}" class="button">
                 <i class="icon-plus"></i>  New Post
               </a>
             </div>
-          {{/if}}
-        {{/with}}
-      </div>
+          </div>
+        {{/if}}
+
+      {{/with}}
 
     </div>
 
+  </div>
+</template>
+
+<template name="adminPostListDetail">
+  <div class="row">
+    <div class="small-12 columns">
+      <table class="small-12 columns">
+        <thead>
+          <tr>
+            <td>Title</td>
+            <td>URL</td>
+            <td>Author</td>
+            <td>Tags</td>
+            <td>Public</td>
+            <td>Published At</td>
+            <td></td>
+            <td></td>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each this}}
+            {{> adminPostListDetailItem}}
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</template>
+
+<template name="adminPostListDetailItem">
+  <tr>
+    <td><a href="/admin/posts/{{_id}}">{{title}}</a></td>
+    <td><a href="/blog/{{slug}}">/blog/{{slug}}</a></td>
+    <td>{{owner.displayName}}</td>
+    <td>{{join tags delimiter=', '}}</td>
+    <td>{{isPublic}}</td>
+    <td>{{formatDate publishedAt format='YYYY-MM-DD'}}</td>
+    <td><a href="/admin/posts/{{_id}}">Edit</a></td>
+    <td><a href="#" class="post-remove"><i class="icon-x"></i></a></td>
+  </tr>
+</template>
+
+<template name="adminPostListPreview">
+  <div class="row">
+
+    <!-- List -->
+    <div class="small-4 columns">
+      {{#each this}}
+        {{> adminPostListPreviewItem}}
+      {{/each}}
+    </div>
+
+    <!-- Preview -->
+    <div class="small-8 columns">
+      <div class="menu">
+        <a class="" href="/admin/posts/{{post._id}}">
+          Edit  <i class="icon-cog"></i>
+        </a>
+        <a href="#" class="delete ">
+          Delete  <i class="icon-remove"></i>
+        </a>
+      </div>
+      <div class="post-preview">
+        {{{post.body}}}
+      </div>
+    </div>
+      
+  </div>
+</template>
+
+<template name="adminPostListPreviewItem">
+  <div class="post-list-item {{selected}}">
+    <h4>{{title}}</h4>
+    {{#if isPublished}}&nbsp;{{else}}<em class="warning">Draft</em>{{/if}}
+    {{user.displayName}}
+    {{tags}}
+    {{timeSince publishedAt}}
   </div>
 </template>

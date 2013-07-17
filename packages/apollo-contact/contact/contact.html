@@ -47,8 +47,8 @@
 
 <template name="contactPerson">
   <section class="section">
-    <h5 class="title"><a href="#panel2">Specific Person</a></h5>
-    <div class="content" data-slug="panel2">
+    <h5 class="title" data-section-title><a href="#panel2">Specific Person</a></h5>
+    <div class="content" data-slug="panel2" data-section-content>
       <ul class="large-block-grid-5">
         {{#each people}}
         <li><a href="mailto:{{email}}"><img src="http://placehold.it/200x200&amp;text=[person]">{{name}}</a></li>
@@ -60,8 +60,8 @@
 
 <template name="contactAll">
   <section class="section">
-    <h5 class="title"><a href="#panel1">Contact Our Company</a></h5>
-    <div class="content" data-slug="panel1">
+    <h5 class="title" data-section-title><a href="#panel1">Contact Our Company</a></h5>
+    <div class="content" data-slug="panel1" data-section-content>
       {{> contactForm }}
     </div>
   </section>

@@ -25,7 +25,7 @@ Posts.plugin(CollectionPlugins.updatedAt);
 Posts.plugin(CollectionPlugins.tags);
 Posts.plugin(CollectionPlugins.isPublic);
 Posts.plugin(CollectionPlugins.owner);
-// Posts.plugin(CollectionPlugins.slug, { required: true, attr: "title" });
+Posts.plugin(CollectionPlugins.slug, { ref: "title" });
 
 // Permissions
 Posts.plugin(CollectionPlugins.allowAdmin);
