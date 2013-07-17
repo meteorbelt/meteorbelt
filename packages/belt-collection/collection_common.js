@@ -61,8 +61,7 @@ _.extend(Meteor.Collection.prototype, {
   _insert: Meteor.Collection.prototype.insert,
   insert: function (doc, fn) {
     var self = this;
-    // var userId = getUserId.call(self);
-    var userId = Meteor.userId();
+    var userId = getUserId.call(self);
     var result;
 
     // Remove null `_id`s
@@ -100,8 +99,7 @@ _.extend(Meteor.Collection.prototype, {
   update: function (selector, modifier, options, fn) {
     var self = this;
     var result;
-    // var userId = getUserId.call(self);
-    var userId = Meteor.userId();
+    var userId = getUserId.call(self);
 
     // call before update functions
     var args = [userId, selector, modifier, options, fn];
@@ -118,7 +116,7 @@ _.extend(Meteor.Collection.prototype, {
       var doafter = true;
       if (err) {
         // Set the doc back to it's previous state
-        // XXX Danger - the validation should be prior to save this dangerous.
+        // XXX Danger - the validation should be prior to save this is dangerous.
         _.each(previous, function (doc) {
           var _id = doc._id;
           delete doc._id;
@@ -149,8 +147,7 @@ _.extend(Meteor.Collection.prototype, {
   remove: function (selector, fn) {
     var self = this;
     var result;
-    // var userId = getUserId.call(self);
-    var userId = Meteor.userId();
+    var userId = getUserId.call(self);
 
     if (self._process("before", "remove", [userId, selector, fn]) !== false) {
       var previous = self._collection.find(selector, { reactive: false }).fetch();
@@ -165,8 +162,7 @@ _.extend(Meteor.Collection.prototype, {
   save: function (doc, fn) {
     var self = this;
     var id;
-    // var userId = getUserId.call(self);
-    var userId = Meteor.userId();
+    var userId = getUserId.call(self);
 
     // process before functions
     if (self._process('before', 'save', [userId, doc, fn]) !== false) {
@@ -206,7 +202,7 @@ _.extend(Meteor.Collection.prototype, {
 
   plugin: function (fn, opts) {
     var pluginErrMsg = 'Collection.plugin() takes a function with the following ' +
-                       'signature:\n  function (collection, options) {};'
+                       'signature:\n  function (collection, options) {};';
     if (_.isUndefined(fn)) {
       throw new Error('The passed in plugin is not valid. Please check the path.\n' +
                       'If you using a CollectionPlugin from another package, be sure' +
