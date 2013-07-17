@@ -1,4 +1,3 @@
-'use strict';
 
 // @export Schema
 Schema = {};
@@ -11,6 +10,7 @@ if (typeof Boolean.name === 'undefined') Boolean.name = "Boolean";
 if (typeof Array.name === 'undefined') Array.name = "Array";
 if (typeof Object.name === 'undefined') Object.name = "Object";
 
+// @export SchemaTypes
 SchemaTypes = {
   'Date': {
     cast: function (v) {
