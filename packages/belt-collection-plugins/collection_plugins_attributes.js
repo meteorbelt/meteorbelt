@@ -30,25 +30,22 @@ CollectionPlugins.owner = function (collection, options) {
   });
 
   collection.before({
-    save: function (userId, doc) {
-      if (doc.ownerId) {
-        // allow user to be filled in by admin
-        // XXX logic
-        return;
-      }
-      doc.ownerId = userId;
-    },
-
+    
     insert: function (userId, doc) {
+      // XXX remove userId
+      userId = Meteor.userId();
       if (doc.ownerId) {
         // allow user to be filled in by admin
         // XXX logic
         return;
       }
+
       doc.ownerId = userId;
     },
 
     update: function (userId, selector, modifier) {
+      // XXX remove userId
+      userId = Meteor.userId();
       if (! modifier.$set) modifier.$set = {};
       // XXX logic
       // allow user to be filled in by admin
