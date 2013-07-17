@@ -170,6 +170,7 @@ _.extend(Meteor.Collection.prototype, {
       // to determine if the doc as been saved.
       // Maybe we could do a findOne here? Or we have a `dirty` attribute?
       if (! doc._id) {
+        // remove null values
         delete doc._id;
         id = this.insert(doc, fn);
       }
@@ -189,8 +190,14 @@ _.extend(Meteor.Collection.prototype, {
         //
         //   callback(err)
         //
-        id = this.update({_id: id}, {$set: doc}, function (err) {
+        this.update({_id: id}, {$set: doc}, function (err) {
           if (! fn) return;
+          // Make the error consistent with insert.
+          // - The insert callback returns an error or null
+          // - The update callback returns an error or undefined
+          if (_.isUndefined(err)) {
+            err = null;
+          }
           return fn(err, id);
         });
       }

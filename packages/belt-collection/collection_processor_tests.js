@@ -121,7 +121,7 @@ Tinytest.addAsync("belt - collection - processors - after update with options om
     // behavior on the part of collection-hooks to mimic the behavior
     // by Meteor's own update.
     C.update(id, {$set: {b: 2}}, function (err) {
-      test.equal(err, null);
+      test.isUndefined(err);
       pass();
     });
   });

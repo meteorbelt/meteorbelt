@@ -58,7 +58,7 @@ Comments.methods({
 
 // Docs
 
-var p1 = this.p1 = {
+var p1 = {
   title: "Hello World",
   body: "Post Body",
   publishedAt: '1/1/2001'
@@ -124,7 +124,7 @@ Tinytest.addAsync('belt - collection - save valid', function (t, done) {
   resetPosts();
   // insert
   Posts.save(p1, function (err, id) {
-    t.equal(err, null);
+    t.isNull(err);
     t.isTrue(id && id.length);
     // Check it
     var p = Posts.findOne(id);
@@ -132,7 +132,7 @@ Tinytest.addAsync('belt - collection - save valid', function (t, done) {
     // Update
     p.title = 'Changed';
     Posts.save(p, function (err, id2) {
-      t.equal(err, null);
+      t.isNull(err);
       t.isTrue(id2 && id2.length);
       t.equal(id, id2);
       // Check it
@@ -160,10 +160,15 @@ Tinytest.addAsync('belt - collection - save invalid', function (t, done) {
 
 Tinytest.addAsync('belt - collection - model save', function (t, done) {
   resetPosts();
+  var p1 = {
+    title: "Hello World",
+    body: "Post Body",
+    publishedAt: '1/1/2001'
+  };
   var p = Posts.create(p1);
   // insert
   p.save(function (err, id) {
-    t.equal(err, null);
+    t.isNull(err);
     t.isTrue(id && id.length);
     // Check it
     p = Posts.findOne(id);
@@ -172,7 +177,7 @@ Tinytest.addAsync('belt - collection - model save', function (t, done) {
     // Update
     p.title = 'Changed';
     p.save(function (err, id2) {
-      t.equal(err, null);
+      t.isNull(err);
       t.isTrue(id2 && id2.length);
       t.equal(id, id2);
       // Check it
