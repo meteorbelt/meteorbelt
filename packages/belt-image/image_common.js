@@ -30,7 +30,7 @@ Images = new Collection('image', {
 Images.plugin(CollectionPlugins.tags);
 Images.plugin(CollectionPlugins.isPublic);
 Images.plugin(CollectionPlugins.owner);
-// Images.plugin(CollectionPlugins.slug, { required: true, attr: "title" });
+Images.plugin(CollectionPlugins.slug, { ref: "title" });
 
 // Permissions
 Images.plugin(CollectionPlugins.allowAdmin);
