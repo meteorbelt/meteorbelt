@@ -1,12 +1,20 @@
 // @export Model
-Model = function (doc, schema) {
+Model = function (doc, schema, collection) {
   if (schema) {
+    this._collection = collection;
     this._schema = schema;
     // Add the _id schema
     this.schema({_id: { type: String }});
     this._populate(doc);
   } else {
     _.extend(this, doc);
+  }
+};
+
+var checkForCollection = function (self) {
+  if (! self._collection) {
+    throw new Error('save is only available when Model is used ' +
+                    'with a Collection.');
   }
 };
 
@@ -45,6 +53,29 @@ _.extend(Model.prototype, {
       doc = Schema.populate(this._schema, doc || {});
     }
     _.extend(this, doc);
+  },
+
+  save: function (fn) {
+    checkForCollection(this);
+    return this._collection.save(this.toObject(), fn);
+  },
+
+  insert: function (fn) {
+    checkForCollection(this);
+    return this._collection.insert(this.toObject(), fn);
+  },
+
+  update: function (fn) {
+    checkForCollection(this);
+    var obj = this.toObject();
+    var id = obj._id;
+    delete obj._id;
+    return this._collection.update({ _id: id }, obj, fn);
+  },
+
+  remove: function () {
+    checkForCollection(this);
+    return this._collection.remove(this._id);
   },
 
   /**

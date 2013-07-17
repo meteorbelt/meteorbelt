@@ -102,3 +102,23 @@ Tinytest.add('belt - model - schema', function (t) {
   t.equal(p.title, null);
   t.equal(p.body, null);
 });
+
+Tinytest.addAsync('belt - model - save', function (t, done) {
+  // TODO
+  done();
+});
+
+Tinytest.addAsync('belt - model - insert', function (t, done) {
+  // TODO
+  done();
+});
+
+Tinytest.addAsync('belt - model - update', function (t, done) {
+  // TODO
+  done();
+});
+
+Tinytest.addAsync('belt - model - remove', function (t, done) {
+  // TODO
+  done();
+});

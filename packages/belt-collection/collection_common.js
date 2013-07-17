@@ -241,12 +241,7 @@ _.extend(Meteor.Collection.prototype, {
 
   create: function (doc) {
     var self = this;
-    var m = new self._BaseModel(doc, self._schema);
-    m._collection = self;
-    // add a save convenience method to the model
-    m.save = function (fn) {
-      return self.save(this.toObject(), fn);
-    };
+    var m = new self._BaseModel(doc, self._schema, self);
     _.extend(m, self._methods);
     return m;
   },
