@@ -18,7 +18,6 @@ Template.adminPostDetail.helpers({
 
 // parse a date in yyyy-mm-dd format
 function parseDate(input) {
-  console.log("input: ", input);
   if (!input) return;
   var parts = input.match(/(\d+)/g);
   // new date(year, month [, date [, hours[, minutes[, seconds[, ms]]]]])
