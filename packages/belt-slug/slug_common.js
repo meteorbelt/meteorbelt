@@ -206,4 +206,11 @@ CollectionPlugins.slug = function (collection, options) {
       this.slug = slugify(this, collection, options, slug);
     }
   });
+
+  // Only create an index on the server, and for collections that are persisted.
+  if (Meteor.isServer && collection._name) {
+    collection._ensureIndex({
+      'slug': 1
+    });
+  }
 };
