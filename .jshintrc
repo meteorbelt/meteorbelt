@@ -98,7 +98,6 @@
                         "Package",
                         "Npm",
                         "Tinytest",
-                        "Handlebars",
-                        "Belt"
+                        "Handlebars"
                     ]
 }
