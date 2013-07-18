@@ -31,12 +31,6 @@ Meteor.users.methods({
     return 'Anonymous User';
   },
 
-  // TODO: Maybe there should be a default property on email
-  // E.g.
-  // {
-  //   address: 'test@example.com',
-  //   pir: 'test@example.com',
-  // }
   getEmail: function () {
     if (this.emails && this.emails.length) {
       return this.emails[0].address.trim().toLowerCase();
@@ -61,4 +55,72 @@ Meteor.users.methods({
   }
 
 });
+
+// Email methods
+Meteor.users.methods({
+
+  sendVerificationEmail: function (emailAddress) {
+    if (Meteor.isServer) {
+      Accounts.sendVerificationEmail(this._id, emailAddress);
+    }
+  },
+
+  emailMakeDefault: function (emailAddress, fn) {
+    var self = this;
+
+    // Make sure that email address has been added and varified
+    var found = _.find(self.user.emails, function (e) {
+      return e.address === emailAddress;
+    });
+
+    if (! found) {
+      return fn('The address ' + emailAddress + 'can not be made default.');
+    }
+
+    // set the default email
+    self.email = emailAddress;
+    return self.update(fn);
+  },
+
+  addEmail: function (emailAddress, fn) {
+    var self = this;
+
+    var found = _.find(self.user.emails, function (e) {
+      return e.address === emailAddress;
+    });
+
+    if (! found) {
+      return fn(emailAddress + ' has already been added to your account.');
+    }
+
+    // Send email verification email
+    if (Meteor.isServer) {
+      Accounts.sendVerificationEmail(self._id, emailAddress);
+    }
+
+    // Add the email
+    self.emails.push({
+      address: emailAddress,
+      verified: false
+    });
+
+    return self.update(fn);
+  },
+
+  removeEmail: function (emailAddress, fn) {
+    var self = this;
+
+    if (user.email === emailAddress) {
+      return fn('You can not delete your default email address. ' +
+                'Set another email as the default first.');
+    }
+
+    self.emails = _.reject(self.emails, function (e) {
+      e.address === emailAddress;
+    });
+
+    return this.update(fn);
+  }
+});
+
 
