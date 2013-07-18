@@ -5,6 +5,7 @@ User = {};
 
 Meteor.users.schema({
   createdAt: Date,
+  username:  String,
   services:  Object,
   emails:    [Object],
   roles:     [String],

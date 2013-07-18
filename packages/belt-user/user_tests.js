@@ -21,19 +21,18 @@ var users = [{
   // 3
 }];
 
-Tinytest.add('belt - user - methods', function (test) {
-  var u;
-  u = new User(users[0]);
-  test.equal(u.displayName(), 'James Bond');
-  test.equal(u.email(), 'bond@example.com');
+Tinytest.add('belt - user - methods - displayName', function (test) {
+  var expect = ['James Bond', 'bond', 'bond@example.com', 'Anonymous User'];
+  _.each(users, function (obj, i) {
+    var u = Meteor.users.create(obj);
+    test.equal(u.displayName(), expect[i]);
+  });
+});
 
-  u = new User(users[1]);
-  test.equal(u.displayName(), 'bond');
-  test.equal(u.email(), '');
-
-  u = new User(users[2]);
-  test.equal(u.displayName(), 'bond@example.com');
-
-  u = new User(users[3]);
-  test.equal(u.displayName(), 'Anonymous User');
+Tinytest.add('belt - user - methods - getEmail', function (test) {
+  var expect = ['bond@example.com', '', 'bond@example.com', ''];
+  _.each(users, function (obj, i) {
+    var u = Meteor.users.create(obj);
+    test.equal(u.getEmail(), expect[i]);
+  });
 });

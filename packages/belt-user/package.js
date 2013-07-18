@@ -17,5 +17,5 @@ Package.on_test(function (api) {
   api.use('belt-user');
   api.use('tinytest');
 
-  api.add_files('user_tests.js', 'server');
+  api.add_files('user_tests.js', 'client');
 });
