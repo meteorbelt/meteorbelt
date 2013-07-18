@@ -86,7 +86,7 @@ Meteor.methods({
     if (Meteor.isServer) {
       Accounts.sendVerificationEmail(userId, emailAddress);
     }
-    return
+    return;
   },
   userEmailDelete: function (userId, emailAddress) {
     // ACL
