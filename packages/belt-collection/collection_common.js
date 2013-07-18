@@ -300,7 +300,9 @@ Collection = function (name, options) {
 
   if (! options.transform) {
     options.transform = function (doc) {
-      return self.create(doc);
+      var m = self.create(doc);
+      m._collection = self;
+      return m;
     };
   }
 
