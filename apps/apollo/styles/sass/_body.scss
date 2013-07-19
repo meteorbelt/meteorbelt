@@ -42,7 +42,7 @@ $richtext-button-active-color: $alert-color;
 
   .button {
     @include button-base;
-    @include button-size(emCalc(9px), false);
+    @include button-size(emCalc(9), false);
     color: $richtext-button-color;
     background: #f9f9f9;
     border: none;
