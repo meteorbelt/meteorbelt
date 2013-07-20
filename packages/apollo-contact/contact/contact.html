@@ -1,44 +1,47 @@
 <template name="contactForm">
-  <form id="contact-form" class="form-horizontal">
+  <form data-abide id="contact-form" class="form-horizontal">
     <div class="row">
-      <div class="large-10 large-offset-2 columns">
+      <div class="medium-10 medium-offset-2 columns">
         <h6>Please fill in your information</h6>
       </div>
     </div>
     <div class="row">
-      <div class="large-2 columns">
+      <div class="medium-2 columns">
         <label class="inline">Name</label>
       </div>
-      <div class="large-10 columns">
-        <input autofocus type="text" name="name" placeholder="John Smith">
+      <div class="medium-10 columns">
+        <input autofocus type="text" name="name" required placeholder="John Smith">
+        <small class="error">Name is required.</small>
       </div>
     </div>
     <div class="row">
-      <div class="large-2 columns">
+      <div class="medium-2 columns">
         <label class="inline">Email</label>
       </div>
-      <div class="large-10 columns">
-        <input type="text" name="email" placeholder="john@example.com">
+      <div class="medium-10 columns">
+        <input type="email" name="email" required placeholder="john@example.com">
+        <small class="error">A valid email address is required.</small>
       </div>
     </div>
     <div class="row">
-      <div class="large-2 columns">
-        <label class="inline">Phone <i>(optional)</i></label>
+      <div class="medium-2 columns">
+        <label class="inline">Phone <small>(optional)</small></label>
       </div>
-      <div class="large-10 columns">
+      <div class="medium-10 columns">
         <input type="tel" name="phone" placeholder="316 555 1234">
       </div>
     </div>
     <div class="row">
-      <div class="large-2 columns">
+      <div class="medium-2 columns">
         <label class="inline">Message</label>
       </div>
-      <div class="large-10 columns">
-        <textarea name="message" rows="4" placeholder="Hello..."></textarea>
+      <div class="medium-10 columns">
+        <textarea name="message" rows="4" required placeholder="Hello..."></textarea>
+        <small class="error">A message is required.</small>
       </div>
     </div>
     <div class="row collapse">
-      <div class="large-10 large-offset-2">
+      <div class="medium-10 medium-offset-2">
         <input class="radius button" type="submit" value="Send Message">     
       </div>
     </div>

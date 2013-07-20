@@ -13,6 +13,7 @@ Template.contact.created = function () {
 
 Template.contact.rendered = function () {
   $(document).foundation('section');
+  $(document).foundation('abide');
 };
 
 Template.contact.preserve(["#contact-map"]);
