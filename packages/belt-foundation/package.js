@@ -9,6 +9,7 @@ Package.on_use(function (api, where) {
   api.add_files([
     'foundation/js/vendor/custom.modernizr.js',
     'foundation/js/foundation/foundation.js',
+    'foundation/js/foundation/foundation.abide.js',
     'foundation/js/foundation/foundation.alerts.js',
     'foundation/js/foundation/foundation.clearing.js',
     'foundation/js/foundation/foundation.cookie.js',
