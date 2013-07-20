@@ -3,6 +3,7 @@ Package.describe({
 });
 
 Package.on_use(function (api, where) {
+  api.use('email');
   api.add_files('contact_server.js', 'server');
 });
 
