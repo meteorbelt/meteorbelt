@@ -68,6 +68,7 @@ Meteor.Router.beforeRouting = function () {
 addResourceRotues('/admin/settings', 'adminSetting', 'setting');
 addResourceRotues('/admin/posts', 'adminPost', 'post');
 addResourceRotues('/admin/pages', 'adminPage', 'page');
+addResourceRotues('/admin/products', 'adminProduct', 'product');
 addResourceRotues('/admin/images', 'adminImage', 'image');
 addResourceRotues('/admin/users', 'adminUser', 'user');
 

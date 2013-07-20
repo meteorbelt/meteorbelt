@@ -1,0 +1,51 @@
+
+<template name="adminProductList">
+  <div class="row">
+
+    <!-- Nav Column -->
+    <div class="large-3 columns">
+      {{> adminNav }}
+    </div>
+
+    <!-- Content Column -->
+    <div class="large-9 columns">
+
+      <!-- Header -->
+      <header class="row">
+        <div class="small-9 columns">
+          <h2>Products</h2>
+        </div>
+        <div class="small-3 columns vertical">
+          <a href="{{adminProductCreatePath}}" class="pull-right">
+            <i class="icon-plus"></i> New Product
+          </a>
+        </div>
+      </header>
+
+      <!-- Products -->
+      <div class="row">
+        {{#with allProducts}}
+          {{#if this.count}}
+            <div class="small-4 columns">
+              {{#each this}}
+                {{> adminProductListItem}}
+              {{/each}}
+            </div>
+            <div class="small-8 columns">
+              {{> adminProductDetailPreview}}
+            </div>
+          {{else}}
+            <div class="small-12 columns">
+              <h4>No products yet</h4>
+              <a href="{{adminProductNewPath}}" class="button">
+                <i class="icon-plus"></i>  New Product
+              </a>
+            </div>
+          {{/if}}
+        {{/with}}
+      </div>
+
+    </div>
+
+  </div>
+</template>
