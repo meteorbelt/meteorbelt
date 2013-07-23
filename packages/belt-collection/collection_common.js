@@ -127,7 +127,7 @@ _.extend(Meteor.Collection.prototype, {
         // The callback is optional. Therefore, we must confirm that the last
         // argument is indeed a function.
         fn = _.last(_.toArray(arguments));
-        if (typeof fn === 'function') {
+        if (_.isFunction(fn)) {
           fn(makeValidationError(err), null);
         }
         return null;
@@ -242,7 +242,7 @@ _.extend(Meteor.Collection.prototype, {
   create: function (doc) {
     var self = this;
     var m = new self._BaseModel(doc, self._schema, self);
-    _.extend(m, self._methods);
+    m.methods(self._methods);
     return m;
   },
 
@@ -264,7 +264,7 @@ _.each(["before", "after"], function (type) {
   Meteor.Collection.prototype[type] = function (obj) {
     var self = this;
     _.each(obj, function (fn, verb) {
-      if (typeof fn !== 'function') {
+      if (! _.isFunction(fn)) {
         throw new Error('Expected ' + type + ' ' + verb + 
           ' to be of type Function; not of type ' + (typeof fn));
       }
