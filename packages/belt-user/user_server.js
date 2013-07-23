@@ -1,36 +1,32 @@
-//
 // Publish
-//
+// -------
 
 // Users should have access to their own data
 Meteor.publish('currentUser', function () {
   return Meteor.users.find(this.userId);
 });
 
-Meteor.publish('allUsers', function () {
+Meteor.publish('users', function (query, options) {
+
   // if user is an admin, publish all fields
   if (this.userId && Roles.userIsInRole(this.userId, 'admin')) {
-    return Meteor.users.find();
+    return Meteor.users.find(query, options);
   }
   // else, filter out sensitive info
-  return Meteor.users.find({}, {
-    fields: {
-      secret_id: false,
-      roles: false,
-      emails: false,
-      notifications: false,
-      'profile.email': false,
-      'services.twitter.accessToken': false,
-      'services.twitter.accessTokenSecret': false,
-      'services.twitter.id': false,
-      'services.password': false
-    }
-  });
+  // return Meteor.users.find({}, {
+  //   fields: {
+  //     email:    false,
+  //     emails:   false,
+  //     profile:  false,
+  //     roles:    false,
+  //     services: false,
+  //   }
+  // });
+  return;
 });
 
-//
 // Accounts
-//
+// --------
 User.onCreate = function (opts, user) {
   user.profile = opts.profile || {};
   if (opts.email) {
@@ -58,14 +54,49 @@ User.onCreate = function (opts, user) {
   return user;
 };
 
-//
 // Methods
-//
+// -------
+
+// Access Control -- verify that the user is modifying their profile
+// or the modification is being made by an admin.
+var ownerOrAdmin = function (reqId, ownerId) {
+  // Access Control -- verify that the user is modifying their profile
+  // or the modification is being made by an admin.
+  if ((ownerId === reqId) || Roles.userIsInRole(reqId, 'admin'))
+    return true;
+  throw new Meteor.Error(401, 'Access Denied');
+};
+
+// Roles
+// -----
 Meteor.methods({
   userAddUsersToRoles: function (userIds, roles) {
+    ownerOrAdmin(this.userId, userId);
     return Roles.addUsersToRoles(userIds, roles);
   },
   userRemoveUsersFromRoles: function (userIds, roles) {
+    ownerOrAdmin(this.userId, userId);
     return Roles.removeUsersFromRoles(userIds, roles);
   }
 });
+
+// Accounts
+// --------
+Meteor.methods({
+  userResetPassword: function (emailAddress) {
+    var u = Meteor.users.findOne({
+      'emails.address': emailAddress
+    });
+    if (!u) {
+      // TODO: Should this return nothing instead? Do we want publicize, who
+      // has an account with us?
+      throw new Meteor.Error(412, 'No account found with that email address');
+    }
+    Accounts.sendResetPasswordEmail(u._id, emailAddress, function (err) {
+      if (err) {
+        throw new Meteor.Error(412, 'An error occured: ' + err);
+      }
+    });
+  }
+});
+

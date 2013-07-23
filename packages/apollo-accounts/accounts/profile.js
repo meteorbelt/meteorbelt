@@ -7,8 +7,9 @@ Template.accountProfile.helpers({
 Template.accountProfile.events({
   'click input[type=submit]': function (e, tmpl) {
     e.preventDefault();
+
     var f = form2js('profile-form');
-    Meteor.call('userProfileUpdate', Meteor.userId(), f, function (err, id) {
+    Meteor.user().call('profileUpdate', f, function (err, id) {
       if (err) {
         return Flash.error(err.reason);
       }

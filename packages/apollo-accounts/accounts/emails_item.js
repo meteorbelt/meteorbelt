@@ -8,7 +8,8 @@ Template.accountEmailsItem.events({
 
   'click .remove': function (e, tmpl) {
     e.preventDefault();
-    Meteor.call('userEmailDelete', Meteor.userId(), tmpl.data.address, function (err) {
+
+    Meteor.user().call('emailRemove', tmpl.data.address, function (err) {
       if (err) {
         return Flash.error(err.reason);
       }
@@ -17,7 +18,8 @@ Template.accountEmailsItem.events({
 
   'click .verify': function (e, tmpl) {
     e.preventDefault();
-    Meteor.call('userEmailVerify', Meteor.userId(), tmpl.data.address, function (err) {
+
+    Meteor.user().call('emailSendVerification', tmpl.data.address, function (err) {
       if (err) {
         return Flash.error(err.reason);
       }
@@ -27,7 +29,8 @@ Template.accountEmailsItem.events({
 
   'click .make-default': function (e, tmpl) {
     e.preventDefault();
-    Meteor.call('userEmailMakeDefault', Meteor.userId(), tmpl.data.address, function (err) {
+
+    Meteor.user().call('emailMakeDefault', tmpl.data.address, function (err) {
       if (err) {
         return Flash.error(err.reason);
       }

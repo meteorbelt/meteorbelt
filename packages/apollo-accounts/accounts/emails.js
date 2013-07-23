@@ -7,8 +7,9 @@ Template.accountEmails.helpers({
 Template.accountEmails.events({
   'click input[type=submit]': function (e, tmpl) {
     e.preventDefault();
+    
     var address = tmpl.find('input[name="address"]').value;
-    Meteor.call('userEmailAdd', Meteor.userId(), address, function (err) {
+    Meteor.user().call('emailAdd', address, function (err) {
       if (err) {
         Flash.error(err.reason);
         return;

@@ -3,10 +3,13 @@ Package.describe({
 });
 
 Package.on_use(function (api, where) {
+  api.use('accounts-base');
   api.use('belt-collection');
+  api.use('belt-collection-plugins');
+  api.use('session');
+  api.use('underscore');
   
   api.use('deps', 'client');
-  api.use(['accounts-base', 'underscore'], ['client', 'server']);
 
   api.add_files('user_common.js', ['client', 'server']);
   api.add_files('user_client.js', 'client');
