@@ -82,9 +82,21 @@ CollectionPlugins.createdAt = function (collection, options) {
   });
 
   collection.before({
+
     insert: function (userId, doc) {
       doc.createdAt = new Date();
+    },
+
+    update: function (userId, selector, modifier) {
+      if (! modifier.$set) modifier.$set = {};
+      
+      if (modifier.$set.createdAt)
+        // a user should not be able to modify the createdAt attribute
+        // once it's been set
+        // TODO: allow admin override. 
+        delete modifier.$set.createdAt;
     }
+
   });
 };
 
