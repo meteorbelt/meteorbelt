@@ -14,7 +14,7 @@ Handlebars.registerHelper('resize', function (url, width, height) {
 });
 
 Handlebars.registerHelper('timeSince', function (date) {
-  if (window.moment) {
+  if (window.moment && date) {
     return moment(date).fromNow();
   }
   return date;

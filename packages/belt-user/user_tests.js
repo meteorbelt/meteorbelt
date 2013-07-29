@@ -28,11 +28,3 @@ Tinytest.add('belt - user - methods - displayName', function (test) {
     test.equal(u.displayName(), expect[i]);
   });
 });
-
-Tinytest.add('belt - user - methods - getEmail', function (test) {
-  var expect = ['bond@example.com', '', 'bond@example.com', ''];
-  _.each(users, function (obj, i) {
-    var u = Meteor.users.create(obj);
-    test.equal(u.getEmail(), expect[i]);
-  });
-});

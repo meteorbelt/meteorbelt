@@ -6,7 +6,7 @@ Template.adminUserListItem.helpers({
     return this.displayName();
   },
   email: function () {
-    return this.getEmail();
+    return this.email;
   },
   isAdmin: function () {
     return Roles.userIsInRole(this, 'admin');

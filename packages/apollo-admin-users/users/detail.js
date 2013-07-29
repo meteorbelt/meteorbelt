@@ -5,8 +5,8 @@ Template.adminUserDetail.helpers({
   email: function () {
     var u = Meteor.users.findOne(Session.get('userQuery'));
     if (u)
-      return u.getEmail();
-    return ''; 
+      return u.email;
+    return '';
   },
   avatarUrl: function () {
     var u = Meteor.users.findOne(Session.get('userQuery'));

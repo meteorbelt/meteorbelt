@@ -51,8 +51,8 @@ Meteor.users.methods({
     if (this.username) {
       return this.username;
     }
-    if (this.emailPrimary()) {
-      return this.emailPrimary();
+    if (this.email) {
+      return this.email;
     }
     return 'Anonymous User';
   },
@@ -64,7 +64,7 @@ Meteor.users.methods({
     //return 'https://api.twitter.com/1/users/profile_image?screen_name=' + user.services.twitter.screenName;
     //}
     if (!this.emailHash) {
-      this.emailHash = MD5.hex(this.emailPrimary());
+      this.emailHash = MD5.hex(this.email);
       // save
     }
     return Gravatar.urlFromHash(this.emailHash, {
@@ -90,13 +90,6 @@ Meteor.users.methods({
 // Email methods
 // TODO: Move to a pluging?
 Meteor.users.methods({
-
-  emailPrimary: function () {
-    if (this.emails && this.emails.length) {
-      return this.emails[0].address.trim().toLowerCase();
-    }
-    return '';
-  },
 
   emailAdd: function (emailAddress, fn) {
     var self = this;
