@@ -59,6 +59,9 @@ apollo-images
 apollo-pages
 apollo-posts
 
+# Theme
+theme-apollo
+
 # Apollo Admin
 apollo-admin-base
 apollo-admin-images
