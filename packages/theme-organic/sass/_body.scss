@@ -1,0 +1,73 @@
+@import "settings";
+@import "bourbon/bourbon";
+@import "colors";
+
+.contain-to-grid .top-bar {
+  margin-bottom: emCalc(30px);
+}
+
+.top {
+  height: emCalc(95px);
+  @include linear-gradient(#b7dddb, #dcece1);
+}
+
+.logo a {
+  color: #112233;
+  // text-shadow: 1px 1px 35px #91E0E0, 1px 1px 10px #7BB6B6;
+}
+
+#footer {
+  background-color: $blue-dark-color;
+  color: lighten($blue-dark-color, 50);
+}
+
+.footer-inner {
+  padding-top: emCalc(10px);
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.richtext-tall #belt-richtext-textarea {
+  width: 100%;
+  height: 600px;
+}
+
+
+$richtext-button-color: #999;
+$richtext-button-active-color: $alert-color;
+
+#belt-richtext-toolbar {
+
+  .button {
+    @include button-base;
+    @include button-size(emCalc(9), false);
+    color: $richtext-button-color;
+    background: #f9f9f9;
+    border: none;
+    &:hover,
+    &:focus { 
+      background: #f3f3f3;
+      color: $richtext-button-active-color;
+    }
+
+    &.wysihtml5-command-active {
+      background: #f3f3f3;
+      color: $richtext-button-active-color;
+    }
+
+  }
+
+}
+
+.post-list-item {
+  padding: 5px 10px;
+  border-bottom: 1px solid #dedede;
+  cursor: pointer;
+
+  &.active {
+    color: #fff;
+    background-color: $primary-color;
+  }
+}
