@@ -1,6 +1,5 @@
-//
 // Rules
-//
+// -----
 Meteor.roles.allow({
   insert: function (userId, posts) {
     return Roles.userIsInRole(userId, 'admin');
