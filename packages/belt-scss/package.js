@@ -8,7 +8,7 @@ Package._transitional_registerBuildPlugin({
   sources: [
     'plugin/compile-scss.js'
   ],
-  npmDependencies: { "node-sass": "0.5.4" }
+  npmDependencies: { "node-sass": "https://github.com/andrew/node-sass/tarball/c2d675fcb5af16c94b9bac9288ea873edc3199ea" }
 });
 
 Package.on_test(function (api) {

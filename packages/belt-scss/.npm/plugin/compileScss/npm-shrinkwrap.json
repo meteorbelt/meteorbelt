@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "node-sass": {
-      "version": "0.5.4",
+      "from": "https://github.com/andrew/node-sass/tarball/c2d675fcb5af16c94b9bac9288ea873edc3199ea",
       "dependencies": {
         "mkdirp": {
           "version": "0.3.5"
