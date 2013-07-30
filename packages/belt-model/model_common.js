@@ -1,4 +1,3 @@
-// @export Model
 Model = function (doc, schema, collection) {
   // Create a unique Id for the model.
   // This will be used as prefix for method calls

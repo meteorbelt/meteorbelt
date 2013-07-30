@@ -4,6 +4,7 @@
 # but you can also edit it by hand.
 
 # Meteor Core
+standard-app-packages
 autopublish
 insecure
 preserve-inputs

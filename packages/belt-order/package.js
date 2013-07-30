@@ -10,6 +10,8 @@ Package.on_use(function (api, where) {
   api.add_files('order_common.js', ['client', 'server']);
   api.add_files('order_client.js', 'client');
   api.add_files('order_server.js', 'server');
+
+  api.export('Orders');
 });
 
 Package.on_test(function (api) {

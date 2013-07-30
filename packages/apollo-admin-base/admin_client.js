@@ -1,5 +1,4 @@
 
-// @export AdminPages
 AdminPages = new Collection(null, {
 
   schema: {

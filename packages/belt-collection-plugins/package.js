@@ -11,6 +11,8 @@ Package.on_use(function (api) {
     'collection_plugins_attributes.js',
     'collection_plugins_permissions.js'
   ], ['client', 'server']);
+
+  api.export('CollectionPlugins');
 });
 
 Package.on_test(function (api) {

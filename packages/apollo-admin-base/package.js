@@ -17,6 +17,8 @@ Package.on_use(function (api, where) {
 
     'admin_client.js'
   ], 'client');
+
+  api.export('AdminPages');
 });
 
 Package.on_test(function (api) {

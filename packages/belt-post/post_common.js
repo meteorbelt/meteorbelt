@@ -1,6 +1,5 @@
 // Post
 // ----
-// @export Posts
 Posts = new Collection('posts', {
 
   schema: {

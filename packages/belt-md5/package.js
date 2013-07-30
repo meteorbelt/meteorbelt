@@ -7,6 +7,8 @@ Package.on_use(function (api, where) {
     'crypto-js/core.js',
     'crypto-js/md5.js',
     'md5_common.js'], ['client', 'server']);
+
+  api.export('MD5');
 });
 
 Package.on_test(function (api) {

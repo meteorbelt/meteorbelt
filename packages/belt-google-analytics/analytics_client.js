@@ -1,4 +1,3 @@
-// @export _gaq
 _gaq = _gaq || [];
 
 if (AppSettings.findOne('googleAnalytics')) {

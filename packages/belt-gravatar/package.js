@@ -6,6 +6,8 @@ Package.on_use(function (api, where) {
   api.use('belt-md5');
   api.use('underscore');
   api.add_files('gravatar_common.js', ['client', 'server']);
+
+  api.export('Gravatar');
 });
 
 Package.on_test(function (api) {

@@ -1,6 +1,5 @@
 // Image
 // -----
-// @export Images
 Images = new Collection('image', {
   schema: {
     filename: { type: String, required: true },

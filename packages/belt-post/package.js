@@ -15,6 +15,8 @@ Package.on_use(function (api, where) {
   api.add_files('post_common.js', ['client', 'server']);
   api.add_files('post_client.js', 'client');
   api.add_files('post_server.js', 'server');
+
+  api.export('Posts');
 });
 
 Package.on_test(function (api) {

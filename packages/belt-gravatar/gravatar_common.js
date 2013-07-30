@@ -1,7 +1,6 @@
 // Gravatar package provides functions for interacting with the
 // Gravatar API (http://en.gravatar.com/site/implement/images/)
 
-// @export Gravatar
 Gravatar = {};
 
 var BASE_URL = '://www.gravatar.com/avatar/';

@@ -10,6 +10,8 @@ Package.on_use(function (api, where) {
   api.add_files('app_settings_common.js', ['client', 'server']);
   api.add_files('app_settings_server.js', 'server');
   api.add_files('app_settings_client.js', 'client');
+
+  api.export('AppSettings');
 });
 
 Package.on_test(function (api) {

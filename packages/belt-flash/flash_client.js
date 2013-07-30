@@ -1,7 +1,6 @@
 // Flash provides an api for temporary Flash messages stored in a
 // client only collection
 
-// @export Flash
 Flash = {};
 
 // Client only collection

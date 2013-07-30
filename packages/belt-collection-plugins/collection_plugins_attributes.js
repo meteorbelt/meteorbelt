@@ -1,4 +1,3 @@
-// @export CollectionPlugins.tags
 CollectionPlugins.tags = function (collection, options) {
 
   options = _.defaults(options || {}, { required: true, type: 'string' })
@@ -21,7 +20,6 @@ CollectionPlugins.tags = function (collection, options) {
   }
 };
 
-// @export CollectionPlugins.owner
 CollectionPlugins.owner = function (collection, options) {
 
   options = _.defaults(options || {}, { required: true });
@@ -72,7 +70,6 @@ CollectionPlugins.owner = function (collection, options) {
   }
 };
 
-// @export CollectionPlugins.createdAt
 CollectionPlugins.createdAt = function (collection, options) {
 
   options = _.defaults(options || {}, { required: true });
@@ -100,7 +97,6 @@ CollectionPlugins.createdAt = function (collection, options) {
   });
 };
 
-// @export CollectionPlugins.updatedAt
 CollectionPlugins.updatedAt = function (collection, options) {
 
   options = _.defaults(options || {}, { required: true });
@@ -123,7 +119,6 @@ CollectionPlugins.updatedAt = function (collection, options) {
   });
 };
 
-// @export CollectionPlugins.isPublic
 CollectionPlugins.isPublic = function (collection, options) {
 
   options = _.defaults(options || {}, { required: true });

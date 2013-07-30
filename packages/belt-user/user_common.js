@@ -1,6 +1,5 @@
 // User
 // ----
-// @export User
 User = {};
 
 

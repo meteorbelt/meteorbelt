@@ -11,6 +11,8 @@ Package.on_use(function (api, where) {
   api.add_files('page_common.js', ['client', 'server']);
   api.add_files('page_client.js', 'client');
   api.add_files('page_server.js', 'server');
+
+  api.export('Pages');
 });
 
 Package.on_test(function (api) {

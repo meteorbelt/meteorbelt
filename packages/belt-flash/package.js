@@ -14,6 +14,8 @@ Package.on_use(function (api, where) {
     'flashes.js',
     'flash_item.html',
     'flash_item.js'], 'client');
+
+  api.export('Flash');
 });
 
 Package.on_test(function (api) {

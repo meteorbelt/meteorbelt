@@ -12,6 +12,8 @@ Package.on_use(function (api, where) {
   api.add_files('image_common.js', ['client', 'server']);
   api.add_files('image_client.js', 'client');
   api.add_files('image_server.js', 'server');
+
+  api.export('Images');
 });
 
 Package.on_test(function (api) {

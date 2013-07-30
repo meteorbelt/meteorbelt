@@ -8,6 +8,8 @@ Package.on_use(function (api, where) {
   api.use('underscore');
 
   api.add_files('model_common.js', ['client', 'server']);
+
+  api.export('Model');
 });
 
 Package.on_test(function (api) {

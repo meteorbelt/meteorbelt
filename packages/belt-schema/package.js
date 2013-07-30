@@ -8,6 +8,8 @@ Package.on_use(function (api, where) {
   api.add_files([
     'schema_common.js'
     ], ['client', 'server']);
+
+  api.export(['Schema', 'SchemaType']);
 });
 
 Package.on_test(function (api) {

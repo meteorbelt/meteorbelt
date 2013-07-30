@@ -11,4 +11,6 @@ Package.on_use(function (api, where) {
   // investigate later.
   // api.add_files('google_analytics_client.js', 'client');
   api.add_files('analytics_client.js', 'client');
+
+  api.export('_gaq');
 });

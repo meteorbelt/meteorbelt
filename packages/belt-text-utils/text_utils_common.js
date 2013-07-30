@@ -1,5 +1,4 @@
 
-// @export TextUtils
 TextUtils = {};
 
 TextUtils.camelCaseToTitle = function (text) {

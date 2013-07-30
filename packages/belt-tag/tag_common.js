@@ -1,6 +1,5 @@
 // Tag
 // ---
-// @export Tags
 Tags = new Collection('tag', {
   schema: {
     slug: { type: String, required: true }

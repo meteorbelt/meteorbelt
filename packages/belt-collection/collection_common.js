@@ -282,7 +282,6 @@ _.each(["before", "after"], function (type) {
 // Alternative Constructor //
 /////////////////////////////
 
-// @export Collection
 Collection = function (name, options) {
   var self = this;
   if (options) {

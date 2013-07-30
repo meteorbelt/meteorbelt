@@ -1,6 +1,5 @@
 // Slug
 // ----
-// @export Slug
 Slug = {};
 
 // This is Django's URLify code

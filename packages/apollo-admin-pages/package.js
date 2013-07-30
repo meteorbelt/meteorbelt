@@ -16,4 +16,6 @@ Package.on_use(function (api, where) {
     
     'admin_pages_client.js'
   ], 'client');
+
+  api.imply('belt-page');
 });

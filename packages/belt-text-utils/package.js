@@ -5,6 +5,8 @@ Package.describe({
 Package.on_use(function (api, where) {
   api.use('underscore');
   api.add_files('text_utils_common.js', ['client', 'server']);
+
+  api.export('TextUtils');
 });
 
 Package.on_test(function (api) {

@@ -9,4 +9,6 @@ Package.on_use(function (api, where) {
   // investigate later.
   // api.add_files('google_maps_client.js', 'client');
   api.add_files('maps_client.js', 'client');
+
+  api.export('Maps');
 });

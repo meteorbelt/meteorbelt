@@ -13,6 +13,8 @@ Package.on_use(function (api, where) {
   api.add_files('tag_common.js', ['client', 'server']);
   api.add_files('tag_client.js', 'client');
   api.add_files('tag_server.js', 'server');
+
+  api.export('Tags');
 });
 
 Package.on_test(function (api) {

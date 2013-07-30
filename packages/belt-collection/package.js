@@ -10,6 +10,8 @@ Package.on_use(function (api, where) {
   ], ['client', 'server']);
   api.add_files('collection_server.js', 'server');
   api.add_files('collection_client.js', 'client');
+
+  api.export('Collection');
 });
 
 Package.on_test(function (api) {

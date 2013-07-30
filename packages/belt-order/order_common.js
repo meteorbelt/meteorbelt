@@ -1,6 +1,5 @@
 // Orders
 // ------
-// @export Orders
 Orders = new Meteor.Collection('order', {
 
   schema: {

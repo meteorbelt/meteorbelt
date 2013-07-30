@@ -1,6 +1,5 @@
 // Collection
 // ----------
-// @export Pages
 Pages = new Collection('page', {
   schema: {
     title: String,

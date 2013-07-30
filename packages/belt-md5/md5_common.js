@@ -1,4 +1,3 @@
-// @export MD5
 MD5 = {};
 
 // hash generates a md5 hash using CryptoJS.MD5
