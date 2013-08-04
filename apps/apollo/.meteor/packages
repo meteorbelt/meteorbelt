@@ -5,7 +5,6 @@
 
 # Meteor Core
 standard-app-packages
-autopublish
 insecure
 preserve-inputs
 accounts-base
@@ -70,4 +69,3 @@ apollo-admin-posts
 apollo-admin-products
 apollo-admin-settings
 apollo-admin-users
-
