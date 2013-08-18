@@ -149,7 +149,7 @@ var _populate = function (schema, value) {
     // E.g. [String]
     if (! _.isEmpty(schema)) {
       var newArr = [];
-      // iterate throught the values of the array.
+      // iterate through the values of the array.
       // E.g. ['one', 'two', 'three']
       _.each(value, function (val) {
         // E.g. val = 'one'
@@ -184,7 +184,7 @@ var _populate = function (schema, value) {
            ! _.isUndefined(schema[key]['default'])
         || _.isNull(schema[key]['default']));
 
-      var valuePresent = (value && 
+      var valuePresent = (value &&
         (! _.isUndefined(value[key]) || ! _.isNull(value[key])));
 
       if (defaultPresent || valuePresent) {
@@ -195,7 +195,7 @@ var _populate = function (schema, value) {
   }
 
   // Set default value if the default value is defined and value is not
-  if (! _.isUndefined(schema['default']) && 
+  if (! _.isUndefined(schema['default']) &&
     (_.isUndefined(value) || _.isNull(value))) {
     // TODO: should there be a type test here?
     // If some one tries to set a default that is not the proper type.
@@ -217,14 +217,14 @@ var _validate = function (schema, value) {
 
     // E.g. [String]
     if (! _.isEmpty(schema)) {
-      // if the schema is requrired but we don't have a value
-      // return 'requried' to be added to the errors
-      if (schema[0].required === true && 
+      // if the schema is required but we don't have a value
+      // return 'required' to be added to the errors
+      if (schema[0].required === true &&
         !(typeof value !== "undefined" && value !== null)) {
         return 'required';
       }
       var newArr = [];
-      // iterate throught the values of the array.
+      // iterate through the values of the array.
       // E.g. ['one', 'two', 'three']
       _.each(value, function (val) {
         // E.g. val = 'one'
