@@ -43,3 +43,6 @@
 [submodule "packages/belt-bourbon/bourbon"]
 	path = packages/belt-bourbon/bourbon
 	url = https://github.com/thoughtbot/bourbon.git
+[submodule "contrib/iron-router"]
+	path = contrib/iron-router
+	url = https://github.com/EventedMind/meteor-iron-router.git
