@@ -3,10 +3,8 @@ Package.describe({
 });
 
 Package.on_use(function (api, where) {
-  api.use('router', 'client');
   api.use('belt-app-settings');
   api.use('belt-text-utils');
-  
   api.use('apollo-admin-base');
 
   api.use(['deps', 'underscore', 'templating',
@@ -19,7 +17,7 @@ Package.on_use(function (api, where) {
     'settings/list.js',
     'settings/list_item.html',
     'settings/list_item.js',
-    
+
     'admin_settings_client.js'
   ], 'client');
 });

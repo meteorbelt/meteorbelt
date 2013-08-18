@@ -4,7 +4,6 @@ Package.describe({
 
 Package.on_use(function (api, where) {
   api.use('belt-collection');
-  api.use('router', 'client');
 
   api.use(['deps', 'underscore', 'templating',
            'handlebars', 'spark', 'session'], 'client');

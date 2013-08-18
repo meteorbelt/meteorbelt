@@ -3,8 +3,6 @@ Package.describe({
 });
 
 Package.on_use(function (api, where) {
-  api.use('router', 'client');
-
   api.use(['deps', 'underscore', 'templating',
            'handlebars', 'spark', 'session'], 'client');
 
@@ -13,7 +11,7 @@ Package.on_use(function (api, where) {
     'pages/detail.js',
     'pages/list.html',
     'pages/list.js',
-    
+
     'admin_pages_client.js'
   ], 'client');
 
