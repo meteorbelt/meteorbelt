@@ -29,7 +29,7 @@ belt-flash
 belt-font-awesome
 belt-form2js
 belt-foundation
-belt-google-analytics
+# belt-google-analytics
 belt-google-maps
 belt-gravatar
 belt-handlebars-helpers
