@@ -4,40 +4,34 @@
   <div id="wrap">
 
     <!-- Top -->
-    <div class="top">
-      <div class="row">
-        <div class="large-12 columns">
-          <h1 class="logo">
-            <a href="/">
-              Apollo
-            </a>
-          </h1>
-        </div>
+    <div class="container">
+      <div class="top">
+        <h1 class="logo">
+          <a href="/">
+            Apollo
+          </a>
+        </h1>
       </div>
     </div>
 
     {{> nav}}
 
     <!-- Notifictaions -->
-    <div class="row">
-      <div class="large-12 columns">{{> beltFlashes}}</div>
+    <div class="notification">
+      {{> beltFlashes}}
     </div>
 
-    <!-- Page Contents -->
-    {{renderPage}}
+    <div class="container">
+      <!-- Page Contents -->
+      {{renderPage}}
+    </div>
 
   </div>
 
   <!-- Footer -->
   <footer id="footer">
-    <div class="row">
-      <div class="large-12 columns">
-        <div class="row footer-inner">
-          <div class="large-6 columns">
-            <p>&copy; 2013 MeteorBelt.com. All rights reserved.</p>
-          </div>
-        </div>
-      </div> 
+    <div class="container">
+      <p>&copy; 2013 MeteorBelt.com. All rights reserved.</p>
     </div>
   </footer>
 

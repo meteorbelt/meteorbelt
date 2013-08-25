@@ -1,29 +1,26 @@
 <template name="accountEmails">
   <div class="row">
-    <header class="small-12 columns">
+    <header class="col-xs-12 columns">
       <h2>Account Emails</h2>
     </header>
   </div>
   <div class="row">
-    <div class="large-3 columns">{{> accountNav}}</div>
-    <div class="large-6 columns">
+    <div class="col-md-3">{{> accountNav}}</div>
+    <div class="col-md-5">
       <div class="row">
-        <table class="large-12 columns">
+        <table class="col-xs-12 table table-striped">
           <tbody>{{#each allEmails}}{{> accountEmailsItem}}{{/each}}</tbody>
         </table>
       </div>
       <form action="" method="POST">
         <h5>Add another emails address</h5>
-        <div class="row collapse">
-          <div class="small-9 columns">
-            <input name="address" type="email" placeholder="Email Address">
-          </div>          
-          <div class="small-3 columns">
-            <input class="button prefix" type="submit" value="Add">
-          </div>
+        <div class="input-group">
+          <input class="form-control" name="address" type="email" required placeholder="Email Address">
+          <span class="input-group-btn">
+            <input class="btn btn-default" type="submit" value="Add">
+          </span>
         </div>
       </form>
     </div>
-    <div class="large-3 columns"></div>
   </div>
 </template>
