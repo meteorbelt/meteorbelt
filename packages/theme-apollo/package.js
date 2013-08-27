@@ -1,7 +1,13 @@
 Package.describe({
-  summary: "Apollo Theme for use with Apollo Apps"
+  summary: "Apollo Theme. For use with Meteor Belt applications"
 });
 
 Package.on_use(function (api, where) {
-  api.add_files('stylesheets/app.css', 'client');
+  api.use('less', 'client');
+
+  api.add_files([
+    'styles/_bootstrap.less',
+    'styles/layout.less',
+    'styles/pages/home.less'
+  ], 'client');
 });

@@ -26,6 +26,7 @@ Package.on_use(function (api, where) {
     'accounts/settings.html',
     'accounts/settings.js',
     'accounts/signup.html',
-    'accounts/signup.js'
+    'accounts/signup.js',
+    'accounts/signup_form.html'
   ], 'client');
 });
