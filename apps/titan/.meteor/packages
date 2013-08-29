@@ -1,0 +1,51 @@
+# Meteor packages used by this project, one per line.
+#
+# 'meteor add' and 'meteor remove' will edit this file for you,
+# but you can also edit it by hand.
+
+# Meteor Core
+standard-app-packages
+insecure
+preserve-inputs
+accounts-base
+accounts-password
+
+# 3rd Party
+
+# Belt
+belt-app-settings
+belt-accounting
+belt-bootstrap
+belt-collection
+belt-collection-plugins
+belt-contact
+belt-file
+belt-flash
+belt-font-awesome
+belt-form2js
+# belt-google-analytics
+belt-google-maps
+belt-gravatar
+belt-handlebars-helpers
+belt-ie8
+belt-image
+belt-ink-filepicker
+belt-md5
+belt-meta
+belt-model
+belt-order
+belt-page
+belt-post
+belt-product
+belt-roles
+belt-schema
+belt-slug
+belt-tag
+belt-text-utils
+belt-user
+
+# Angular
+belt-angular
+
+# Theme
+
