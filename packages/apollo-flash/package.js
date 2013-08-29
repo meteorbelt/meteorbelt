@@ -3,9 +3,16 @@ Package.describe({
 });
 
 Package.on_use(function (api, where) {
-  api.add_files('flash_client.js', 'client');
+  api.use('deps', 'client');
+  api.use('startup', 'client');
+  api.use('templating', 'client');
 
-  api.export('Flash');
+  api.add_files([
+    'flashes.html',
+    'flashes.js',
+    'flash_item.html',
+    'flash_item.js'
+  ], 'client');
 });
 
 Package.on_test(function (api) {
