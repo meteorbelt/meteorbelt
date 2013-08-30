@@ -1,0 +1,13 @@
+{
+  "name": "angular-ui-router.js",
+  "_cacheHeaders": {
+    "Last-Modified": "Fri, 23 Aug 2013 01:21:31 GMT",
+    "Content-Length": "47576",
+    "Content-Type": "application/x-javascript"
+  },
+  "main": "index.js",
+  "_source": "http://angular-ui.github.io/ui-router/build/angular-ui-router.js",
+  "_target": "*",
+  "_originalSource": "http://angular-ui.github.io/ui-router/build/angular-ui-router.js",
+  "_direct": true
+}
