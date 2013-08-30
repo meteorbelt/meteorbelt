@@ -1,0 +1,23 @@
+{
+  "name": "belt-angular",
+  "version": "0.0.1",
+  "homepage": "https://github.com/meteorbelt/meteorbelt",
+  "authors": [
+    "Kyle Finley <kyle@meteorbelt.com>"
+  ],
+  "description": "AngularJS for use with Meteor Belt apps",
+  "main": "bower_components/angular/angular.js",
+  "keywords": [
+    "angular",
+    "meteor"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

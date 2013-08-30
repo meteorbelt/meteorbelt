@@ -98,6 +98,7 @@
                         "Package",
                         "Npm",
                         "Tinytest",
-                        "Handlebars"
+                        "Handlebars",
+                        "angular"
                     ]
 }
