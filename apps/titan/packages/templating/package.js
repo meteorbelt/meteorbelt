@@ -10,25 +10,32 @@ Package.describe({
 
 Package._transitional_registerBuildPlugin({
   name: "compileTemplates",
-  use: ['underscore', 'handlebars', 'belt-angular-precompile'],
+  use: ['handlebars', 'belt-angular-precompile'],
   sources: [
     'plugin/html_scanner.js',
     'plugin/compile-templates.js'
   ]
 });
 
+// This on_use describes the *runtime* implications of using this package.
 Package.on_use(function (api) {
   // XXX would like to do the following only when the first html file
   // is encountered
 
-  api.use(['belt-angular-precompile'], 'client');
-  api.use(['underscore', 'spark', 'handlebars'], 'client');
+  api.use(['underscore', 'spark', 'handlebars', 'belt-angular-precompile'], 'client');
 
+  // api.export('Template', 'client');
+
+
+  // If we have minimongo available, use its idStringify function.
+  api.use('minimongo', 'client', {weak: true});
   // provides the runtime logic to instantiate our templates
-  api.add_files('deftemplate.js', 'client');
+  // api.add_files('deftemplate.js', 'client');
 
-  // html_scanner.js emits client code that calls Meteor.startup
-  api.use('startup', 'client');
+  // html_scanner.js emits client code that calls Meteor.startup and
+  // Spark.render, so anybody using templating (eg apps) need to implicitly use
+  // 'meteor' and 'spark'.
+  api.imply(['meteor', 'spark'], 'client');
 });
 
 Package.on_test(function (api) {
@@ -46,6 +53,6 @@ Package.on_test(function (api) {
   ], 'client');
   api.add_files([
     'plugin/html_scanner.js',
-    'scanner_tests.js',
+    'scanner_tests.js'
   ], 'server');
 });

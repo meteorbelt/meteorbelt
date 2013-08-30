@@ -144,46 +144,43 @@ html_scanner = {
       return;
     }
 
+    results.body += contents;
+    return;
 
     // <body> or <template>
-    try {
-      var ast = Handlebars.to_json_ast(contents);
-    } catch (e) {
-      if (e instanceof Handlebars.ParseError) {
-        if (typeof(e.line) === "number")
-          // subtract one from e.line because it is one-based but we
-          // need it to be an offset from contentsStartIndex
-          throwParseError(e.message, contentsStartIndex, e.line - 1);
-        else
-          // No line number available from Handlebars parser, so
-          // generate the parse error at the <template> tag itself
-          throwParseError("error in template: " + e.message, tagStartIndex);
-      }
-      else
-        throw e;
-    }
-    var code = 'Package.handlebars.Handlebars.json_ast_to_func(' +
-          JSON.stringify(ast) + ')';
+    // try {
+    //   var ast = Handlebars.to_json_ast(contents);
+    // } catch (e) {
+    //   if (e instanceof Handlebars.ParseError) {
+    //     if (typeof(e.line) === "number")
+    //       // subtract one from e.line because it is one-based but we
+    //       // need it to be an offset from contentsStartIndex
+    //       throwParseError(e.message, contentsStartIndex, e.line - 1);
+    //     else
+    //       // No line number available from Handlebars parser, so
+    //       // generate the parse error at the <template> tag itself
+    //       throwParseError("error in template: " + e.message, tagStartIndex);
+    //   }
+    //   else
+    //     throw e;
+    // }
+    // var code = 'Package.handlebars.Handlebars.json_ast_to_func(' +
+    //       JSON.stringify(ast) + ')';
 
-    if (tag === "template") {
-      var name = attribs.name;
-      if (! name)
-        throwParseError("Template has no 'name' attribute");
+    // if (tag === "template") {
+    //   var name = attribs.name;
+    //   if (! name)
+    //     throwParseError("Template has no 'name' attribute");
 
-      results.js += "Meteor._def_template(" + JSON.stringify(name) + ","
-        + code + ");\n";
-    } else {
-      // <body>
-      if (hasAttribs)
-        throwParseError("Attributes on <body> not supported");
-      results.js += "Meteor.startup(function(){" +
-        "document.body.appendChild(Spark.render(" +
-        "Meteor._def_template(null," + code + ")));});";
-    }
+    //   results.js += "Template.__define__(" + JSON.stringify(name) + ","
+    //     + code + ");\n";
+    // } else {
+    //   // <body>
+    //   if (hasAttribs)
+    //     throwParseError("Attributes on <body> not supported");
+    //   results.js += "Meteor.startup(function(){" +
+    //     "document.body.appendChild(Spark.render(" +
+    //     "Template.__define__(null," + code + ")));});";
+    // }
   }
 };
-
-// If we are running at bundle time, set module.exports.
-// For unit testing in server environment, don't.
-if (typeof module !== 'undefined')
-  module.exports = html_scanner;

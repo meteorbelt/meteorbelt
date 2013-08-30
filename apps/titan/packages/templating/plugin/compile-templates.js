@@ -1,26 +1,24 @@
-
-var path = Npm.require('path');
-
 var path = Npm.require('path');
 
 CompileAngularTemplates = function (p, compileStep, contents) {
   // get the path on the other side of templates minus the ext., e.g.
   // 'template/todo/index.html' -> 'todo/index'
-  var templateName = p.match(/templates\/(.+)\.(html|handlebars|hbs|hbars)/)[1];
-  var precompiled = Package['belt-angular-precompile'].precompile(contents, templateName);
-
+  var templateName = p.match(/partials\/(.+)\.(html|handlebars|hbs|hbars)/)[1];
+  var templatePath = p.match(/partials\/(.+)/)[1];
+  var precompiled = Package['belt-angular-precompile'].precompile(contents, templateName, templatePath);
+  // console.log('precompiled', precompiled);
   var path_part = path.dirname(compileStep.inputPath);
   var ext = path.extname(compileStep.inputPath);
   var basename = path.basename(compileStep.inputPath, ext);
   compileStep.addJavaScript({
-    path: path.join(path_part, "ember.template." + basename + ".js"),
+    path: path.join(path_part, "angular.partial." + basename + ".js"),
     sourcePath: compileStep.inputPath,
     data: precompiled
   });
   return;
 };
 
-var compileTemplate = function (compileStep) {
+Plugin.registerSourceHandler("html", function (compileStep) {
   // XXX use archinfo rather than rolling our own
   if (! compileStep.arch.match(/^browser(\.|$)/))
     // XXX might be nice to throw an error here, but then we'd have to
@@ -36,7 +34,8 @@ var compileTemplate = function (compileStep) {
 
   // If the path contains "templates" then we want to render Ember.TEMPLATES
   var p = compileStep.inputPath;
-  if (p.indexOf("templates") !== -1) {
+  if (p.indexOf("partials") !== -1) {
+    // console.log(p);
     CompileAngularTemplates(p, compileStep, contents);
     return;
   }
@@ -79,16 +78,4 @@ var compileTemplate = function (compileStep) {
       data: results.js
     });
   }
-};
-
-Plugin.registerSourceHandler("html", function (compileStep) {
-  compileTemplate(compileStep);
-});
-
-Plugin.registerSourceHandler("hbs", function (compileStep) {
-  compileTemplate(compileStep);
-});
-
-Plugin.registerSourceHandler("handlebars", function (compileStep) {
-  compileTemplate(compileStep);
 });
