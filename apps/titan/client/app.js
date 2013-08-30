@@ -1,14 +1,6 @@
 
-// App = angular.module('app', []);
-
-// App.config([
-  // '$stateProvider',
-  // '$urlRouterProvider'
-// ], function ($stateProvider, $urlRouteProvider) {
-    // $stateProvider
-      // .state('todo', {
-        // url: '/todo'
-      // });
-  // }
-// );
+Titan = angular.module('titan', [
+  'partials',
+  'ui.router'
+]);
 

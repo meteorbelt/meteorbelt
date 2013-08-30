@@ -46,6 +46,7 @@ belt-user
 
 # Angular
 belt-angular
+belt-angular-ui-router
 
 # Theme
-
+titan-theme-titan
