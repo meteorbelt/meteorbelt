@@ -18,11 +18,11 @@
 
         <!-- Left Nav Section -->
         <ul class="nav navbar-nav">
-          <li class="{{isActiveExact 'home'}}"><a href="{{homePath}}">Home</a></li>
+          <li class="{{isActiveExact 'home'}}"><a href="{{urlFor 'home'}}">Home</a></li>
           <li class="{{isActive 'postList'}}"><a href="{{postListPath}}">Blog</a></li>
           <li class="{{isActive 'productList'}}"><a href="{{productListPath}}">Products</a></li>
           <li class="{{isActive 'pageDetail' 'about'}}"><a href="{{pageDetailPath 'about'}}">About</a></li>
-          <li class="{{isActive 'contact'}}"><a href="{{contactPath}}">Contact</a></li>
+          <li class="{{isActive 'contact'}}"><a href="{{urlFor 'contact'}}">Contact</a></li>
           {{#if isInRole 'admin'}}
             <li class="{{isActive 'adminHome'}}"><a href="{{adminHomePath}}">Admin</a></li>
           {{/if}}

@@ -15,7 +15,7 @@ HTML5-History-API
 marked
 moment
 page-js-ie-support
-router
+iron-router
 
 # Belt
 belt-app-settings
@@ -56,6 +56,7 @@ apollo-contact
 apollo-images
 apollo-pages
 apollo-posts
+apollo-flash
 
 # Theme
 theme-apollo
