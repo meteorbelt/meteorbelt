@@ -1,5 +1,5 @@
 Package.describe({
-  summary: "Apollo Admin Base. For use with Meteor Belt applications"
+  summary: "Titan Admin Base. For use with Meteor Belt applications"
 });
 
 Package.on_use(function (api, where) {
@@ -21,7 +21,7 @@ Package.on_use(function (api, where) {
 });
 
 Package.on_test(function (api) {
-  api.use('apollo-admin-base');
+  api.use('titan-admin-base');
   api.use('tinytest');
 
   api.add_files('admin_tests.js', 'client');

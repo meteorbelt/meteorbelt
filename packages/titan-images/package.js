@@ -1,5 +1,5 @@
 Package.describe({
-  summary: "Apollo Images. For use with Meteor Belt applications"
+  summary: "Titan Images. For use with Meteor Belt applications"
 });
 
 Package.on_use(function (api, where) {

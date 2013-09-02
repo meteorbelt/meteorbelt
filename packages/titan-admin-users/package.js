@@ -1,5 +1,5 @@
 Package.describe({
-  summary: "Apollo Admin Users. For use with Meteor Belt applications"
+  summary: "Titan Admin Users. For use with Meteor Belt applications"
 });
 
 Package.on_use(function (api, where) {

@@ -1,5 +1,5 @@
 Package.describe({
-  summary: "Apollo Theme for use with Apollo Apps"
+  summary: "Titan Theme for use with Titan Apps"
 });
 
 Package.on_use(function (api, where) {

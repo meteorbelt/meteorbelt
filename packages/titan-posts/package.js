@@ -1,5 +1,5 @@
 Package.describe({
-  summary: "Apollo Posts. For use with Meteor Belt applications"
+  summary: "Titan Posts. For use with Meteor Belt applications"
 });
 
 Package.on_use(function (api, where) {

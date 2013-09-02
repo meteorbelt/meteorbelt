@@ -1,5 +1,5 @@
 Package.describe({
-  summary: "Apollo Theme. For use with Meteor Belt applications"
+  summary: "Titan Theme. For use with Meteor Belt applications"
 });
 
 Package.on_use(function (api, where) {

@@ -6,6 +6,6 @@ Template.imageModal.helpers({
 
 Template.imageModal.events({
   'click .close-reveal-modal': function (e, tmpl) {
-    // $('#apollo-image-modal').foundation('reveal', 'close');
+    // $('#titan-image-modal').foundation('reveal', 'close');
   }
 });

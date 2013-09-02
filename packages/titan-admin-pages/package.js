@@ -1,5 +1,5 @@
 Package.describe({
-  summary: "Apollo Admin Pages. For use with Meteor Belt applications"
+  summary: "Titan Admin Pages. For use with Meteor Belt applications"
 });
 
 Package.on_use(function (api, where) {

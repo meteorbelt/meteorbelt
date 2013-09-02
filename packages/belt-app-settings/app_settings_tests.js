@@ -9,7 +9,7 @@ var settings = {
   "belt": {
     "public": {
       "site": {
-        "name": "Apollo Site",
+        "name": "Titan Site",
         "description": "Web simple",
         "email": "John Doe <john@example.com>"
       },
@@ -46,7 +46,7 @@ Tinytest.add('belt - settings - objectToList', function (test) {
     "_id": "site",
     "public": true,
     "data": {
-      "name": "Apollo Site",
+      "name": "Titan Site",
       "description": "Web simple",
       "email": "John Doe <john@example.com>"
     }

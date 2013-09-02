@@ -1,5 +1,5 @@
 Package.describe({
-  summary: "Apollo Accounts. For use with Meteor Belt applications"
+  summary: "Titan Accounts. For use with Meteor Belt applications"
 });
 
 Package.on_use(function (api, where) {
