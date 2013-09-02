@@ -11,11 +11,6 @@ Template.contact.created = function () {
   }
 };
 
-Template.contact.rendered = function () {
-  $(document).foundation('section');
-  $(document).foundation('abide');
-};
-
 Template.contact.preserve(["#contact-map"]);
 
 Template.contact.helpers({
@@ -27,7 +22,7 @@ Template.contact.helpers({
     var c =  AppSettings.get('contact');
     if (c && c.address) {
       var addr = addressToString(c.address);
-      url = "http://maps.googleapis.com/maps/api/staticmap?center=" + addr + "&zoom=13&size=200x200&sensor=false"
+      url = "http://maps.googleapis.com/maps/api/staticmap?center=" + addr + "&zoom=13&size=200x200&sensor=false";
     }
     return url;
   }
