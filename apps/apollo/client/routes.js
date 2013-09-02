@@ -59,126 +59,126 @@ var addResourceRotues = function (basePath, name, key) {
 // ------
 
 // Run before routes
-Meteor.Router.beforeRouting = function () {
-  // clears all seen flash messages.
-  Flash.clear();
-};
+// Meteor.Router.beforeRouting = function () {
+//   // clears all seen flash messages.
+//   Flash.clear();
+// };
 
 
-addResourceRotues('/admin/settings', 'adminSetting', 'setting');
-addResourceRotues('/admin/posts', 'adminPost', 'post');
-addResourceRotues('/admin/pages', 'adminPage', 'page');
-addResourceRotues('/admin/products', 'adminProduct', 'product');
-addResourceRotues('/admin/images', 'adminImage', 'image');
-addResourceRotues('/admin/users', 'adminUser', 'user');
 
+Router.configure({
+  layout: 'layout',
+  notFoundTemplate: 'notFound',
+  loadingTeplate: 'loading'
+});
 
-Meteor.Router.add({
+// Router.onRun(function (argument) {
+  // console.log("before run", arguments, this);
+// });
+
+Router.map(function () {
   // Static
-  '/':         'home',
-  '/faq':      'faq',
-  '/contact':  'contact',
+  this.route('home', { path: '/' });
+  this.route('contact');
 
   // Accounts
-  '/account/signup':                   'accountSignup',
-  '/account/login':                    'accountLogin',
-  '/account/profile':                  'accountProfile',
-  '/account/settings':                 'accountSettings',
-  '/account/emails':                   'accountEmails',
-  //'/account/connected':                'accountConnected',
-  '/account/reset-password':           'accountResetPassword',
-  '/account/reset-password/complete':  'accountResetPasswordComplete',
-  '/verify-email/:token':              verifyEmailToken,
+  this.route('accountSignup',                 { path: '/account/signup' });
+  this.route('accountLogin',                  { path: '/account/login' });
+  this.route('accountProfile',                { path: '/account/profile' });
+  this.route('accountSettings',               { path: '/account/settings' });
+  this.route('accountEmails',                 { path: '/account/emails' });
+  this.route('accountConnected',              { path: '/account/connected' });
+  this.route('accountResetPassword',          { path: '/account/reset-password' });
+  this.route('accountResetPasswordComplete',  { path: '/account/reset-password/complete' });
+  this.route('verifyEmailToken',              { path: '/verify-email/:token' });
 
-  // Admin
-  '/admin': 'adminHome',
+  // // Admin
+  this.route('adminHome', { path: '/admin' });
 
-  // Blog
-  '/blog':           { to: 'postList',   and: setPostQuery },
-  '/blog/:slug':     { to: 'postDetail', and: setPostQuery },
-  '/blog/tags/:tag': { to: 'postTag',    and: setPostQuery },
+  // // Blog
+  this.route('postList',    { path: '/blog' });
+  this.route('postDetail',  { path: '/blog/:slug' });
+  this.route('postTag',     { path: '/blog/:tag' });
 
-  // Products
-  '/products':           { to: 'productList',   and: setProductQuery },
-  '/products/:slug':     { to: 'productDetail', and: setProductQuery },
-  '/products/tags/:tag': { to: 'productList',   and: setProductQuery },
+// addResourceRotues('/admin/settings', 'adminSetting', 'setting');
+// addResourceRotues('/admin/posts', 'adminPost', 'post');
+// addResourceRotues('/admin/pages', 'adminPage', 'page');
+// addResourceRotues('/admin/products', 'adminProduct', 'product');
+// addResourceRotues('/admin/images', 'adminImage', 'image');
+// addResourceRotues('/admin/users', 'adminUser', 'user');
 
-  // Page
-  '/pages/:slug': { to: 'pageDetail', and: setPageQuery },
-
-  '*': 'notFound'
 });
 
 // Filters
 // -------
-Meteor.Router.filters({
-  trackRoute: function (page) {
-    // TODO
-    // Analytics.pageViewed(page);
-    return page;
-  },
-  // isAdmin filter check to see if the current user is an admin.
-  // If they are not the login pages is show.
-  isAdmin: function (page) {
-    // TODO: this should work?
-    // function willTryToLogin() {
-    //   return !!(localStorage && localStorage['Meteor.userId']);
-    // }
-    // if the user is still loading wait until ready to check roles;
-    // otherwise we will get a false negative.
-    if (Meteor.loggingIn()) {
-      var loggingInCheck = function () {
-          if (Meteor.loggingIn()) {
-            return Meteor.setTimeout(loggingInCheck, 100);
-          }
-        };
-      // start it off
-      loggingInCheck();
-    }
-    // Now that we have a logged in user check if they are an admin
-    if (Roles.userIsInRole(Meteor.userId(), 'admin')) {
-      return page;
-    }
-    Flash.error('You do not have access to this page. Try logging in.');
-    return 'accountLogin';
-  },
-  // isLoggedIn filter check to see if the current user is logged in.
-  // If they are not the login pages is show.
-  isLoggedIn: function (page) {
-    if (Meteor.loggingIn()) {
-      return 'loading';
-    }
-    if (Meteor.user()) {
-      return page;
-    }
-    Flash.error('You must be logged in to view this page');
-    return 'accountLogin';
-  }
-});
+// Meteor.Router.filters({
+//   trackRoute: function (page) {
+//     // TODO
+//     // Analytics.pageViewed(page);
+//     return page;
+//   },
+//   // isAdmin filter check to see if the current user is an admin.
+//   // If they are not the login pages is show.
+//   isAdmin: function (page) {
+//     // TODO: this should work?
+//     // function willTryToLogin() {
+//     //   return !!(localStorage && localStorage['Meteor.userId']);
+//     // }
+//     // if the user is still loading wait until ready to check roles;
+//     // otherwise we will get a false negative.
+//     if (Meteor.loggingIn()) {
+//       var loggingInCheck = function () {
+//           if (Meteor.loggingIn()) {
+//             return Meteor.setTimeout(loggingInCheck, 100);
+//           }
+//         };
+//       // start it off
+//       loggingInCheck();
+//     }
+//     // Now that we have a logged in user check if they are an admin
+//     if (Roles.userIsInRole(Meteor.userId(), 'admin')) {
+//       return page;
+//     }
+//     Flash.error('You do not have access to this page. Try logging in.');
+//     return 'accountLogin';
+//   },
+//   // isLoggedIn filter check to see if the current user is logged in.
+//   // If they are not the login pages is show.
+//   isLoggedIn: function (page) {
+//     if (Meteor.loggingIn()) {
+//       return 'loading';
+//     }
+//     if (Meteor.user()) {
+//       return page;
+//     }
+//     Flash.error('You must be logged in to view this page');
+//     return 'accountLogin';
+//   }
+// });
 
 // applies to all pages
-Meteor.Router.filter('trackRoute');
+// Meteor.Router.filter('trackRoute');
 
 // applies to account required pages
-Meteor.Router.filter('isLoggedIn', {
-  only: [
-    'accountConnected',
-    'accountEmails',
-    'accountProfile',
-    'accountSettings'
-    //'adminHome',
-    //'adminPostList',
-    //'adminPostDetail',
-    //'adminUserList'
-  ]
-});
+// Meteor.Router.filter('isLoggedIn', {
+//   only: [
+//     'accountConnected',
+//     'accountEmails',
+//     'accountProfile',
+//     'accountSettings'
+//     //'adminHome',
+//     //'adminPostList',
+//     //'adminPostDetail',
+//     //'adminUserList'
+//   ]
+// });
 
 // applies to admin pages
-Meteor.Router.filter('isAdmin', {
-  only: [
-    //'adminHome',
-    //'adminPostList',
-    //'adminPostDetail',
-    //'adminUserList'
-  ]
-});
+// Meteor.Router.filter('isAdmin', {
+//   only: [
+//     //'adminHome',
+//     //'adminPostList',
+//     //'adminPostDetail',
+//     //'adminUserList'
+//   ]
+// });

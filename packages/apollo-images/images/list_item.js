@@ -1,7 +1,7 @@
 Template.imageListItem.events({
   'click .image-thumbnail': function (e, tmpl) {
     Session.set('imageId', tmpl.data._id);
-    $('#apollo-image-modal').foundation('reveal', 'open');
+    // $('#apollo-image-modal').foundation('reveal', 'open');
   },
 
   'click .image-remove': function (e, tmpl) {

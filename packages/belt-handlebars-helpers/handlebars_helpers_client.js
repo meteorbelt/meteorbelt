@@ -40,14 +40,14 @@ Handlebars.registerHelper('checkError', function (err) {
   return err ? 'error' : '';
 });
 
-Handlebars.registerHelper('isActiveExact', function (pageName) {
-  return pageName === Meteor.Router.page() ? 'active' : '';
-});
-
-Handlebars.registerHelper('isActive', function (pageName) {
-  var pageUrl = Meteor.Router[pageName + 'Path']();
-  return (window.location.pathname.indexOf(pageUrl) === 0) ? 'active' : '';
-});
+// Handlebars.registerHelper('isActiveExact', function (pageName) {
+//   return pageName === Meteor.Router.page() ? 'active' : '';
+// });
+// 
+// Handlebars.registerHelper('isActive', function (pageName) {
+//   var pageUrl = Meteor.Router[pageName + 'Path']();
+//   return (window.location.pathname.indexOf(pageUrl) === 0) ? 'active' : '';
+// });
 
 Handlebars.registerHelper('displayName', function (showError) {
   return Meteor.user().displayName();
