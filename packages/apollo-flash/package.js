@@ -6,6 +6,7 @@ Package.on_use(function (api, where) {
   api.use('deps', 'client');
   api.use('startup', 'client');
   api.use('templating', 'client');
+  api.use('belt-flash', 'client');
 
   api.add_files([
     'flashes.html',
