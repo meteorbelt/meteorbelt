@@ -1,23 +1,20 @@
 <template name="accountProfile">
   <div class="row">
-    <header class="col-xs-12 columns">
+    <header class="small-12 columns">
       <h2>Account Profile</h2>
     </header>
   </div>
   <div class="row">
-    <div class="col-md-3">{{> accountNav}}</div>
-    <div class="col-md-5">
-      <form role="form" id="profile-form" method="POST">
-        <div class="form-group">
-          <label for="name">Full Name</label>
-          <input class="form-control" required value="{{profile.name}}" type="text" name="name">
-        </div>
-        <div class="form-group">
-          <label for="phone">Phone Number</label>
-          <input class="form-control" value="{{profile.phone}}" type="tel" name="phone">
-        </div>
-        <input type="submit" value="Update" class="btn">
+    <div class="large-3 columns">{{> accountNav}}</div>
+    <div class="large-5 columns">
+      <form id="profile-form" method="POST">
+        <label for="name">Full Name</label>
+        <input required value="{{profile.name}}" type="text" name="name">
+        <label for="phone">Phone Number</label>
+        <input value="{{profile.phone}}" type="tel" name="phone">
+        <input type="submit" value="Update" class="button">
       </form>
     </div>
+    <div class="large-4 columns"></div>
   </div>
 </template>

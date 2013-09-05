@@ -4,35 +4,42 @@
   <div id="wrap">
 
     <!-- Top -->
-    <div class="container">
-      <div class="top">
-        <h1 class="logo">
-          <a href="/">
-            Titan
-          </a>
-        </h1>
+    <div class="top">
+      <div class="row">
+        <div class="large-12 columns">
+          <h1 class="logo">
+            <a href="/">
+              Titan
+            </a>
+          </h1>
+        </div>
       </div>
     </div>
 
     {{> nav}}
 
     <!-- Notifictaions -->
-    <div class="notification">
-      {{> beltFlashes}}
+    <div class="row">
+      <div class="large-12 columns">{{> beltFlashes}}</div>
     </div>
 
-    <div class="container">
-      <!-- Page Contents -->
-      {{yield}}
-    </div>
+    <!-- Page Contents -->
+    {{yield}}
 
   </div>
 
   <!-- Footer -->
   <footer id="footer">
-    <div class="container">
-      <p>&copy; 2013 MeteorBelt.com. All rights reserved.</p>
+    <div class="row">
+      <div class="large-12 columns">
+        <div class="row footer-inner">
+          <div class="large-6 columns">
+            <p>&copy; 2013 MeteorBelt.com. All rights reserved.</p>
+          </div>
+        </div>
+      </div> 
     </div>
   </footer>
 
 </template>
+

@@ -1,13 +1,7 @@
 Package.describe({
-  summary: "Titan Theme. For use with Meteor Belt applications"
+  summary: "Titan Theme for use with Titan Apps"
 });
 
 Package.on_use(function (api, where) {
-  api.use('less', 'client');
-
-  api.add_files([
-    'styles/_bootstrap.less',
-    'styles/layout.less',
-    'styles/pages/home.less'
-  ], 'client');
+  api.add_files('stylesheets/app.css', 'client');
 });

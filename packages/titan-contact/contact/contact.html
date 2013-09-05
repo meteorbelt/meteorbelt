@@ -1,52 +1,74 @@
 <template name="contactForm">
-  <form id="contact-form" class="form-horizontal" role="form">
+  <form data-abide id="contact-form" class="form-horizontal">
     <div class="row">
-      <div class="col-sm-10 col-sm-offset-2">
-        <h5>Please fill in your information</h5>
+      <div class="medium-10 medium-offset-2 columns">
+        <h6>Please fill in your information</h6>
       </div>
     </div>
-    <div class="form-group">
-      <label class="col-sm-2 control-label">Name</label>
-      <div class="col-sm-10">
-        <input autofocus class="form-control" type="text" name="name" required placeholder="John Smith">
+    <div class="row">
+      <div class="medium-2 columns">
+        <label class="inline">Name</label>
+      </div>
+      <div class="medium-10 columns">
+        <input autofocus type="text" name="name" required placeholder="John Smith">
         <small class="error">Name is required.</small>
       </div>
     </div>
-    </div>
-    <div class="form-group">
-      <label class="col-sm-2 control-label">Email</label>
-      <div class="col-sm-10">
-        <input class="form-control" type="email" name="email" required placeholder="john@example.com">
+    <div class="row">
+      <div class="medium-2 columns">
+        <label class="inline">Email</label>
+      </div>
+      <div class="medium-10 columns">
+        <input type="email" name="email" required placeholder="john@example.com">
         <small class="error">A valid email address is required.</small>
       </div>
     </div>
-    <div class="form-group">
-      <label class="col-sm-2 control-label">Phone <small>(optional)</small></label>
-      <div class="col-sm-10">
-        <input class="form-control" type="tel" name="phone" placeholder="316 555 1234">
+    <div class="row">
+      <div class="medium-2 columns">
+        <label class="inline">Phone <small>(optional)</small></label>
+      </div>
+      <div class="medium-10 columns">
+        <input type="tel" name="phone" placeholder="316 555 1234">
       </div>
     </div>
-    <div class="form-group">
-      <label class="col-sm-2 control-label">Message</label>
-      <div class="col-sm-10">
-        <textarea class="form-control" name="message" rows="4" required placeholder="Hello..."></textarea>
+    <div class="row">
+      <div class="medium-2 columns">
+        <label class="inline">Message</label>
+      </div>
+      <div class="medium-10 columns">
+        <textarea name="message" rows="4" required placeholder="Hello..."></textarea>
         <small class="error">A message is required.</small>
       </div>
     </div>
-    <div class="col-sm-10 col-sm-offset-2">
-      <input class="btn btn-primary" type="submit" value="Send Message">
+    <div class="row collapse">
+      <div class="medium-10 medium-offset-2">
+        <input class="radius button" type="submit" value="Send Message">     
+      </div>
     </div>
   </form>
 </template>
 
 <template name="contactPerson">
-  <ul class="large-block-grid-5">
-    {{#each people}}
-    <li><a href="mailto:{{email}}"><img src="http://placehold.it/200x200">{{name}}</a></li>
-    {{/each}}
-  </ul>
+  <section class="section">
+    <h5 class="title" data-section-title><a href="#">Specific Person</a></h5>
+    <div class="content" data-section-content>
+      <ul class="large-block-grid-5">
+        {{#each people}}
+        <li><a href="mailto:{{email}}"><img src="http://placehold.it/200x200">{{name}}</a></li>
+        {{/each}}
+      </ul>
+    </div>
+  </section>
 </template>
 
+<template name="contactAll">
+  <section class="section">
+    <h5 class="title" data-section-title><a href="#">Contact Our Company</a></h5>
+    <div class="content" data-section-content>
+      {{> contactForm }}
+    </div>
+  </section>
+</template>
 
 <template name="contactVCard">
   <!-- GOOGLE MAP-->
@@ -81,7 +103,7 @@
 
   <!-- Header -->
   <div class="row">
-    <div class="col-md-8">
+    <div class="large-12 columns">
       <h3>Get in Touch!</h3>
     </div>
   </div>
@@ -89,13 +111,16 @@
   <div class="row">
 
     <!-- Form -->
-    <div class="col-md-8">
+    <div class="large-8 columns">
       <p>{{{contact.text}}}</p>
-      {{> contactForm }}
+      <div class="section-container tabs" data-section="tabs">
+        {{> contactAll}}
+        {{> contactPerson contact}}
+      </div>
     </div>
 
     <!-- Sidebar -->
-    <div class="col-md-2 col-md-offset-1">
+    <div class="large-3 columns">
       {{#if contact.showAddress}}
         <!-- Clicking this placeholder fires the mapModal Reveal modal -->
         <p>

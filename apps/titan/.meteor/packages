@@ -28,6 +28,7 @@ belt-file
 belt-flash
 belt-font-awesome
 belt-form2js
+belt-foundation
 # belt-google-analytics
 belt-google-maps
 belt-gravatar
@@ -50,22 +51,22 @@ belt-tag
 belt-text-utils
 belt-user
 
-# Apollo
-apollo-accounts
-apollo-contact
-apollo-images
-apollo-pages
-apollo-posts
-apollo-flash
+# Titan
+titan-accounts
+titan-contact
+titan-images
+titan-pages
+titan-posts
+titan-flash
 
 # Theme
-theme-apollo
+titan-theme-titan
 
-# Apollo Admin
-apollo-admin-base
-apollo-admin-images
-apollo-admin-pages
-apollo-admin-posts
-apollo-admin-products
-apollo-admin-settings
-apollo-admin-users
+# Titan Admin
+titan-admin-base
+titan-admin-images
+titan-admin-pages
+titan-admin-posts
+titan-admin-products
+titan-admin-settings
+titan-admin-users

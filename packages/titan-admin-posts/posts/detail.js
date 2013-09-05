@@ -6,6 +6,7 @@ Template.adminPostDetail.rendered = function () {
   if (!post)
     post = Posts.create();
   this.post = post;
+  $(document).foundation('section');
 };
 
 Template.adminPostDetail.helpers({
