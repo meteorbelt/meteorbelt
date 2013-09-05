@@ -12,7 +12,7 @@ Template.accountResetPasswordComplete.events({
         Flash.error('An Error occured while attempting to reset your password. ' + err);
         return;
       }
-      Meteor.Router.to('/');
+      Router.go('home');
       Flash.success('Password reset complete. You have been logged in.');
       return;
     });

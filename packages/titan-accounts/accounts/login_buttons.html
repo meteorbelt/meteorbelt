@@ -6,14 +6,14 @@
           <img src="{{avatarUrl}}"> {{displayName}} <b class="caret"></b>
         </a>
         <ul class="dropdown-menu">
-          <li><a tabindex="-1" href="/account/profile">Account</a></li>
+          <li><a tabindex="-1" href="{{urlFor 'accountLogin'">Account</a></li>
           <li class="divider"></li>
           <li><a class="logout" tabindex="-1" href="#">Logout</a></li>
         </ul>
       </li>
     {{else}}
-      <li><a href="/account/signup">Sign Up</a></li>
-      <li><a href="/account/login">Login</a></li>
+      <li><a href="{{urlFor 'accountSignup'">Sign Up</a></li>
+      <li><a href="{{urlFor 'accountLogin'">Login</a></li>
     {{/if}}
   </ul>
 </template>

@@ -10,7 +10,7 @@ Template.accountLogin.events({
         return;
       }
       // success redirect
-      Meteor.Router.to('/account/profile');
+      Router.go('accountProfile');
     });
   }
 });

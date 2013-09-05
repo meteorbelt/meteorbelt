@@ -50,7 +50,7 @@ Template.adminPostDetail.events({
         return;
       }
       // if no error...
-      Meteor.Router.to('adminPostList');
+      Router.go('adminPostList');
     });
   },
 
@@ -68,7 +68,7 @@ Template.adminPostDetail.events({
       }
       // if the post is new redirect to the correct url
       if (!post._id) {
-        Meteor.Router.to('adminPostDetail', id);
+        Router.go('adminPostDetail', id);
       }
     });
   },
@@ -83,10 +83,10 @@ Template.adminPostDetail.events({
     if (this.post) {
       var exit = window.confirm("You have unsaved changes that will be lost");
       if (exit === true) {
-        return Meteor.Router.to('adminPostList');
+        return Router.go('adminPostList');
       }
     } else {
-      Meteor.Router.to('adminPostList');
+      Router.go('adminPostList');
     }
   }
 });

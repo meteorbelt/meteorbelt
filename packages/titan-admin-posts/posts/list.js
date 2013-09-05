@@ -36,7 +36,7 @@ Template.adminPostListPreviewItem.helpers({
 Template.adminPostListDetailItem.events({
   'click .clickable': function (e, tmpl) {
     e.preventDefault();
-    Meteor.Router.to('/admin/posts/' + tmpl.data._id);
+    Router.go('/admin/posts/' + tmpl.data._id);
   }
 
 });

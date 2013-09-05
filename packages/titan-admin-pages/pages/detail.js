@@ -54,7 +54,7 @@ Template.adminPageDetail.events({
         return;
       }
       // if no error...
-      Meteor.Router.to('adminPageList');
+      Router.go('adminPageList');
     });
   },
 
@@ -72,7 +72,7 @@ Template.adminPageDetail.events({
       }
       // if the page is new redirect to the correct url
       if (!page._id) {
-        Meteor.Router.to('adminPageDetail', id);
+        Router.go('adminPageDetail', id);
       }
     });
   },
@@ -82,16 +82,16 @@ Template.adminPageDetail.events({
   'click .cancel': function (e) {
     e.preventDefault();
 
-    Meteor.Router.to('adminPageList');
+    Router.go('adminPageList');
     // If the page has been modified notify the user the their changes will
     // be lage
     if (this.page) {
       var exit = window.confirm("You have unsaved changes that will be lage");
       if (exit === true) {
-        return Meteor.Router.to('adminPageList');
+        return Router.go('adminPageList');
       }
     } else {
-      Meteor.Router.to('adminPageList');
+      Router.go('adminPageList');
     }
   }
 });

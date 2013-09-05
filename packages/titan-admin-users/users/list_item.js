@@ -42,7 +42,7 @@ Template.adminUserListItem.events({
   },
 
   'click tr': function (e, tmpl) {
-    return Meteor.Router.to(Meteor.Router.adminUserDetailPath(this._id));
+    return Router.go(Meteor.Router.adminUserDetailPath(this._id));
   },
 
   'click .delete': function (e, tmpl) {

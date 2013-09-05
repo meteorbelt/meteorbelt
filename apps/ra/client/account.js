@@ -9,7 +9,7 @@ if (Accounts._resetPasswordToken) {
   Session.set('accountResetPasswordToken', Accounts._resetPasswordToken);
   Accounts._resetPasswordToken = '';
   Meteor.defer(function () {
-    Meteor.Router.to('/account/reset-password/complete');
+    Router.go('accountResetPasswordComplete');
   });
 }
 
@@ -31,7 +31,7 @@ Meteor.startup(function () {
       }
       Accounts._resetPasswordToken = '';
       Meteor.defer(function () {
-        Meteor.Router.to('/account/emails');
+        Router.go('accountEmails');
         Flash.success('Email address successfully verified.');
       });
     });

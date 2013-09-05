@@ -54,7 +54,7 @@ Template.adminProductDetail.events({
         if (err) {
           return Flash.error(err.reason);
         }
-        Meteor.Router.to('/admin/products');
+        Router.go('adminProducts');
       };
     // insert
     if (!Session.get('productId')) {
@@ -69,6 +69,6 @@ Template.adminProductDetail.events({
 
   'click .cancel': function (e) {
     e.preventDefault();
-    Meteor.Router.to('/admin/products');
+    Router.go('adminProducts');
   }
 });

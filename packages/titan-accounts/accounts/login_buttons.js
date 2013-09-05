@@ -15,7 +15,7 @@ Template.accountLoginButtons.events({
         return;
       }
       // success redirect
-      Meteor.Router.to('/');
+      Router.go('home');
     });
   }
 });

@@ -24,6 +24,6 @@ Template.adminSettingDetail.events({
 
   'click .cancel': function (e) {
     e.preventDefault();
-    Meteor.Router.to('adminHome');
+    Router.go('adminHome');
   }
 });

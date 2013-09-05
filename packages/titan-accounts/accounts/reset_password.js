@@ -5,7 +5,7 @@ Template.accountResetPassword.rendered = function () {
 Template.accountResetPassword.events({
   'click input[type=submit]': function (e, tmpl) {
     e.preventDefault();
-  
+
     var email = tmpl.find('input[name="email"]').value;
     Meteor.call('userResetPassword', email, function (err) {
       if (err) {
